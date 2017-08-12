@@ -14,8 +14,22 @@
 					<p> ${content} </p>
 				</div>
 			</div>
-			<div class="col-sm-6 col-md-3" style="padding-bottom:  15px">
-				<h2><a href="/robot/books"> Books</a></h2>
+			<div class="row">
+				<h2>  Today's promotions: </h2>
+				<c:forEach items="${books}" var="book">
+					<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
+						<div class="thumbnail">
+							<div class="caption">
+								<h3>${book.title}</h3>
+								<p>${book.id}</p>
+								<p>${book.author}</p>
+								<p>${book.genre}</p>
+								<p>${book.promoDetails}</p>
+								<p>${book.price} PLN</p>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
 			</div>
 		</section>
 	</body>
