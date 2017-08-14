@@ -41,6 +41,6 @@ public class SpringMvcConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		//TODO interceptory do logów
+		//TODO interceptory do logow
 	}
 }

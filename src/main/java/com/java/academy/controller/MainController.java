@@ -16,7 +16,7 @@ public class MainController {
 	@RequestMapping("/")
 	public String welcome(Model model) {
 		model.addAttribute("start", "Robot application!");
-		model.addAttribute("content", "Team: Pawe³ S., Artur, Mateusz B.");
+		model.addAttribute("content", "Team: Pawel S., Artur, Mateusz B.");
 		
 		return "start";
 	}
@@ -24,7 +24,7 @@ public class MainController {
 	@RequestMapping("/books")
 	public String books(Model model) {
 		model.addAttribute("start", "Robot application!");
-		model.addAttribute("content", "Team: Pawe³ S., Artur, Mateusz B.");
+		model.addAttribute("content", "Team: Pawel., Artur, Mateusz B.");
 		
 		model.addAttribute("books", bookService.getAllBooks());
 		

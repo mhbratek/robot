@@ -17,8 +17,8 @@ public class FakeBookRepository implements BookRepository {
 	
 	public FakeBookRepository() {
 		Book potop = new Book(1l, "Potop", "Henryk Sienkiewicz", "history novel", "-25%", 32);
-		Book lalka = new Book(2l, "Lalka", "Boles³aw Prus", "novel", "-25%", 25);
-		Book krewElfow = new Book(3l, "Krew Elfów", "Andrzej Sapkowski", "fantasy", "-15%", 30);
+		Book lalka = new Book(2l, "Lalka", "Bolesï¿½aw Prus", "novel", "-25%", 25);
+		Book krewElfow = new Book(3l, "Krew Elfï¿½w", "Andrzej Sapkowski", "fantasy", "-15%", 30);
 		
 		listOfBooks.add(potop);
 		listOfBooks.add(lalka);
@@ -41,7 +41,7 @@ public class FakeBookRepository implements BookRepository {
 		}
 		
 		if(bookById == null){
-			throw new BookNotFoundException("Brak ksi¹¿ki o wskazanym id: " + bookId);
+			throw new BookNotFoundException("Brak ksiï¿½ï¿½ki o wskazanym id: " + bookId);
 		}
 		
 		return bookById;
@@ -57,7 +57,7 @@ public class FakeBookRepository implements BookRepository {
 		}
 		
 		if(booksByCategory.isEmpty()){
-			throw new BookNotFoundException("Brak ksi¹¿ek o wskazanym dziale: " + genre);
+			throw new BookNotFoundException("Brak ksiazek o wskazanym dziale: " + genre);
 		}
 		
 		return booksByCategory;
