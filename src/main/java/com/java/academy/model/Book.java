@@ -1,19 +1,29 @@
 package com.java.academy.model;
 
-//TODO change to entity
-public class Book {
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "books")
+public class Book extends BaseEntity implements Serializable {
 	
-	//TODO move to base entity file
-	private long id;
-	
+	private static final long serialVersionUID = 3678107792576131001L;
+	@NotNull
 	private String title;
+	@NotNull
 	private String author;
 	private String genre;
 	private String promoDetails;
-	private double price;//TODO change to BigDecimal
+	@NotNull
+	private BigDecimal price;
 	
-	public Book(long id, String title, String author, String genre, String promoDetails, double price) {
-		this.id = id;
+	public Book() {}
+	
+	public Book(String title, String author, String genre, String promoDetails, BigDecimal price) {
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
@@ -21,9 +31,6 @@ public class Book {
 		this.price = price;
 	}
 	
-	public Long getId() {
-		return id;
-	}
 	public String getTitle() {
 		return title;
 	}
@@ -36,7 +43,7 @@ public class Book {
 	public String getPromoDetails() {
 		return promoDetails;
 	}
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 }
