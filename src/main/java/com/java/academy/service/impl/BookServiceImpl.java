@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.java.academy.dao.BookRepository;
+import com.java.academy.dao.BookDao;
 import com.java.academy.model.Book;
 import com.java.academy.service.BookService;
 
@@ -13,21 +13,21 @@ import com.java.academy.service.BookService;
 public class BookServiceImpl implements BookService {
 	
 	@Autowired
-	private BookRepository bookRepository;
+	private BookDao bookDao;
 
 	public List<Book> getAllBooks() {
-		return bookRepository.getAllBooks();
+		return bookDao.findAll();
 	}
 
 	public Book getBookById(String bookId) {
-		return bookRepository.getBookById(bookId);
+		return bookDao.getBookById(bookId);
 	}
 
 	public List<Book> getBooksByGenre(String genre) {
-		return bookRepository.getBooksByGenre(genre);
+		return bookDao.getBooksByGenre(genre);
 	}
 
 	public void addBook(Book book) {
-		bookRepository.addBook(book);
+		bookDao.save(book);
 	}
 }

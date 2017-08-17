@@ -58,7 +58,7 @@ test-output/
 
 # User-specific stuff:
 .idea/
-
+hibernate.properties
 
 # CMake
 cmake-build-debug/
