@@ -11,12 +11,13 @@ import com.java.academy.model.Book;
 import com.java.academy.service.BookService;
 
 @Controller
+@RequestMapping("/robot")
 public class MainController {
 	
 	@Autowired
 	BookService bookService;
 
-	@RequestMapping("/")
+	@RequestMapping()
 	public String welcome(Model model) {
 		model.addAttribute("start", "Robot application!");
 		model.addAttribute("content", "Team: Paweł S., Artur, Mateusz B.");
@@ -47,6 +48,6 @@ public class MainController {
 		bookService.addBook(lalka);
 		bookService.addBook(krewElfow);
 		
-		return "redirect:/books";
+		return "redirect:/robot/books";
 	}
 }
