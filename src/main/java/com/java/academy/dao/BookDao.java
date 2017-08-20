@@ -14,5 +14,9 @@ public interface BookDao extends JpaRepository<Book, Long> {
 	
 	Book getBookById(String bookId);
 	
-	List<Book> getBooksByGenre(String genre);
+	List<Book> getBooksByCategory(String category);
+
+	List<Book> getBooksByAuthor(String author);
+	
+	List<Book> getBooksByBookstore(String bookstore_name);
 }
