@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{template.html}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Books</title>
 	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
@@ -9,7 +8,7 @@
 <body>
 	<div class="wrapper">
 	  <header class="header">
-	  	  <span th:text="${start}" /> 
+	  	  <span th:text="${start}" ></span>
 	      <p>Books in sale:</p> 
 	  </header>
 		<tr th:each="book : ${books}">
