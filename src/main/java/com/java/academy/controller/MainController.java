@@ -1,15 +1,16 @@
 package com.java.academy.controller;
 
-import java.math.BigDecimal;
-
+import com.java.academy.logger.Log;
+import com.java.academy.model.Book;
+import com.java.academy.service.BookService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.java.academy.model.Book;
+import java.math.BigDecimal;
 import com.java.academy.model.Bookstore;
-import com.java.academy.service.BookService;
 
 @Controller
 @RequestMapping("/robot")
@@ -18,11 +19,15 @@ public class MainController {
 	@Autowired
 	BookService bookService;
 
+	private static @Log Logger LOG;
+
 	@RequestMapping()
 	public String welcome(Model model) {
 		model.addAttribute("start", "Robot application!");
 		model.addAttribute("content", "Team: Paweł S., Artur, Mateusz B.");
-		
+
+
+		LOG.info("Welcome Logger!");
 		return "start";
 	}
 	
@@ -32,7 +37,8 @@ public class MainController {
 		model.addAttribute("content", "Team: Paweł S., Artur, Mateusz B.");
 		
 		model.addAttribute("books", bookService.getAllBooks());
-		
+
+
 		return "books";
 	}
 	
