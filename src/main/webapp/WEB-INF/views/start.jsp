@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-3" style="padding-bottom:  15px">
-				<h2><a href="/books"> Books</a></h2>
+				<h2><a href="/robot/books"> Books</a></h2>
 			</div>
 			<div class="col-sm-6 col-md-3" style="padding-bottom:  15px">
 				<h2>
