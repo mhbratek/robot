@@ -58,7 +58,7 @@ test-output/
 
 # User-specific stuff:
 .idea/
-hibernate.properties
+**/**/hibernate.properties
 
 # CMake
 cmake-build-debug/
@@ -137,3 +137,4 @@ buildNumber.properties
 
 # End of https://www.gitignore.io/api/java,maven,eclipse,intellij
 /Battleships.iml
+/src/main/resources/hibernate.properties
