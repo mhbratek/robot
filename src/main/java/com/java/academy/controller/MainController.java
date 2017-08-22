@@ -1,22 +1,22 @@
 package com.java.academy.controller;
 
-import java.math.BigDecimal;
-
+import com.java.academy.model.Book;
+import com.java.academy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.java.academy.model.Book;
-import com.java.academy.service.BookService;
+import java.math.BigDecimal;
 
 @Controller
+@RequestMapping("/robot")
 public class MainController {
 	
 	@Autowired
 	BookService bookService;
 
-	@RequestMapping("/")
+	@RequestMapping()
 	public String welcome(Model model) {
 		model.addAttribute("start", "Robot application!");
 		model.addAttribute("content", "Team: Paweł S., Artur, Mateusz B.");
@@ -47,6 +47,6 @@ public class MainController {
 		bookService.addBook(lalka);
 		bookService.addBook(krewElfow);
 		
-		return "redirect:/books";
+		return "redirect:/robot/books";
 	}
 }
