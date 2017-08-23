@@ -27,12 +27,16 @@ public class MainController {
 	
 	@RequestMapping("/books")
 	public String books(Model model) {
-		model.addAttribute("start", "Robot application!");
-		model.addAttribute("content", "Team: Paweł S., Artur, Mateusz B.");
-		
 		model.addAttribute("books", bookService.getAllBooks());
 
 		return "books";
+	}
+
+	@RequestMapping("/books2")
+	public String books2(Model model) {
+		model.addAttribute("books", bookService.getAllBooks());
+
+		return "books2";
 	}
 	
 	@RequestMapping("/addBooks")
