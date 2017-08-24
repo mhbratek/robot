@@ -1,28 +1,35 @@
 package webscrapper.gandalBookStore;
 
 
+import com.java.academy.model.Book;
+import com.java.academy.model.Bookstore;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GandalfScrapper {
 
-    public static void main(String[] args) {
+    public List<Book> getBooksFromGandalf() {
 
         String url = "http://www.gandalf.com.pl/k/okazje-do-60/bzab/";
         final String gandalfHost = "http://www.gandalf.com.pl";
-        Set<GandalfBooks> booksSet = new HashSet<>();
+        List<Book> books = new ArrayList<>();
+
+        Bookstore bookstore = new Bookstore();
+        bookstore.setName("Gandalf");
+        bookstore.setUrl(gandalfHost);
 
         try {
 
             Document doc = Jsoup.connect(url).get();
             Elements pages = doc.getElementsByClass("paging_number_link");
 
-            for (int page = 1; page <= pages.size(); page ++) {
+            for (int page = 1; page <= pages.size(); page++) {
 
                 Elements prod = doc.getElementsByClass("prod");
 
@@ -48,17 +55,21 @@ public class GandalfScrapper {
                     String bookDiscount = discount.text().replaceAll("[a-z]+", "");
 
                     String bookGenre = null;
+
                     try {
                         Document productDetails = Jsoup.connect(shopLink).get();
                         Elements genre = productDetails.getElementsByClass("product_categories");
-                        bookGenre = genre.text().substring(genre.text().lastIndexOf(":")+1).trim();
+                        bookGenre = genre.text().substring(genre.text().lastIndexOf(":") + 1).trim();
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    booksSet.add(new GandalfBooks(bookTitle, bookAuthor, bookPrice, bookDiscount,
-                            imageSrc, shopLink, bookGenre));
+                    Book book = new Book(bookTitle, bookAuthor, bookGenre, bookDiscount, new BigDecimal(bookPrice), bookstore);
+                    book.setUrl(shopLink);
+                    book.setImgUrl(imageSrc);
+
+                    books.add(book);
 
                 });
 
@@ -69,8 +80,7 @@ public class GandalfScrapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        booksSet.forEach(System.out::println);
-
+        books.forEach(System.out::println);
+        return books;
     }
 }
