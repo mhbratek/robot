@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Books</title>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" media="all" href="/resource/css/books.css" th:href="@{/resource/css/books.css}" />
+</head>
+<body>
+	<div class="wrapper">
+	  <header class="header">
+	  	  <span th:text="${start}" ></span>
+	      <p>Books in sale:</p> 
+	  </header>
+		<tr th:each="book : ${books}">
+			<div class="panel">
+			    <p>Title: <td th:text="${book.title}"></td></p>
+			    <p>Author: <td th:text="${book.author}"></td></p>
+			    <p>Price: <td th:text="${book.price}"></td></p>
+			    <p>Promo Details: <td th:text="${book.promoDetails}"></td></p>
+			    <p>Bookstore: <td th:text="${book.bookstore.name}" ></td></p>
+			</div>
+	    </tr>
+	  <footer class="footer">Authors: Artur R., Mateusz B., Paweł S.</footer>
+	</div>
+</body>
+</html>
