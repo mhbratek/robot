@@ -45,9 +45,10 @@ public class HibernateConfiguration {
         properties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
         properties.put("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
         properties.put("hibernate.generate_statistics", environment.getProperty("hibernate.generate_statistics"));
-        properties.put("hibernate.connection.CharSet", "utf-8");
+        properties.put("hibernate.connection.CharSet", "UTF-8");
         properties.put("hibernate.connection.useUnicode", true);
-        properties.put("hibernate.connection.characterEncoding", "utf-8");
+        properties.put("hibernate.connection.characterEncoding", "UTF-8");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setPackagesToScan("com.java.academy.model");
