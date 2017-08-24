@@ -99,6 +99,17 @@
 			<version>${java.servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.thymeleaf</groupId>
+		    <artifactId>thymeleaf</artifactId>
+		    <version>3.0.0.RELEASE</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.thymeleaf</groupId>
+		  <artifactId>thymeleaf-spring4</artifactId>
+		  <version>3.0.0.RELEASE</version>
+		</dependency>
 
 		<!-- Spring Data Jpa -->
         <dependency>
@@ -158,17 +169,11 @@
             <version>${slf4j.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
 	</dependencies>
 
-	<build>
-		<plugins>
-             <!-- MAVEN PLUGINS -->
+    <build>
+        <plugins>
+            <!-- MAVEN PLUGINS -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -286,7 +291,7 @@
             </plugins>
         </pluginManagement>
 
-	</build>
+    </build>
 
     <reporting>
 
@@ -320,7 +325,7 @@
             </plugin>
 
             <plugin>
-            <groupId>org.jacoco</groupId>
+                <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
                 <reportSets>
@@ -333,5 +338,4 @@
             </plugin>
         </plugins>
     </reporting>
-
 </project>

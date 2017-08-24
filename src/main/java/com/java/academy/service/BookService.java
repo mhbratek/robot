@@ -10,7 +10,11 @@ public interface BookService {
 	
 	Book getBookById(String bookId);
 	
-	List<Book> getBooksByGenre(String genre);
+	List<Book> getBooksByCategory(String category);
+	
+	List<Book> getBooksByAuthor(String author);
+	
+	List<Book> getBooksFromBookstore(String bookstoreName);
 	
 	void addBook(Book book);
 }
