@@ -9,12 +9,12 @@ import java.util.List;
  * @since 24.08.17
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Book {
+public class GoogleBook {
 
     private Long totalItems;
     private List<Item> items;
 
-    public Book() {
+    public GoogleBook() {
     }
 
     public Long getTotalItems() {
@@ -35,7 +35,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "GoogleBook{" +
                 "totalItems=" + totalItems +
                 ", items=" + items +
                 '}';

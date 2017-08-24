@@ -3,6 +3,7 @@ package com.java.academy.controller;
 import com.google.gson.Gson;
 import com.java.academy.logger.Log;
 import com.java.academy.model.Book;
+import com.java.academy.model.bookstore.googlebookstore.*;
 import com.java.academy.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,31 +38,7 @@ public class MainController {
 		model.addAttribute("content", "Team: Paweł S., Artur, Mateusz B.");
 
 
-		RestTemplate restTemplate = new RestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-		HttpEntity<?> entity = new HttpEntity<>(headers);
-
-		HttpEntity<String> response = restTemplate.exchange("https://www.googleapis.com/books/v1/volumes?&q=-&fields=totalItems," +
-				"items(volumeInfo/title,volumeInfo/subtitle,volumeInfo/description," +
-				"saleInfo/retailPrice,saleInfo/listPrice/amount,volumeInfo/authors," +
-				"volumeInfo/imageLinks/smallThumbnail)&maxResults=3" +
-				"", HttpMethod.GET, entity, String.class);
-
-
-		LOG.info(response.getBody());
-
-
-		Book book = new Gson().fromJson(response.getBody(), Book.class);
-		LOG.info(book.getItems().get(0).getVolumeInfo().getTitle());
-		LOG.info(book.getItems().get(1).getVolumeInfo().getTitle());
-		LOG.info(book.getItems().get(2).getVolumeInfo().getTitle());
-
-
-
-
-		LOG.info("Welcome Logger!");
 		return "start";
 	}
 	
@@ -92,9 +69,11 @@ public class MainController {
 
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
-		GandalfScrapper gandalfScrapper = new GandalfScrapper();
-		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
+//		GandalfScrapper gandalfScrapper = new GandalfScrapper();
+//		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
 
+		GoogleBookStore bookStore = new GoogleBookStore();
+		bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
 		return "redirect:/robot/books";
 	}
 /*
@@ -104,11 +83,11 @@ public class MainController {
 		bonito.setName("Bonito");
 		bonito.setUrl("www.bonito.pl");
 
-		Book potop = new Book("Potop", "Henryk Sienkiewicz", "history novel", "-15%", new BigDecimal(42), bonito);
+		GoogleBook potop = new GoogleBook("Potop", "Henryk Sienkiewicz", "history novel", "-15%", new BigDecimal(42), bonito);
 		potop.setUrl(bonito.getUrl());
-		Book lalka = new Book("Lalka", "Bolesław Prus", "novel", "-25%", new BigDecimal(25), bonito);
+		GoogleBook lalka = new GoogleBook("Lalka", "Bolesław Prus", "novel", "-25%", new BigDecimal(25), bonito);
 		lalka.setUrl(bonito.getUrl());
-		Book krewElfow = new Book("Krew Elfów", "Andrzej Sapkowski", "fantasy", "-15%", new BigDecimal(35), bonito);
+		GoogleBook krewElfow = new GoogleBook("Krew Elfów", "Andrzej Sapkowski", "fantasy", "-15%", new BigDecimal(35), bonito);
 		krewElfow.setUrl(bonito.getUrl());
 		
 		bookService.addBook(potop);
@@ -119,11 +98,11 @@ public class MainController {
 		helion.setName("Helion");
 		helion.setUrl("www.helion.pl");
 
-		potop = new Book("Potop", "Henryk Sienkiewicz", "history novel", "-25%", new BigDecimal(32), helion);
+		potop = new GoogleBook("Potop", "Henryk Sienkiewicz", "history novel", "-25%", new BigDecimal(32), helion);
 		potop.setUrl(helion.getUrl());
-		lalka = new Book("Lalka", "Bolesław Prus", "novel", "-20%", new BigDecimal(20), helion);
+		lalka = new GoogleBook("Lalka", "Bolesław Prus", "novel", "-20%", new BigDecimal(20), helion);
 		lalka.setUrl(helion.getUrl());
-		krewElfow = new Book("Krew Elfów", "Andrzej Sapkowski", "fantasy", "-35%", new BigDecimal(30), helion);
+		krewElfow = new GoogleBook("Krew Elfów", "Andrzej Sapkowski", "fantasy", "-35%", new BigDecimal(30), helion);
 		krewElfow.setUrl(helion.getUrl());
 
 		bookService.addBook(potop);
@@ -132,4 +111,5 @@ public class MainController {
 
 		return "redirect:/robot/books";
 	}
+	*/
 }
