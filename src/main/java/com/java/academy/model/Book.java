@@ -116,4 +116,19 @@ public class Book extends BaseEntity implements Serializable {
 	public void setBookstore(Bookstore bookstore) {
 		this.bookstore = bookstore;
 	}
+
+	@Override
+	public String toString() {
+		return "Book{" +
+				"title='" + title + '\'' +
+				", subtitle='" + subtitle + '\'' +
+				", author='" + author + '\'' +
+				", category='" + category + '\'' +
+				", promoDetails='" + promoDetails + '\'' +
+				", price=" + price +
+				", imgUrl='" + imgUrl + '\'' +
+				", url='" + url + '\'' +
+				", bookstore=" + bookstore +
+				'}';
+	}
 }

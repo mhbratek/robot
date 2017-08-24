@@ -13,6 +13,7 @@ import java.util.List;
 import com.java.academy.model.Bookstore;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import webscrapper.gandalBookStore.GandalfScrapper;
 
 @Controller
 @RequestMapping("/robot")
@@ -48,7 +49,15 @@ public class MainController {
 
 		return bookService.getAllBooks();
 	}
-	
+
+	@RequestMapping("/addBooks")
+	public String addBooks(Model model) {
+		GandalfScrapper gandalfScrapper = new GandalfScrapper();
+		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
+
+		return "redirect:/robot/books";
+	}
+/*
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
 		Bookstore bonito = new Bookstore();
@@ -82,5 +91,5 @@ public class MainController {
 		bookService.addBook(krewElfow);
 		
 		return "redirect:/robot/books";
-	}
+	}*/
 }
