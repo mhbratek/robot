@@ -31,15 +31,7 @@ public class SpringMvcConfiguration extends WebMvcConfigurerAdapter implements A
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resource/**").addResourceLocations("/resources/");
     }
-
- /*   @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
-*/
+    
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		//TODO interceptory do logow
