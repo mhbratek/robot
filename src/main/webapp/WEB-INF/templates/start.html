@@ -24,7 +24,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="nav-toggle">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a th:href="@{/robot/books.html}">Books list</a></li>
+                        <li class="active"><a th:href="@{/robot/books.html}" ng-init="getBooks()">Books list</a></li>
                         <li><a th:href="@{/robot/books2.html}">Books css grid</a></li>
                     </ul>
                 </div>
@@ -59,16 +59,18 @@
                     <th>Price:</th>
                     <th>PromoDetails:</th>
                     <th>Bookstore:</th>
+                    <th>Shop link:</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="book in books | filter:search | orderBy:'title':true">
-                    <td>{{book.title}}</td>
+                    <td>{{book.title}}  {{book.subtitle}}</td>
                     <td>{{book.author}}</td>
                     <td>{{book.category}}</td>
                     <td>{{book.price}}</td>
                     <td>{{book.promoDetails}}</td>
-                    <td>{{book.bookstore}}</td>
+                    <td>{{book.bookstore.name}}</td>
+                    <td><a href="{{book.url}}">Kup mnie</a></td>
                 </tr>
                 </tbody>
             </table>

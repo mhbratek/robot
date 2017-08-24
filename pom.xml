@@ -46,6 +46,7 @@
 
 		<!-- Utils -->
 		<slf4j.version>1.7.5</slf4j.version>
+        <jackson.mapper>2.8.4</jackson.mapper>
 		
 		<!-- PLUGINS -->
 		<maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
@@ -144,6 +145,13 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.version}</version>
+        </dependency>
+
+        <!-- JSON mapper -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.mapper}</version>
         </dependency>
 
         <!--Mockito -->
