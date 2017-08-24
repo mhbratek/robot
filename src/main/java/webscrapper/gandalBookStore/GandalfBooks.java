@@ -8,14 +8,16 @@ public class GandalfBooks {
     String bookDiscount;
     String imageSrc;
     String shopLink;
+    String genre;
 
-    public GandalfBooks(String bookTitle, String bookAuthor, Double bookPrice, String bookDiscount, String imageSrc, String shopLink) {
+    public GandalfBooks(String bookTitle, String bookAuthor, Double bookPrice, String bookDiscount, String imageSrc, String shopLink, String genre) {
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookPrice = bookPrice;
         this.bookDiscount = bookDiscount;
         this.imageSrc = imageSrc;
         this.shopLink = shopLink;
+        this.genre = genre;
     }
 
     public String getBookTitle() {
@@ -50,6 +52,7 @@ public class GandalfBooks {
                 "Price= " + bookPrice+ '\n' +
                 "Discount= " + bookDiscount + '\n' +
                 "imageSrc= " + imageSrc + '\n' +
-                "shopLink= " + shopLink + '\n';
+                "shopLink= " + shopLink + '\n'+
+                "genre= " + genre + '\n';
     }
 }
