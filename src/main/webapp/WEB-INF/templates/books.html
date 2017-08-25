@@ -36,7 +36,7 @@
             <form class="navbar-form navbar-right" role="search">
                 <div class="input-group">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sortuj <span class="caret"></span></button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Set filter <span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <li><a href="#">Title</a></li>
                             <li><a href="#">Author</a></li>
@@ -45,7 +45,7 @@
                             <li><a href="#">Bookstore</a></li>
                         </ul>
                     </div><!-- /btn-group -->
-                    <input type="text" class="form-control" aria-label="..." ng-model="search.title" placeholder="Szukaj">
+                    <input type="text" class="form-control" aria-label="..." ng-model="search.author" placeholder="Szukaj">
                 </div><!-- /input-group -->
             </form>
         </div>
@@ -67,12 +67,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="book in books | filter:search | orderBy:'title':true">
+            <tr ng-repeat="book in books | filter:search | orderBy:'author':true">
                 <td><img src="{{book.imgUrl}}" height="42" width="70"/></td>
                 <td>{{book.title}}  {{book.subtitle}}</td>
                 <td>{{book.author}}</td>
                 <td>{{book.category}}</td>
-                <td>{{book.price}}</td>
+                <td>{{book.price | currency:'PLN ' }}</td>
                 <td>{{book.promoDetails}}</td>
                 <td>{{book.bookstore.name}}</td>
                 <td><a href="{{book.url}}" class="btn btn-warning btn-large">
