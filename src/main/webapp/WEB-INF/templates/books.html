@@ -15,7 +15,7 @@
 <body>
 <nav class="navbar navbar-default" role="navigation">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-sm-4">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-toggle">
                     <span class="sr-only">Przełącz nawigację</span>
@@ -27,25 +27,33 @@
             </div>
             <div class="collapse navbar-collapse" id="nav-toggle">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a th:href="@{/robot/books}" ng-init="getBooks()">Books list</a></li>
+                    <li class="active"><a th:href="@{/robot/books}" ng-init="getStartBooks()">Books list</a></li>
                     <li><a th:href="@{/robot/books2}">Books css grid</a></li>
                 </ul>
             </div>
         </div>
-        <div class="col-lg-6">
-            <form class="navbar-form navbar-right" role="search">
+        <div class="col-sm-4">
+            <form class="navbar-form" role="set">
                 <div class="input-group">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Set filter <span class="caret"></span></button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Set filter </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Title</a></li>
-                            <li><a href="#">Author</a></li>
-                            <li><a href="#">Category</a></li>
+                            <li><a href="#" ng-click="setFilter('title')">Title</a></li>
+                            <li><a href="#" ng-click="setFilter('author')">Author</a></li>
+                            <li><a href="#" ng-click="setFilter('category')">Category</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Bookstore</a></li>
+                            <li><a href="#" ng-click="setFilter('bookstore')">Bookstore</a></li>
                         </ul>
+                        <input type="text" class="form-control" aria-label="..." ng-model="set" placeholder="Szukaj">
+                        <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooks(set)">Szukaj</button>
                     </div><!-- /btn-group -->
-                    <input type="text" class="form-control" aria-label="..." ng-model="search.author" placeholder="Szukaj">
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <form class="navbar-form navbar-right" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." ng-model="search.title" placeholder="Filtruj online">
                 </div><!-- /input-group -->
             </form>
         </div>
@@ -99,7 +107,6 @@
             </div>
         </div>
     </div>
-
 </div>
 </body>
 </html>
