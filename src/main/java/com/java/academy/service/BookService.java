@@ -17,4 +17,6 @@ public interface BookService {
 	List<Book> getBooksFromBookstore(String bookstoreName);
 	
 	void addBook(Book book);
+
+	void addBooksFromLibrary(List<Book> books);
 }

@@ -39,6 +39,11 @@ public class BookServiceImpl implements BookService {
 		bookDao.save(book);
 	}
 
+	public void addBooksFromLibrary(List<Book> books) {
+		bookstoreDao.save(books.get(0).getBookstore());
+		bookDao.save(books);
+	}
+
 	public List<Book> getBooksFromBookstore(String bookstoreName) {
 		return bookDao.getBooksByBookstore(bookstoreName);
 	}
