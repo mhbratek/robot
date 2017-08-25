@@ -1,10 +1,10 @@
 package webscrapper.gandalBookStore;
 
-
 import com.java.academy.model.Book;
 import com.java.academy.model.Bookstore;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -14,66 +14,43 @@ import java.util.List;
 
 public class GandalfScrapper {
 
-    public List<Book> getBooksFromGandalf() {
+    private final String HOST = "http://www.gandalf.com.pl";
+    private Element tempProduct;
+    private String url ="http://www.gandalf.com.pl/promocje/";
 
-        String url = "http://www.gandalf.com.pl/k/okazje-do-60/bzab/";
-        final String gandalfHost = "http://www.gandalf.com.pl";
+    public List<Book> getBooksFromGandalf() {
         List<Book> books = new ArrayList<>();
 
         Bookstore bookstore = new Bookstore();
         bookstore.setName("Gandalf");
-        bookstore.setUrl(gandalfHost);
+        bookstore.setUrl(HOST);
 
         try {
 
             Document doc = Jsoup.connect(url).get();
             Elements pages = doc.getElementsByClass("paging_number_link");
 
-            for (int page = 1; page <= pages.size(); page++) {
+            int pagesNumber = Integer.parseInt(pages.get(pages.size()-1).text());
+
+            for (int page = 1; page <= pagesNumber-1; page++) {
 
                 Elements prod = doc.getElementsByClass("prod");
 
                 prod.forEach(product -> {
-                    Elements image = product.getElementsByTag("img");
-                    String imageSrc = gandalfHost + image.attr("src");
+                    tempProduct = product;
+                    Book book = new Book(provideBookTitle(),
+                            checkBookAuthor(),
+                            checkBookGenre(),
+                            checkDiscount(),
+                            new BigDecimal(checkBookPrice()),
+                            bookstore);
 
-                    Elements title = product.getElementsByClass("h2");
-                    String bookTitle = title.text();
-
-                    Elements links = title.get(0).getElementsByTag("a");
-                    String shopLink = gandalfHost + links.attr("href");
-
-                    Elements author = product.getElementsByClass("h3");
-                    String bookAuthor = author.text();
-
-                    Elements price = product.getElementsByClass("new_price");
-                    String newPrice = price.text();
-                    Double bookPrice = Double.parseDouble(newPrice.replaceAll("[a-ż]+", "")
-                            .replace(',', '.'));
-
-                    Elements discount = product.getElementsByClass("price_dis");
-                    String bookDiscount = discount.text().replaceAll("[a-z]+", "");
-
-                    String bookGenre = null;
-
-                    try {
-                        Document productDetails = Jsoup.connect(shopLink).get();
-                        Elements genre = productDetails.getElementsByClass("product_categories");
-                        bookGenre = genre.text().substring(genre.text().lastIndexOf(":") + 1).trim();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    Book book = new Book(bookTitle, bookAuthor, bookGenre, bookDiscount, new BigDecimal(bookPrice), bookstore);
-                    book.setUrl(shopLink);
-                    book.setImgUrl(imageSrc);
-
+                    book.setUrl(checkBookLink());
+                    book.setImgUrl(checkImageUrl());
                     books.add(book);
-
                 });
 
-                url = "http://www.gandalf.com.pl/k/okazje-do-60/bzab" + page + "/";
+                url = "http://www.gandalf.com.pl/promocje/" + page + "/";
                 doc = Jsoup.connect(url).get();
             }
 
@@ -83,4 +60,47 @@ public class GandalfScrapper {
         books.forEach(System.out::println);
         return books;
     }
+
+    String checkBookAuthor() {
+        Elements author = tempProduct.getElementsByClass("h3");
+        return author.text();
+    }
+
+    String checkImageUrl() {
+        Elements image = tempProduct.getElementsByTag("img");
+        return (HOST + image.attr("src"));
+    }
+
+    String checkBookGenre() {
+        Document productDetails = null;
+        try {
+            productDetails = Jsoup.connect(checkBookLink()).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Elements genre = productDetails.getElementsByClass("product_categories");
+        return genre.text().substring(genre.text().lastIndexOf(":") + 1).trim();
+    }
+
+    String provideBookTitle() {
+        Elements title = tempProduct.getElementsByClass("h2");
+        return title.text();
+    }
+
+    String checkBookLink() {
+        Elements links = tempProduct.getElementsByClass("h2").get(0).getElementsByTag("a");
+        return (HOST + links.attr("href"));
+    }
+
+    Double checkBookPrice() {
+        Elements price = tempProduct.getElementsByClass("new_price");
+        return Double.parseDouble(price.text()
+                .replaceAll("[a-ż]+", "").replace(',', '.'));
+    }
+
+    String checkDiscount() {
+        Elements discount = tempProduct.getElementsByClass("price_dis");
+        return discount.text().replaceAll("[a-z]+", "");
+    }
+
 }
