@@ -42,6 +42,9 @@ public class BookMapper {
                 bookToAdd.setPrice(new BigDecimal(0));
             }
             bookToAdd.setUrl(book.getVolumeInfo().getInfoLink());
+            if(book.getVolumeInfo().getImageLinks() != null) {
+                bookToAdd.setImgUrl(book.getVolumeInfo().getImageLinks().getSmallThumbnail());
+            }
 
             books.add(bookToAdd);
         }
