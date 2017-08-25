@@ -35,8 +35,6 @@ public class GoogleBookStore {
         GoogleBook googleBooks = new Gson().fromJson(response.getBody(), GoogleBook.class);
 
 
-
-
         return BookMapper.mapFromGoogleBookStore(googleBooks);
     }
 }

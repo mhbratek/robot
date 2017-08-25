@@ -2,6 +2,7 @@ package com.java.academy.model.bookstore.googlebookstore;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ public class VolumeInfo {
     private ImageLinks imageLinks;
 
     public VolumeInfo() {
+
     }
 
     public String getTitle() {

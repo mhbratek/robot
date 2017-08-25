@@ -35,7 +35,7 @@ public class Book extends BaseEntity implements Serializable {
 	@Size(max=555)
 	private String url;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "bookstore_id", nullable = false)
 	private Bookstore bookstore;
 
