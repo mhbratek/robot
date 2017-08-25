@@ -7,6 +7,10 @@ angular.module('searchingManager', [])
             });
         };
 
+        $scope.setFilter = function(data) {
+            $scope.myFilter = data;
+        };
+
         console.log(jsonFilter($scope.books));
 
     });

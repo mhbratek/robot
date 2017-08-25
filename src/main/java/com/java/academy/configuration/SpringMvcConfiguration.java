@@ -21,6 +21,13 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.java.academy")
 public class SpringMvcConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+
+	private ApplicationContext applicationContext;
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
 	
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
@@ -37,13 +44,6 @@ public class SpringMvcConfiguration extends WebMvcConfigurerAdapter implements A
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		//TODO interceptory do logow
-	}
-	
-	private ApplicationContext applicationContext;
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
 	}
 
 	@Bean
