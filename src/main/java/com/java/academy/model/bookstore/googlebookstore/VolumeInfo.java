@@ -15,6 +15,7 @@ public class VolumeInfo {
     private List<String> authors;
     private String description;
     private ImageLinks imageLinks;
+    private String infoLink;
 
     public VolumeInfo() {
 
@@ -50,6 +51,14 @@ public class VolumeInfo {
 
     public void setImageLinks(ImageLinks imageLinks) {
         this.imageLinks = imageLinks;
+    }
+
+    public String getInfoLink() {
+        return infoLink;
+    }
+
+    public void setInfoLink(String infoLink) {
+        this.infoLink = infoLink;
     }
 
     @Override
