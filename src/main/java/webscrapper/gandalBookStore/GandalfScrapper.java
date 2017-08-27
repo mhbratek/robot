@@ -6,13 +6,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import webscrapper.BookScrapper;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GandalfScrapper {
+public class GandalfScrapper implements BookScrapper {
 
     private final String HOST = "http://www.gandalf.com.pl";
     private Element tempProduct;
@@ -38,7 +39,7 @@ public class GandalfScrapper {
 
                 prod.forEach(product -> {
                     tempProduct = product;
-                    Book book = new Book(provideBookTitle(),
+                    Book book = new Book(checkBookTitle(),
                             checkBookAuthor(),
                             checkBookGenre(),
                             checkDiscount(),
@@ -60,18 +61,21 @@ public class GandalfScrapper {
         books.forEach(System.out::println);
         return books;
     }
-
-    String checkBookAuthor() {
+    
+    @Override
+    public String checkBookAuthor() {
         Elements author = tempProduct.getElementsByClass("h3");
         return author.text();
     }
 
-    String checkImageUrl() {
+    @Override
+    public String checkImageUrl() {
         Elements image = tempProduct.getElementsByTag("img");
         return (HOST + image.attr("src"));
     }
 
-    String checkBookGenre() {
+    @Override
+    public String checkBookGenre() {
         Document productDetails = null;
         try {
             productDetails = Jsoup.connect(checkBookLink()).get();
@@ -82,23 +86,27 @@ public class GandalfScrapper {
         return genre.text().substring(genre.text().lastIndexOf(":") + 1).trim();
     }
 
-    String provideBookTitle() {
+    @Override
+    public String checkBookTitle() {
         Elements title = tempProduct.getElementsByClass("h2");
         return title.text();
     }
 
-    String checkBookLink() {
+    @Override
+    public String checkBookLink() {
         Elements links = tempProduct.getElementsByClass("h2").get(0).getElementsByTag("a");
         return (HOST + links.attr("href"));
     }
 
-    Double checkBookPrice() {
+    @Override
+    public Double checkBookPrice() {
         Elements price = tempProduct.getElementsByClass("new_price");
         return Double.parseDouble(price.text()
                 .replaceAll("[a-ż]+", "").replace(',', '.'));
     }
 
-    String checkDiscount() {
+    @Override
+    public String checkDiscount() {
         Elements discount = tempProduct.getElementsByClass("price_dis");
         return discount.text().replaceAll("[a-z]+", "");
     }
