@@ -15,8 +15,7 @@ import java.util.List;
 
 public class RaveloScrapper implements BookScrapper {
 
-
-    public static final int FIRST_ELEMENT = 0;
+    private static final int FIRST_ELEMENT = 0;
     private final String shopLink;
     private final Bookstore bookStore;
     private Document shopConnection;
@@ -29,7 +28,6 @@ public class RaveloScrapper implements BookScrapper {
     }
 
     List<Book> prepareBookPackage() {
-
         List<Book> booksByGenre = new ArrayList<>();
         try {
             shopConnection = Jsoup.connect(shopLink).get();
@@ -37,7 +35,6 @@ public class RaveloScrapper implements BookScrapper {
 
             bookContainer.forEach(book -> {
                 tempBook = book;
-
                 Book singleBook = new Book(getBookTitle(),
                         getBookAuthor(),
                         getBookCategory(),
@@ -49,6 +46,7 @@ public class RaveloScrapper implements BookScrapper {
 
                 booksByGenre.add(singleBook);
             });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,10 +72,11 @@ public class RaveloScrapper implements BookScrapper {
     public String getBookCategory() {
         if (bookCategory == null || bookCategory.isEmpty()) {
             Elements genre = shopConnection.getElementsByClass("searchNavHeader");
-            bookCategory = genre.get(FIRST_ELEMENT).text().substring(genre.get(FIRST_ELEMENT).text().indexOf(':') + 1).trim();
-            return genre.get(FIRST_ELEMENT).text().substring(genre.get(FIRST_ELEMENT).text().indexOf(':') + 1).trim();
+            bookCategory = genre.get(FIRST_ELEMENT).text()
+                    .substring(genre.get(FIRST_ELEMENT).text().indexOf(':') + 1).trim();
+            return genre.get(FIRST_ELEMENT).text()
+                    .substring(genre.get(FIRST_ELEMENT).text().indexOf(':') + 1).trim();
         }
-
         return bookCategory;
     }
 

@@ -15,26 +15,24 @@ import java.util.List;
 
 public class GandalfScrapper implements BookScrapper {
 
+    private static final int FIRST_ELEMENT = 0;
     private final String HOST = "http://www.gandalf.com.pl";
+
     private Element tempProduct;
     private String url ="http://www.gandalf.com.pl/promocje/";
+    private Bookstore bookstore;
 
     public List<Book> getBooksFromGandalf() {
         List<Book> books = new ArrayList<>();
-
-        Bookstore bookstore = new Bookstore();
-        bookstore.setName("Gandalf");
-        bookstore.setUrl(HOST);
+        initBookStore();
 
         try {
-
             Document doc = Jsoup.connect(url).get();
             Elements pages = doc.getElementsByClass("paging_number_link");
 
             int pagesNumber = Integer.parseInt(pages.get(pages.size()-1).text());
 
             for (int page = 1; page <= pagesNumber-1; page++) {
-
                 Elements prod = doc.getElementsByClass("prod");
 
                 prod.forEach(product -> {
@@ -58,10 +56,16 @@ public class GandalfScrapper implements BookScrapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        books.forEach(System.out::println);
+
         return books;
     }
-    
+
+    private void initBookStore() {
+        bookstore = new Bookstore();
+        bookstore.setName("Gandalf");
+        bookstore.setUrl(HOST);
+    }
+
     @Override
     public String getBookAuthor() {
         Elements author = tempProduct.getElementsByClass("h3");
@@ -94,7 +98,7 @@ public class GandalfScrapper implements BookScrapper {
 
     @Override
     public String getBookLink() {
-        Elements links = tempProduct.getElementsByClass("h2").get(0).getElementsByTag("a");
+        Elements links = tempProduct.getElementsByClass("h2").get(FIRST_ELEMENT).getElementsByTag("a");
         return (HOST + links.attr("href"));
     }
 

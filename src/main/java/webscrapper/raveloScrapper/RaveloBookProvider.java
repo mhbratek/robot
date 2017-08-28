@@ -11,19 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RaveloBookProvider {
-    public static void main(String[] args) {
-        RaveloBookProvider raveloBookProvider = new RaveloBookProvider();
-        raveloBookProvider.getBooksFromRavelo();
-    }
-
     private final String HOST = "https://www.ravelo.pl";
 
     private RaveloScrapper raveloScrapper;
     private Bookstore bookstore;
-    private String url ="https://www.ravelo.pl/outlet";
+    private String url = "https://www.ravelo.pl/outlet";
 
-    public List<Book> getBooksFromRavelo(){
-
+    List<Book> getBooksFromRavelo() {
         List<Book> raveloBooks = new ArrayList<>();
         try {
             Document raveloPromoBase = Jsoup.connect(url).get();
@@ -34,23 +28,24 @@ public class RaveloBookProvider {
                 Elements links = element.getElementsByClass("see-more");
 
                 links.forEach(l -> {
-                    categoryLinks.add(HOST + l.getElementsByTag("a").attr("href"));
+                    categoryLinks.add(HOST + l
+                            .getElementsByTag("a")
+                            .attr("href")
+                            .replaceAll(HOST, ""));
                 });
             });
             //last link is for toys so no need to check
-            categoryLinks.remove(categoryLinks.size()-1);
-
+            categoryLinks.remove(categoryLinks.size() - 1);
             initializeBookStore();
 
             categoryLinks.forEach(link -> {
                 raveloScrapper = new RaveloScrapper(link, bookstore);
-                raveloScrapper.prepareBookPackage();
+                raveloBooks.addAll(raveloScrapper.prepareBookPackage());
 
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return raveloBooks;
     }
 
