@@ -1,6 +1,7 @@
 package webscrapper.raveloScrapper;
 
 import com.java.academy.model.Book;
+import com.java.academy.model.Bookstore;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,33 +9,45 @@ import org.jsoup.select.Elements;
 import webscrapper.BookScrapper;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RaveloScrapper implements BookScrapper {
 
 
+    public static final int FIRST_ELEMENT = 0;
     private final String shopLink;
+    private final Bookstore bookStore;
     private Document shopConnection;
     private Element tempBook;
+    private String bookCategory;
 
-    public RaveloScrapper(String link) {
-        shopLink = link;
+    RaveloScrapper(String link, Bookstore bookstore) {
+        this.shopLink = link;
+        this.bookStore = bookstore;
     }
 
-     List<Book> prepereBookPackage() {
+    List<Book> prepareBookPackage() {
 
-        List <Book> booksByGenre = new ArrayList<>();
+        List<Book> booksByGenre = new ArrayList<>();
         try {
             shopConnection = Jsoup.connect(shopLink).get();
             Elements bookContainer = shopConnection.getElementsByClass("row productBox ");
 
             bookContainer.forEach(book -> {
                 tempBook = book;
-                String image = checkImageUrl();
-                String bookLink = checkBookLink();
-                String title = checkBookTitle();
-                String author = checkBookAuthor();
+
+                Book singleBook = new Book(getBookTitle(),
+                        getBookAuthor(),
+                        getBookCategory(),
+                        getDiscount(),
+                        new BigDecimal(getBookPrice()),
+                        bookStore);
+                singleBook.setImgUrl(getImageUrl());
+                singleBook.setUrl(getBookLink());
+
+                booksByGenre.add(singleBook);
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,48 +56,54 @@ public class RaveloScrapper implements BookScrapper {
     }
 
     @Override
-    public String checkBookAuthor() {
+    public String getBookAuthor() {
         Elements author = tempBook.getElementsByClass("autor");
-        author.get(0).getElementsByTag("a").text();
-
-        return null;
+        return author.get(FIRST_ELEMENT).getElementsByTag("a").get(FIRST_ELEMENT).text();
     }
 
     @Override
-    public String checkImageUrl() {
+    public String getImageUrl() {
         Elements image = tempBook.getElementsByClass("span2 imgContainer");
-        return image.get(0)
+        return image.get(FIRST_ELEMENT)
                 .getElementsByTag("a")
-                .get(0).getElementsByTag("img")
+                .get(FIRST_ELEMENT).getElementsByTag("img")
                 .attr("data-src");
     }
 
     @Override
-    public String checkBookGenre() {
-        return null;
+    public String getBookCategory() {
+        if (bookCategory == null || bookCategory.isEmpty()) {
+            Elements genre = shopConnection.getElementsByClass("searchNavHeader");
+            bookCategory = genre.get(FIRST_ELEMENT).text().substring(genre.get(FIRST_ELEMENT).text().indexOf(':') + 1).trim();
+            return genre.get(FIRST_ELEMENT).text().substring(genre.get(FIRST_ELEMENT).text().indexOf(':') + 1).trim();
+        }
+
+        return bookCategory;
     }
 
     @Override
-    public String checkBookTitle() {
+    public String getBookTitle() {
         Elements title = tempBook.getElementsByTag("h2");
         return title.text().replaceAll("Outlet", "");
     }
 
     @Override
-    public String checkBookLink() {
+    public String getBookLink() {
         Elements bookLink = tempBook.getElementsByClass("span2 imgContainer");
-        return bookLink.get(0)
+        return bookLink.get(FIRST_ELEMENT)
                 .getElementsByTag("a")
                 .attr("href");
     }
 
     @Override
-    public Double checkBookPrice() {
-        return null;
+    public Double getBookPrice() {
+        Elements price = tempBook.getElementsByClass("newPrice");
+        return Double.parseDouble(price.text().replaceAll("[a-ż]+", ""));
     }
 
     @Override
-    public String checkDiscount() {
-        return null;
+    public String getDiscount() {
+        Elements discount = tempBook.getElementsByClass("save");
+        return discount.text().replaceAll("[a-ż]+", "-");
     }
 }
