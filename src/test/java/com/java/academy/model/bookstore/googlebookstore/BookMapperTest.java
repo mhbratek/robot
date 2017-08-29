@@ -18,31 +18,30 @@ import static org.testng.Assert.*;
  */
 public class BookMapperTest {
 
+    private static final String IMAGE_URL = "www.google.pl";
+    private static final String DEFAULT_CATEGORY = "Book";
+    private static final String DEFAULT_AUTHOR = "Unknown";
+    private static final BigDecimal DEFAULT_PRICE = new BigDecimal(0);
     private Item item;
     private VolumeInfo volumeInfo;
-    private ImageLinks imageLinks;
-    private SaleInfo saleInfo;
-    private RetailPrice retailPrice;
-    private ListPrice listPrice;
-
 
     @BeforeMethod
     public void setUp() {
-        listPrice = new ListPrice();
+        ListPrice listPrice = new ListPrice();
         listPrice.setAmount(10d);
 
-        retailPrice = new RetailPrice();
+        RetailPrice retailPrice = new RetailPrice();
         retailPrice.setAmount(8d);
 
-        imageLinks = new ImageLinks();
-        imageLinks.setSmallThumbnail("www.google.pl");
+        ImageLinks imageLinks = new ImageLinks();
+        imageLinks.setSmallThumbnail(IMAGE_URL);
 
         volumeInfo = new VolumeInfo();
-        volumeInfo.setMainCategory("Category");
+        volumeInfo.setMainCategory(DEFAULT_CATEGORY);
         volumeInfo.setImageLinks(imageLinks);
-        volumeInfo.setAuthors(Arrays.asList("Janko Muzykant"));
+        volumeInfo.setAuthors(Arrays.asList(DEFAULT_AUTHOR));
 
-        saleInfo = new SaleInfo();
+        SaleInfo saleInfo = new SaleInfo();
         saleInfo.setRetailPrice(retailPrice);
         saleInfo.setListPrice(listPrice);
 
@@ -66,7 +65,7 @@ public class BookMapperTest {
         Book book = new Book();
         BookMapper.assignCategory(item, book);
 
-        assertEquals(book.getCategory(), "Book");
+        assertEquals(book.getCategory(), DEFAULT_CATEGORY);
     }
 
     @Test
@@ -84,7 +83,7 @@ public class BookMapperTest {
         Book book = new Book();
         BookMapper.assignPrice(item, book);
 
-        assertEquals(book.getPrice(), new BigDecimal(0));
+        assertEquals(book.getPrice(), DEFAULT_PRICE);
     }
 
     @Test
@@ -112,7 +111,7 @@ public class BookMapperTest {
 
         List<Book> expectedBooks = BookMapper.mapFromGoogleBookStore(googleBook);
 
-        assertEquals(expectedBooks.size(), 1);
+        assertEquals(expectedBooks.size(), items.size());
     }
 
     @Test
@@ -122,7 +121,7 @@ public class BookMapperTest {
         Book book = new Book();
         BookMapper.assignAuthors(item, book);
 
-        assertEquals(book.getAuthor(), "Unknown");
+        assertEquals(book.getAuthor(), DEFAULT_AUTHOR);
     }
 
     @Test
