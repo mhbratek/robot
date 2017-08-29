@@ -26,17 +26,17 @@ public class BookMapper {
 
             bookToAdd.setTitle(book.getTitle());
 
-            setAuthors(book, bookToAdd);
+            assignAuthors(book, bookToAdd);
 
             bookToAdd.setBookstore(bookstore);
 
-            setPrice(book, bookToAdd);
+            assignPrice(book, bookToAdd);
 
             bookToAdd.setUrl(book.getLink());
 
-            setUrl(book, bookToAdd);
+            assignURL(book, bookToAdd);
 
-            setCategory(book, bookToAdd);
+            assignCategory(book, bookToAdd);
 
             books.add(bookToAdd);
         }
@@ -45,21 +45,21 @@ public class BookMapper {
         return books;
     }
 
-    private static void setCategory(Item book, Book bookToAdd) {
-        if (ifBookHasCateogry(book)) {
+    private static void assignCategory(Item book, Book bookToAdd) {
+        if (ifBookHasCategory(book)) {
             bookToAdd.setCategory(book.getCategory());
         } else {
             bookToAdd.setCategory("Book");
         }
     }
 
-    private static void setUrl(Item book, Book bookToAdd) {
+    private static void assignURL(Item book, Book bookToAdd) {
         if(ifBookHasImage(book)) {
             bookToAdd.setImgUrl(book.getImageLink());
         }
     }
 
-    private static void setPrice(Item book, Book bookToAdd) {
+    private static void assignPrice(Item book, Book bookToAdd) {
         if (ifBookHasPrice(book)) {
             bookToAdd.setPrice(new BigDecimal(book.getPrice()));
             bookToAdd.setPromoDetails(countPromoDetails(book));
@@ -68,7 +68,7 @@ public class BookMapper {
         }
     }
 
-    private static void setAuthors(Item book, Book bookToAdd) {
+    private static void assignAuthors(Item book, Book bookToAdd) {
         if (isAuthorExists(book)){
             bookToAdd.setAuthor(book.getAuthors());
         } else {
@@ -76,7 +76,7 @@ public class BookMapper {
         }
     }
 
-    private static boolean ifBookHasCateogry(Item book) {
+    private static boolean ifBookHasCategory(Item book) {
         return book.getVolumeInfo().getMainCategory() != null;
     }
 
