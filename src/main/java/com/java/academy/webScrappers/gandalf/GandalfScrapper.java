@@ -1,4 +1,4 @@
-package webscrapper.gandalBookStore;
+package com.java.academy.webScrappers.gandalf;
 
 import com.java.academy.model.Book;
 import com.java.academy.model.Bookstore;
@@ -6,14 +6,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import webscrapper.BookScrapper;
+import com.java.academy.webScrappers.BookScrapper;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GandalfScrapper implements BookScrapper {
+public class GandalfScrapper  implements BookScrapper {
 
     private static final int FIRST_ELEMENT = 0;
     private final static String HOST = "http://www.gandalf.com.pl";
@@ -28,11 +28,11 @@ public class GandalfScrapper implements BookScrapper {
 
         try {
             Document doc = Jsoup.connect(url).get();
-            Elements pages = doc.getElementsByClass("paging_number_link");
+//            Elements pages = doc.getElementsByClass("paging_number_link");
+//            int pagesNumber = Integer.parseInt(pages.get(pages.size()-1).text());
 
-            int pagesNumber = Integer.parseInt(pages.get(pages.size()-1).text());
-
-            for (int page = 1; page <= pagesNumber-1; page++) {
+//            for (int page = 1; page < pagesNumber-1; page++) { //to long to better performance just 5 pages
+            for (int page = 1; page < 10; page++) {
                 books.addAll(collectBooksFromSinglePage(doc));
 
                 url = "http://www.gandalf.com.pl/promocje/" + (page + 1) + "/";
@@ -45,7 +45,7 @@ public class GandalfScrapper implements BookScrapper {
         return books;
     }
 
-     void initBookStore() {
+    void initBookStore() {
         bookstore = new Bookstore();
         bookstore.setName("Gandalf");
         bookstore.setUrl(HOST);
@@ -64,6 +64,7 @@ public class GandalfScrapper implements BookScrapper {
                     new BigDecimal(getBookPrice()),
                     bookstore);
 
+            System.out.println(book);
             book.setUrl(getBookLink());
             book.setImgUrl(getImageUrl());
             singlePageBooks.add(book);
@@ -89,7 +90,7 @@ public class GandalfScrapper implements BookScrapper {
 
     @Override
     public String getBookCategory() {
-        Document productDetails = null;
+        Document productDetails;
         try {
             productDetails = Jsoup.connect(getBookLink()).get();
         } catch (IOException e) {
@@ -124,3 +125,6 @@ public class GandalfScrapper implements BookScrapper {
         return discount.text().replaceAll("[a-z]+", "");
     }
 }
+
+
+

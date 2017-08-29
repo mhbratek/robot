@@ -1,4 +1,4 @@
-package webscrapper.gandalBookStore;
+package com.java.academy.webScrappers.gandalf;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

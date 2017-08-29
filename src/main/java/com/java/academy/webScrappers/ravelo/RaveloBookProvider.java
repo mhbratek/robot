@@ -1,4 +1,4 @@
-package webscrapper.raveloScrapper;
+package com.java.academy.webScrappers.ravelo;
 
 import com.java.academy.model.Book;
 import com.java.academy.model.Bookstore;
@@ -7,7 +7,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RaveloBookProvider {
 
@@ -68,3 +69,5 @@ public class RaveloBookProvider {
         return categoryLinks;
     }
 }
+
+

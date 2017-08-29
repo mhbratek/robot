@@ -1,4 +1,4 @@
-package webscrapper.raveloScrapper;
+package com.java.academy.webScrappers.ravelo;
 
 
 import com.java.academy.model.Bookstore;

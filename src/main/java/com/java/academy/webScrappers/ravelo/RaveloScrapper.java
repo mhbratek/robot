@@ -1,19 +1,19 @@
-package webscrapper.raveloScrapper;
+package com.java.academy.webScrappers.ravelo;
 
 import com.java.academy.model.Book;
 import com.java.academy.model.Bookstore;
+import com.java.academy.webScrappers.BookScrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import webscrapper.BookScrapper;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RaveloScrapper implements BookScrapper {
+public class RaveloScrapper implements BookScrapper{
 
     private static final int FIRST_ELEMENT = 0;
     private final String shopLink;
@@ -33,12 +33,10 @@ public class RaveloScrapper implements BookScrapper {
 
         try {
             provideShopConnection(shopLink);
-            int page = 1;
 
-            while (page <= getTotalNumberOfPages(shopConnection)) {
+            for (int page = 1; page < getTotalNumberOfPages(shopConnection); page++) {
                 booksByGenre.addAll(collectBooksFromSinglePage(shopConnection));
-                page++;
-                nextPageLink = shopLink + "&p=" + page;
+                nextPageLink = shopLink + "&p=" + (page+1);
                 provideShopConnection(nextPageLink);
             }
         } catch (IOException e) {
@@ -71,7 +69,7 @@ public class RaveloScrapper implements BookScrapper {
     }
 
     void provideShopConnection(String linkToConnect) throws IOException {
-         shopConnection = Jsoup.connect(linkToConnect).get();
+        shopConnection = Jsoup.connect(linkToConnect).get();
     }
 
     int getTotalNumberOfPages(Document connection) {
@@ -135,3 +133,4 @@ public class RaveloScrapper implements BookScrapper {
         return discount.text().replaceAll("[a-ż]+", "-");
     }
 }
+

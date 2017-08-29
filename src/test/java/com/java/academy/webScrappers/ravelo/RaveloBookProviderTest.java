@@ -1,4 +1,4 @@
-package webscrapper.raveloScrapper;
+package com.java.academy.webScrappers.ravelo;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
