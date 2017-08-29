@@ -35,7 +35,9 @@ public class Item {
     }
 
     public String getAuthors() {
-        return volumeInfo.getAuthors().toString();
+        return volumeInfo.getAuthors().toString()
+                .replaceAll("\\[","")
+                .replaceAll("]","");
     }
 
     public Double getPrice() {
