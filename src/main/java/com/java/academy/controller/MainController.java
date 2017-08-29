@@ -1,18 +1,21 @@
 package com.java.academy.controller;
 
+import com.google.gson.Gson;
 import com.java.academy.model.Book;
+import com.java.academy.model.BookListWrapper;
 import com.java.academy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import webscrapper.gandalBookStore.GandalfScrapper;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/robot")
@@ -54,11 +57,31 @@ public class MainController {
 		return books;
 	}
 
+	@RequestMapping(value = "/rest/add2", method = RequestMethod.POST)
+	public void addItems(@RequestBody String json) {
+		Gson gson = new Gson();
+		BookListWrapper bookListWrapper = gson.fromJson(json, BookListWrapper.class);
+		bookService.addBooksFromLibrary(bookListWrapper.getBooks());
+	}
+
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
 		GandalfScrapper gandalfScrapper = new GandalfScrapper();
 		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
-
 		return "redirect:/robot/books";
 	}
+
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason="Wewnętrzny błąd serwera.")
+	public void handleServerErrors(Exception ex) {	}
 }
+/*
+
+try {
+			TempSender.sendingPostRequest("http://localhost:8090/robot/rest/add2");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+* */
