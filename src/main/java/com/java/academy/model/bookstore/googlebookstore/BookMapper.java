@@ -19,7 +19,7 @@ public class BookMapper {
     public static List<Book> mapFromGoogleBookStore(GoogleBook googleBook) {
         List<Book> books = new ArrayList<>();
 
-        Bookstore bookstore =  new Bookstore(BOOKSTORE_NAME, BOOKSTORE_URL);
+        Bookstore bookstore = new Bookstore(BOOKSTORE_NAME, BOOKSTORE_URL);
 
         for (Item book : googleBook.getItems()) {
             Book bookToAdd = new Book();
@@ -34,18 +34,19 @@ public class BookMapper {
 
             bookToAdd.setUrl(book.getLink());
 
-            assignURL(book, bookToAdd);
+            assignPromoDetails(book, bookToAdd);
+
+            assignImageURL(book, bookToAdd);
 
             assignCategory(book, bookToAdd);
 
             books.add(bookToAdd);
         }
 
-
         return books;
     }
 
-    private static void assignCategory(Item book, Book bookToAdd) {
+    static void assignCategory(Item book, Book bookToAdd) {
         if (ifBookHasCategory(book)) {
             bookToAdd.setCategory(book.getCategory());
         } else {
@@ -53,19 +54,22 @@ public class BookMapper {
         }
     }
 
-    private static void assignURL(Item book, Book bookToAdd) {
+    static void assignImageURL(Item book, Book bookToAdd) {
         if(ifBookHasImage(book)) {
             bookToAdd.setImgUrl(book.getImageLink());
         }
     }
 
-    private static void assignPrice(Item book, Book bookToAdd) {
+    static void assignPrice(Item book, Book bookToAdd) {
         if (ifBookHasPrice(book)) {
             bookToAdd.setPrice(new BigDecimal(book.getPrice()));
-            bookToAdd.setPromoDetails(countPromoDetails(book));
         } else {
             bookToAdd.setPrice(new BigDecimal(0));
         }
+    }
+    static void assignPromoDetails(Item book, Book bookToAdd) {
+        if (ifBookHasPrice(book))
+            bookToAdd.setPromoDetails(countPromoDetails(book));
     }
 
     private static void assignAuthors(Item book, Book bookToAdd) {
