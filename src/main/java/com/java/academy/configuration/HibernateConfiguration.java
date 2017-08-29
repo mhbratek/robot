@@ -51,7 +51,7 @@ public class HibernateConfiguration {
         factoryBean.setJpaVendorAdapter(vendorAdapter);
         factoryBean.setJpaProperties(properties);
         factoryBean.setDataSource(dataSource());  
-        factoryBean.afterPropertiesSet();  
+        factoryBean.afterPropertiesSet();
 
         return factoryBean.getObject(); 
     }

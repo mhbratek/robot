@@ -5,10 +5,14 @@ import com.java.academy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.math.BigDecimal;
-import com.java.academy.model.Bookstore;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import webscrapper.gandalBookStore.GandalfScrapper;
 
 @Controller
 @RequestMapping("/robot")
@@ -38,33 +42,24 @@ public class MainController {
 
 		return "books2";
 	}
-	
+
+	@RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
+	public @ResponseBody List<Book> readStartBooks() {
+		return bookService.getBooksByFilter("category", "book");
+	}
+
+	@RequestMapping(value = "/rest/books/{filter}/{data}", method = RequestMethod.GET)
+	public @ResponseBody List<Book> read(@PathVariable String filter, @PathVariable String data) {
+		List<Book> books = bookService.getBooksByFilter(filter, data);
+
+		return books;
+	}
+
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
-		Bookstore bonito = new Bookstore();
-		bonito.setName("Bonito");
-		bonito.setUrl("www.bonito.pl");
-		
-		Book potop = new Book("Potop", "Henryk Sienkiewicz", "history novel", "-15%", new BigDecimal(42), bonito);
-		Book lalka = new Book("Lalka", "Bolesław Prus", "novel", "-25%", new BigDecimal(25), bonito);
-		Book krewElfow = new Book("Krew Elfów", "Andrzej Sapkowski", "fantasy", "-15%", new BigDecimal(35), bonito);
-		
-		bookService.addBook(potop);
-		bookService.addBook(lalka);
-		bookService.addBook(krewElfow);
-		
-		Bookstore helion = new Bookstore();
-		helion.setName("Helion");
-		helion.setUrl("www.helion.pl");
-		
-		potop = new Book("Potop", "Henryk Sienkiewicz", "history novel", "-25%", new BigDecimal(32), helion);
-		lalka = new Book("Lalka", "Bolesław Prus", "novel", "-20%", new BigDecimal(20), helion);
-		krewElfow = new Book("Krew Elfów", "Andrzej Sapkowski", "fantasy", "-35%", new BigDecimal(30), helion);
-		
-		bookService.addBook(potop);
-		bookService.addBook(lalka);
-		bookService.addBook(krewElfow);
-		
+		GandalfScrapper gandalfScrapper = new GandalfScrapper();
+		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
+
 		return "redirect:/robot/books";
 	}
 }

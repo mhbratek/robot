@@ -46,6 +46,8 @@
 
 		<!-- Utils -->
 		<slf4j.version>1.7.5</slf4j.version>
+        <jackson.mapper>2.8.4</jackson.mapper>
+        <jsoup.scrapper>1.10.3</jsoup.scrapper>
 		
 		<!-- PLUGINS -->
 		<maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
@@ -146,6 +148,13 @@
             <version>${mysql.connector.version}</version>
         </dependency>
 
+        <!-- JSON mapper -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.mapper}</version>
+        </dependency>
+
         <!--Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -169,7 +178,15 @@
             <version>${slf4j.version}</version>
         </dependency>
 
-	</dependencies>
+        <!-- Web Scraper -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.scrapper}</version>
+        </dependency>
+
+
+    </dependencies>
 
     <build>
         <plugins>
