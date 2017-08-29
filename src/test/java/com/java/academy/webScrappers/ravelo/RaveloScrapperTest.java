@@ -17,7 +17,7 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class RaveloScrapperTest {
 
-    private final String resourcePage = "/home/paul/IdeaProjects/robot/src/test/resources/ravelo_test.html";
+    private final String resourcePage = "src/test/resources/ravelo_test.html";
 
     @DataProvider
     public Object[][] wrongProvider(){

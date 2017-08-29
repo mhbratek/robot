@@ -45,8 +45,8 @@ public class RaveloScrapper implements BookScrapper{
 
         return booksByGenre;
     }
-
-    List<Book> collectBooksFromSinglePage(Document connection) {
+    @Override
+    public List<Book> collectBooksFromSinglePage(Document connection) {
         this.shopConnection = connection;
         Elements bookContainer = connection.getElementsByClass("row productBox ");
         List<Book> singlePage = new ArrayList<>();

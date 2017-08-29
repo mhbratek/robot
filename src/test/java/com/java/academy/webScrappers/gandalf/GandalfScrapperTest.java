@@ -14,7 +14,7 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class GandalfScrapperTest {
 
-    private final String resourcePage = "/home/paul/IdeaProjects/robot/src/test/resources/Promocje i wyprzedaże książek _ Gandalf.com.pl.html";
+    private final String resourcePage = "src/test/resources/Promocje i wyprzedaże książek _ Gandalf.com.pl.html";
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {

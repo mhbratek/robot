@@ -2,7 +2,7 @@ package com.java.academy.controller;
 
 import com.java.academy.model.Book;
 import com.java.academy.service.BookService;
-import com.java.academy.webScrappers.ravelo.RaveloBookProvider;
+import com.java.academy.webScrappers.marters.MatrasScrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,8 +59,8 @@ public class MainController {
 //		GandalfScrapper gandalfScrapper = new GandalfScrapper();
 //		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
 
-		RaveloBookProvider raveloBookProvider = new RaveloBookProvider();
-		bookService.addBooksFromLibrary(raveloBookProvider.getBooksFromRavelo());
+		MatrasScrapper matrasScrapper = new MatrasScrapper();
+		bookService.addBooksFromLibrary(matrasScrapper.collectBooksFromMatras());
 		return "redirect:/robot/books";
 	}
 }

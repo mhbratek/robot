@@ -14,7 +14,7 @@ import static org.testng.Assert.assertEquals;
 public class RaveloBookProviderTest {
 
     private static final int NUM_OF_CATEGORIES = 11;
-    private final String resourcePage = "/home/paul/IdeaProjects/robot/src/test/resources/outlet_ravelo.html";
+    private final String resourcePage = "src/test/resources/outlet_ravelo.html";
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {

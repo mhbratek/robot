@@ -51,7 +51,12 @@ public class GandalfScrapper  implements BookScrapper {
         bookstore.setUrl(HOST);
     }
 
-    List<Book> collectBooksFromSinglePage(Document doc) {
+    Bookstore getBookStore() {
+        return this.bookstore;
+    }
+
+    @Override
+    public List<Book> collectBooksFromSinglePage(Document doc) {
         Elements prod = doc.getElementsByClass("prod");
         List<Book> singlePageBooks = new ArrayList<>();
 
@@ -64,16 +69,11 @@ public class GandalfScrapper  implements BookScrapper {
                     new BigDecimal(getBookPrice()),
                     bookstore);
 
-            System.out.println(book);
             book.setUrl(getBookLink());
             book.setImgUrl(getImageUrl());
             singlePageBooks.add(book);
         });
         return singlePageBooks;
-    }
-
-    Bookstore getBookStore() {
-        return this.bookstore;
     }
 
     @Override
