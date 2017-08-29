@@ -16,13 +16,13 @@ import java.util.List;
 public class GandalfScrapper implements BookScrapper {
 
     private static final int FIRST_ELEMENT = 0;
-    private final String HOST = "http://www.gandalf.com.pl";
+    private final static String HOST = "http://www.gandalf.com.pl";
 
     private Element tempProduct;
     private String url ="http://www.gandalf.com.pl/promocje/";
     private Bookstore bookstore;
 
-    public List<Book> getBooksFromGandalf() {
+    public List<Book> collectBooksFromGandalfBookstore() {
         List<Book> books = new ArrayList<>();
         initBookStore();
 
@@ -33,26 +33,11 @@ public class GandalfScrapper implements BookScrapper {
             int pagesNumber = Integer.parseInt(pages.get(pages.size()-1).text());
 
             for (int page = 1; page <= pagesNumber-1; page++) {
-                Elements prod = doc.getElementsByClass("prod");
+                books.addAll(collectBooksFromSinglePage(doc));
 
-                prod.forEach(product -> {
-                    tempProduct = product;
-                    Book book = new Book(getBookTitle(),
-                            getBookAuthor(),
-                            getBookCategory(),
-                            getDiscount(),
-                            new BigDecimal(getBookPrice()),
-                            bookstore);
-
-                    book.setUrl(getBookLink());
-                    book.setImgUrl(getImageUrl());
-                    books.add(book);
-                });
-
-                url = "http://www.gandalf.com.pl/promocje/" + page + "/";
+                url = "http://www.gandalf.com.pl/promocje/" + (page + 1) + "/";
                 doc = Jsoup.connect(url).get();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,10 +45,34 @@ public class GandalfScrapper implements BookScrapper {
         return books;
     }
 
-    private void initBookStore() {
+     void initBookStore() {
         bookstore = new Bookstore();
         bookstore.setName("Gandalf");
         bookstore.setUrl(HOST);
+    }
+
+    List<Book> collectBooksFromSinglePage(Document doc) {
+        Elements prod = doc.getElementsByClass("prod");
+        List<Book> singlePageBooks = new ArrayList<>();
+
+        prod.forEach(product -> {
+            tempProduct = product;
+            Book book = new Book(getBookTitle(),
+                    getBookAuthor(),
+                    getBookCategory(),
+                    getDiscount(),
+                    new BigDecimal(getBookPrice()),
+                    bookstore);
+
+            book.setUrl(getBookLink());
+            book.setImgUrl(getImageUrl());
+            singlePageBooks.add(book);
+        });
+        return singlePageBooks;
+    }
+
+    Bookstore getBookStore() {
+        return this.bookstore;
     }
 
     @Override
@@ -84,7 +93,7 @@ public class GandalfScrapper implements BookScrapper {
         try {
             productDetails = Jsoup.connect(getBookLink()).get();
         } catch (IOException e) {
-            e.printStackTrace();
+            return "Non_specify";
         }
         Elements genre = productDetails.getElementsByClass("product_categories");
         return genre.text().substring(genre.text().lastIndexOf(":") + 1).trim();
@@ -114,5 +123,4 @@ public class GandalfScrapper implements BookScrapper {
         Elements discount = tempProduct.getElementsByClass("price_dis");
         return discount.text().replaceAll("[a-z]+", "");
     }
-
 }

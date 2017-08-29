@@ -7,35 +7,40 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RaveloBookProvider {
-    private final String HOST = "https://www.ravelo.pl";
+
+    private final static String HOST = "https://www.ravelo.pl";
 
     private RaveloScrapper raveloScrapper;
     private Bookstore bookstore;
     private String url = "https://www.ravelo.pl/outlet";
 
-    List<Book> getBooksFromRavelo() {
+    public List<Book> getBooksFromRavelo() {
         List<Book> raveloBooks = new ArrayList<>();
         try {
             Document raveloPromoBase = Jsoup.connect(url).get();
             Elements categories = raveloPromoBase.getElementsByClass("row showcase showcase6x1 m-books4 ");
-            List<String> categoryLinks = new ArrayList<>();
+            List<String > categoryLinks = new ArrayList<>();
 
             categories.forEach(element -> {
                 Elements links = element.getElementsByClass("see-more");
 
-                links.forEach(l -> {
-                    categoryLinks.add(HOST + l
-                            .getElementsByTag("a")
-                            .attr("href")
-                            .replaceAll(HOST, ""));
+                links.forEach(link -> {
+                    categoryLinks.add(
+                            (HOST + link
+                                    .getElementsByTag("a")
+                                    .attr("href")
+                                    .replaceAll(HOST, "")));
                 });
             });
+
             //last link is for toys so no need to check
             categoryLinks.remove(categoryLinks.size() - 1);
+            //first is best offers so also no need to check
+            categoryLinks.remove(0);
+
             initializeBookStore();
 
             categoryLinks.forEach(link -> {

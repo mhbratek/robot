@@ -29,28 +29,57 @@ public class RaveloScrapper implements BookScrapper {
 
     List<Book> prepareBookPackage() {
         List<Book> booksByGenre = new ArrayList<>();
+        String nextPageLink;
+
         try {
-            shopConnection = Jsoup.connect(shopLink).get();
-            Elements bookContainer = shopConnection.getElementsByClass("row productBox ");
+            provideShopConnection(shopLink);
+            int page = 1;
 
-            bookContainer.forEach(book -> {
-                tempBook = book;
-                Book singleBook = new Book(getBookTitle(),
-                        getBookAuthor(),
-                        getBookCategory(),
-                        getDiscount(),
-                        new BigDecimal(getBookPrice()),
-                        bookStore);
-                singleBook.setImgUrl(getImageUrl());
-                singleBook.setUrl(getBookLink());
-
-                booksByGenre.add(singleBook);
-            });
-
+            while (page <= getTotalNumberOfPages(shopConnection)) {
+                booksByGenre.addAll(collectBooksFromSinglePage(shopConnection));
+                page++;
+                nextPageLink = shopLink + "&p=" + page;
+                provideShopConnection(nextPageLink);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return booksByGenre;
+    }
+
+    List<Book> collectBooksFromSinglePage(Document connection) {
+        this.shopConnection = connection;
+        Elements bookContainer = connection.getElementsByClass("row productBox ");
+        List<Book> singlePage = new ArrayList<>();
+
+        bookContainer.forEach(book -> {
+            tempBook = book;
+            Book singleBook = new Book(getBookTitle(),
+                    getBookAuthor(),
+                    getBookCategory(),
+                    getDiscount(),
+                    new BigDecimal(getBookPrice()),
+                    bookStore);
+            singleBook.setImgUrl(getImageUrl());
+            singleBook.setUrl(getBookLink());
+
+            singlePage.add(singleBook);
+        });
+
+        return singlePage;
+    }
+
+    void provideShopConnection(String linkToConnect) throws IOException {
+         shopConnection = Jsoup.connect(linkToConnect).get();
+    }
+
+    int getTotalNumberOfPages(Document connection) {
+        String[] pages = connection.getElementsByClass("pagination")
+                .text()
+                .replaceAll("[a-ż]+", "")
+                .split(" ");
+        return Integer.parseInt(pages[pages.length-1]);
     }
 
     @Override

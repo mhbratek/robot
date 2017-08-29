@@ -6,14 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import com.java.academy.model.Bookstore;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import webscrapper.gandalBookStore.GandalfScrapper;
+import webscrapper.raveloScrapper.RaveloBookProvider;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/robot")
@@ -52,8 +49,10 @@ public class MainController {
 
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
-		GandalfScrapper gandalfScrapper = new GandalfScrapper();
-		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
+//		GandalfScrapper gandalfScrapper = new GandalfScrapper();
+//		bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
+		RaveloBookProvider raveloBookProvider = new RaveloBookProvider();
+		bookService.addBooksFromLibrary(raveloBookProvider.getBooksFromRavelo());
 
 		return "redirect:/robot/books";
 	}
