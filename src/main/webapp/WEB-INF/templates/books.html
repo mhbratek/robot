@@ -8,6 +8,7 @@
     <script type="text/javascript" src ="/resource/js/angular.min.js"></script>
     <script type="text/javascript" src ="/resource/js/controller.js"></script>
     <script type="text/javascript" src ="/resource/js/sortingScript.js"></script>
+    <script type="text/javascript" src ="/resource/js/dirPagination.js"></script>
     <link rel="stylesheet" type="text/css" media="all" th:href="@{/resource/css/social.css}" />
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
@@ -52,13 +53,36 @@
             </form>
             <form class="navbar-form navbar-right">
                 <div class="form-group">
-		            <input type="text" class="form-control" aria-label="..." ng-model="search.title" placeholder="Filtruj online">
+		            <input type="text" class="form-control" aria-label="..." ng-model="search.$" placeholder="Filtruj online">
 		        </div><!-- /input-group -->
             </form>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<div ng-controller="OtherController">
+    <div class="text-center">
+        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" >
+            <ul class="pagination" ng-if="1 < pages.length || !autoHide">
+                <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">
+                    <a href="" ng-click="setCurrent(1)">&laquo;</a>
+                </li>
+                <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }">
+                    <a href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>
+                </li>
+                <li ng-repeat="pageNumber in pages track by tracker(pageNumber, $index)" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+                    <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+                </li>
 
+                <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }">
+                    <a href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>
+                </li>
+                <li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }">
+                    <a href="" ng-click="setCurrent(pagination.last)">&raquo;</a>
+                </li>
+            </ul>
+        </dir-pagination-controls>
+    </div>
+</div>
 <div class="container">
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped">
@@ -75,7 +99,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="book in books | filter:search | orderBy:'author':true">
+            <tr dir-paginate="book in books | filter:search | itemsPerPage: pageSize" current-page="currentPage">
                 <td><img src="{{book.imgUrl}}" height="42" width="70"/></td>
                 <td>{{book.title}}  {{book.subtitle}}</td>
                 <td>{{book.author}}</td>
@@ -91,7 +115,30 @@
         </table>
     </div>
 </div>
+<div ng-controller="OtherController">
+    <div class="text-center" style="padding-bottom: 40px">
+        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" >
+            <ul class="pagination" ng-if="1 < pages.length || !autoHide">
+                <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">
+                    <a href="" ng-click="setCurrent(1)">&laquo;</a>
+                </li>
+                <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }">
+                    <a href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>
+                </li>
+                <li ng-repeat="pageNumber in pages track by tracker(pageNumber, $index)" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+                    <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+                </li>
 
+                <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }">
+                    <a href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>
+                </li>
+                <li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }">
+                    <a href="" ng-click="setCurrent(pagination.last)">&raquo;</a>
+                </li>
+            </ul>
+        </dir-pagination-controls>
+    </div>
+</div>
 <div class="navbar navbar-default navbar-fixed-bottom" >
     <div class="container">
         <div class="row">

@@ -45,15 +45,13 @@ public class MainController {
 
 	@RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
 	public @ResponseBody List<Book> readStartBooks() {
-
-		return bookService.getBooksByFilter("author", "S. Twardoch");
+		return bookService.getBooksByFilter("category", "book");
 	}
 
 	@RequestMapping(value = "/rest/books/{filter}/{data}", method = RequestMethod.GET)
 	public @ResponseBody List<Book> read(@PathVariable String filter, @PathVariable String data) {
-		System.out.println("filter: " + filter + " data: " + data);
 		List<Book> books = bookService.getBooksByFilter(filter, data);
-		books.forEach(System.out::println);
+
 		return books;
 	}
 

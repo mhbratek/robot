@@ -1,4 +1,4 @@
-angular.module('searchingManager', [])
+angular.module('searchingManager', ['angularUtils.directives.dirPagination'])
     .controller('AppCtl', function($scope, $filter, $http, jsonFilter){
 
         $scope.getStartBooks = function() {
@@ -20,4 +20,13 @@ angular.module('searchingManager', [])
         };
 
         $scope.myFilter = 'Set filter'
+        $scope.currentPage = 1;
+        $scope.pageSize = 10;
+        $scope.meals = [];
     });
+
+function OtherController($scope) {
+    $scope.pageChangeHandler = function(num) {
+        console.log('going to page ' + num);
+    };
+}
