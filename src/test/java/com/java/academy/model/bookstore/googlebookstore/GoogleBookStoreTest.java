@@ -1,5 +1,7 @@
 package com.java.academy.model.bookstore.googlebookstore;
 
+import org.testng.annotations.Test;
+
 import static org.testng.Assert.*;
 
 /**
@@ -8,4 +10,10 @@ import static org.testng.Assert.*;
  */
 public class GoogleBookStoreTest {
 
+    @Test
+    public void shouldReturn440Books() {
+        GoogleBookStore bookStore = new GoogleBookStore();
+
+        assertEquals(bookStore.collectBooksFromGoogle().size(), 440);
+    }
 }

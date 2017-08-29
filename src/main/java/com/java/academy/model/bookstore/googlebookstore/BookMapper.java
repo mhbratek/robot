@@ -13,13 +13,10 @@ import java.util.List;
  */
 public class BookMapper {
 
-    private static final String BOOKSTORE_NAME = "GooglePlay";
-    private static final String BOOKSTORE_URL = "https://play.google.com/store/books?hl=en";
 
-    public static List<Book> mapFromGoogleBookStore(GoogleBook googleBook) {
+
+    public static List<Book> mapFromGoogleBookStore(GoogleBook googleBook, Bookstore bookstore) {
         List<Book> books = new ArrayList<>();
-
-        Bookstore bookstore = new Bookstore(BOOKSTORE_NAME, BOOKSTORE_URL);
 
         for (Item book : googleBook.getItems()) {
             Book bookToAdd = new Book();

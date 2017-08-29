@@ -1,7 +1,7 @@
 package com.java.academy.model.bookstore.googlebookstore;
 
+import com.java.academy.model.Bookstore;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import com.java.academy.model.Book;
 
@@ -18,6 +18,8 @@ import static org.testng.Assert.*;
  */
 public class BookMapperTest {
 
+    private static final String BOOKSTORE_NAME = "GooglePlay";
+    private static final String BOOKSTORE_URL = "https://play.google.com/store/books?hl=en";
     private static final String IMAGE_URL = "www.google.pl";
     private static final String DEFAULT_CATEGORY = "Book";
     private static final String DEFAULT_AUTHOR = "Unknown";
@@ -104,12 +106,13 @@ public class BookMapperTest {
 
     @Test
     public void shouldReturnOneBookAfterMapping() {
+        Bookstore bookstore = new Bookstore(BOOKSTORE_NAME, BOOKSTORE_URL);
         List<Item> items = new ArrayList<>();
         items.add(item);
         GoogleBook googleBook = new GoogleBook();
         googleBook.setItems(items);
 
-        List<Book> expectedBooks = BookMapper.mapFromGoogleBookStore(googleBook);
+        List<Book> expectedBooks = BookMapper.mapFromGoogleBookStore(googleBook, bookstore);
 
         assertEquals(expectedBooks.size(), items.size());
     }

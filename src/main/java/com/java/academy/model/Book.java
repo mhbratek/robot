@@ -14,6 +14,7 @@ public class Book extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 3678107792576131001L;
 
 	@NotNull
+	@Size(max = 555)
 	private String title;
 
 	private String subtitle;
