@@ -1,10 +1,13 @@
 package com.java.academy.model.bookstore.googlebookstore;
 
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import com.java.academy.model.Book;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.*;
@@ -15,17 +18,41 @@ import static org.testng.Assert.*;
  */
 public class BookMapperTest {
 
-    @Test
-    public void shouldAssignCategoryFromGoogleBookToBook () {
-        GoogleBook googleBook = new GoogleBook();
-        VolumeInfo volumeInfo = new VolumeInfo();
-        volumeInfo.setMainCategory("Category");
-        Item item = new Item();
-        item.setVolumeInfo(volumeInfo);
-        List<Item> items = new ArrayList<>();
-        googleBook.setItems(items);
-        items.add(item);
+    private Item item;
+    private VolumeInfo volumeInfo;
+    private ImageLinks imageLinks;
+    private SaleInfo saleInfo;
+    private RetailPrice retailPrice;
+    private ListPrice listPrice;
 
+
+    @BeforeMethod
+    public void setUp() {
+        listPrice = new ListPrice();
+        listPrice.setAmount(10d);
+
+        retailPrice = new RetailPrice();
+        retailPrice.setAmount(8d);
+
+        imageLinks = new ImageLinks();
+        imageLinks.setSmallThumbnail("www.google.pl");
+
+        volumeInfo = new VolumeInfo();
+        volumeInfo.setMainCategory("Category");
+        volumeInfo.setImageLinks(imageLinks);
+        volumeInfo.setAuthors(Arrays.asList("Janko Muzykant"));
+
+        saleInfo = new SaleInfo();
+        saleInfo.setRetailPrice(retailPrice);
+        saleInfo.setListPrice(listPrice);
+
+        item = new Item();
+        item.setVolumeInfo(volumeInfo);
+        item.setSaleInfo(saleInfo);
+    }
+
+    @Test
+    public void shouldAssignGivenCategory () {
         Book book = new Book();
         BookMapper.assignCategory(item, book);
 
@@ -33,19 +60,17 @@ public class BookMapperTest {
     }
 
     @Test
-    public void shouldAssignURLFromGoogleBookToBook() {
-        GoogleBook googleBook = new GoogleBook();
-        ImageLinks imageLinks = new ImageLinks();
-        imageLinks.setSmallThumbnail("www.google.pl");
+    public void shouldAssignDefaultCategoryIfCategoryIsNull() {
+        volumeInfo.setMainCategory(null);
 
-        VolumeInfo volumeInfo = new VolumeInfo();
-        volumeInfo.setImageLinks(imageLinks);
-        Item item = new Item();
-        item.setVolumeInfo(volumeInfo);
-        List<Item> items = new ArrayList<>();
-        items.add(item);
-        googleBook.setItems(items);
+        Book book = new Book();
+        BookMapper.assignCategory(item, book);
 
+        assertEquals(book.getCategory(), "Book");
+    }
+
+    @Test
+    public void shouldAssignGivenURL() {
         Book book = new Book();
         BookMapper.assignImageURL(item, book);
 
@@ -53,18 +78,17 @@ public class BookMapperTest {
     }
 
     @Test
-    public void shouldAssignGivenPriceToBook() {
-        GoogleBook googleBook = new GoogleBook();
-        Item item = new Item();
-        SaleInfo saleInfo = new SaleInfo();
-        ListPrice listPrice = new ListPrice();
-        listPrice.setAmount(10d);
-        saleInfo.setListPrice(listPrice);
-        item.setSaleInfo(saleInfo);
-        List<Item> items = new ArrayList<>();
-        items.add(item);
-        googleBook.setItems(items);
+    public void shouldAssignDefaultPriceIfPriceIsNull() {
+        item.setSaleInfo(null);
 
+        Book book = new Book();
+        BookMapper.assignPrice(item, book);
+
+        assertEquals(book.getPrice(), new BigDecimal(0));
+    }
+
+    @Test
+    public void shouldAssignGivenPriceToBook() {
         Book book = new Book();
         BookMapper.assignPrice(item, book);
 
@@ -73,24 +97,39 @@ public class BookMapperTest {
 
     @Test
     public void shouldAssignGivenPromotionDetails() {
-        GoogleBook googleBook = new GoogleBook();
-        Item item = new Item();
-        SaleInfo saleInfo = new SaleInfo();
-        ListPrice listPrice = new ListPrice();
-        listPrice.setAmount(10d);
-        RetailPrice retailPrice = new RetailPrice();
-        retailPrice.setAmount(8d);
-        saleInfo.setListPrice(listPrice);
-        saleInfo.setRetailPrice(retailPrice);
-        item.setSaleInfo(saleInfo);
-        List<Item> items = new ArrayList<>();
-        items.add(item);
-        googleBook.setItems(items);
-
-
         Book book = new Book();
         BookMapper.assignPromoDetails(item, book);
 
         assertEquals(book.getPromoDetails(), "20%");
+    }
+
+    @Test
+    public void shouldReturnOneBookAfterMapping() {
+        List<Item> items = new ArrayList<>();
+        items.add(item);
+        GoogleBook googleBook = new GoogleBook();
+        googleBook.setItems(items);
+
+        List<Book> expectedBooks = BookMapper.mapFromGoogleBookStore(googleBook);
+
+        assertEquals(expectedBooks.size(), 1);
+    }
+
+    @Test
+    public void shouldAssignDefaultAuthorIfAuthorIsUnknown() {
+        volumeInfo.setAuthors(null);
+
+        Book book = new Book();
+        BookMapper.assignAuthors(item, book);
+
+        assertEquals(book.getAuthor(), "Unknown");
+    }
+
+    @Test
+    public void shouldAssignGivenAuthor() {
+        Book book = new Book();
+        BookMapper.assignAuthors(item, book);
+
+        assertEquals(book.getAuthor(), item.getAuthors());
     }
 }

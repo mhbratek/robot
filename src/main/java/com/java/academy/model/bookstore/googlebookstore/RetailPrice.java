@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RetailPrice {
     private Double amount;
-    private String currencyCode;
 
     public RetailPrice() {
     }
@@ -22,19 +21,4 @@ public class RetailPrice {
         this.amount = amount;
     }
 
-    public String getCurrencyCode() {
-        return currencyCode;
-    }
-
-    public void setCurrencyCode(String currencyCode) {
-        this.currencyCode = currencyCode;
-    }
-
-    @Override
-    public String toString() {
-        return "RetailPrice{" +
-                "amount=" + amount +
-                ", currencyCode='" + currencyCode + '\'' +
-                '}';
-    }
 }

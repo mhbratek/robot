@@ -13,7 +13,6 @@ import java.util.List;
 public class VolumeInfo {
     private String title;
     private List<String> authors;
-    private String description;
     private ImageLinks imageLinks;
     private String infoLink;
     private String mainCategory;
@@ -26,9 +25,7 @@ public class VolumeInfo {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+
 
     public List<String> getAuthors() {
         return authors;
@@ -38,13 +35,6 @@ public class VolumeInfo {
         this.authors = authors;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public ImageLinks getImageLinks() {
         return imageLinks;
@@ -58,9 +48,6 @@ public class VolumeInfo {
         return infoLink;
     }
 
-    public void setInfoLink(String infoLink) {
-        this.infoLink = infoLink;
-    }
 
     public String getMainCategory() {
         return mainCategory;
@@ -70,13 +57,5 @@ public class VolumeInfo {
         this.mainCategory = mainCategory;
     }
 
-    @Override
-    public String toString() {
-        return "VolumeInfo{" +
-                "title='" + title + '\'' +
-                ", authors=" + authors +
-                ", description='" + description + '\'' +
-                ", imageLinks=" + imageLinks +
-                '}';
-    }
+
 }

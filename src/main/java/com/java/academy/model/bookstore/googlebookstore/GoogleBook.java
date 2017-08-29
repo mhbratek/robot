@@ -11,18 +11,9 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GoogleBook {
 
-    private Long totalItems;
     private List<Item> items;
 
     public GoogleBook() {
-    }
-
-    public Long getTotalItems() {
-        return totalItems;
-    }
-
-    public void setTotalItems(Long totalItems) {
-        this.totalItems = totalItems;
     }
 
     public List<Item> getItems() {
@@ -33,11 +24,4 @@ public class GoogleBook {
         this.items = items;
     }
 
-    @Override
-    public String toString() {
-        return "GoogleBook{" +
-                "totalItems=" + totalItems +
-                ", items=" + items +
-                '}';
-    }
 }

@@ -72,7 +72,7 @@ public class BookMapper {
             bookToAdd.setPromoDetails(countPromoDetails(book));
     }
 
-    private static void assignAuthors(Item book, Book bookToAdd) {
+    static void assignAuthors(Item book, Book bookToAdd) {
         if (isAuthorExists(book)){
             bookToAdd.setAuthor(book.getAuthors());
         } else {

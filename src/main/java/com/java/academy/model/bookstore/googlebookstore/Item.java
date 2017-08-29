@@ -33,13 +33,6 @@ public class Item {
     public String getTitle() {
         return volumeInfo.getTitle();
     }
-    @Override
-    public String toString() {
-        return "Item{" +
-                "volumeInfo=" + volumeInfo +
-                ", saleInfo=" + saleInfo +
-                '}';
-    }
 
     public String getAuthors() {
         return volumeInfo.getAuthors().toString();

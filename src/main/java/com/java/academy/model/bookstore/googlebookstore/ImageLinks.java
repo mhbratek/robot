@@ -21,10 +21,5 @@ public class ImageLinks {
         this.smallThumbnail = smallThumbnail;
     }
 
-    @Override
-    public String toString() {
-        return "ImageLinks{" +
-                "smallThumbnail='" + smallThumbnail + '\'' +
-                '}';
-    }
+
 }

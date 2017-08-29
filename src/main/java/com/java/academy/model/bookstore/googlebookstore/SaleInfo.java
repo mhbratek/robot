@@ -30,11 +30,4 @@ public class SaleInfo {
         this.retailPrice = retailPrice;
     }
 
-    @Override
-    public String toString() {
-        return "SaleInfo{" +
-                "listPrice=" + listPrice +
-                ", retailPrice=" + retailPrice +
-                '}';
-    }
 }

@@ -21,10 +21,5 @@ public class ListPrice {
         this.amount = amount;
     }
 
-    @Override
-    public String toString() {
-        return "ListPrice{" +
-                "amount=" + amount +
-                '}';
-    }
+
 }
