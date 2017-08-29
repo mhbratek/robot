@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl" ng-app="searchingManager" ng-controller="AppCtl">
+<head>
+    <meta charset="UTF-8">
+    <title>pagination</title>
+</head>
+<body>
+    <div ng-controller="OtherController" th:fragment="paginationUp">
+        <div class="text-center">
+            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" >
+                <ul class="pagination" ng-if="1 < pages.length || !autoHide">
+                    <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">
+                        <a href="" ng-click="setCurrent(1)">&laquo;</a>
+                    </li>
+                    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }">
+                        <a href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>
+                    </li>
+                    <li ng-repeat="pageNumber in pages track by tracker(pageNumber, $index)" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+                        <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+                    </li>
+
+                    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }">
+                        <a href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>
+                    </li>
+                    <li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }">
+                        <a href="" ng-click="setCurrent(pagination.last)">&raquo;</a>
+                    </li>
+                </ul>
+            </dir-pagination-controls>
+        </div>
+    </div>
+    <div ng-controller="OtherController" th:fragment="paginationDown">
+        <div class="text-center" style="padding-bottom: 40px">
+            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" >
+                <ul class="pagination" ng-if="1 < pages.length || !autoHide">
+                    <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">
+                        <a href="" ng-click="setCurrent(1)">&laquo;</a>
+                    </li>
+                    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }">
+                        <a href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>
+                    </li>
+                    <li ng-repeat="pageNumber in pages track by tracker(pageNumber, $index)" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+                        <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+                    </li>
+
+                    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }">
+                        <a href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>
+                    </li>
+                    <li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }">
+                        <a href="" ng-click="setCurrent(pagination.last)">&raquo;</a>
+                    </li>
+                </ul>
+            </dir-pagination-controls>
+        </div>
+    </div>
+</body>
+</html>
