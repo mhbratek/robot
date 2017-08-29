@@ -69,8 +69,8 @@ public class MainController {
 
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
-		GandalfScrapper gandalfScrapper = new GandalfScrapper();
-		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
+//		GandalfScrapper gandalfScrapper = new GandalfScrapper();
+//		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
 
 		GoogleBookStore bookStore = new GoogleBookStore();
 		bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());

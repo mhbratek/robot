@@ -30,11 +30,34 @@ public class Item {
         this.saleInfo = saleInfo;
     }
 
+    public String getTitle() {
+        return volumeInfo.getTitle();
+    }
     @Override
     public String toString() {
         return "Item{" +
                 "volumeInfo=" + volumeInfo +
                 ", saleInfo=" + saleInfo +
                 '}';
+    }
+
+    public String getAuthors() {
+        return volumeInfo.getAuthors().toString();
+    }
+
+    public Double getPrice() {
+        return saleInfo.getListPrice().getAmount();
+    }
+
+    public String getLink() {
+        return volumeInfo.getInfoLink();
+    }
+
+    public String getImageLink() {
+        return volumeInfo.getImageLinks().getSmallThumbnail();
+    }
+
+    public String getCategory() {
+        return volumeInfo.getMainCategory();
     }
 }

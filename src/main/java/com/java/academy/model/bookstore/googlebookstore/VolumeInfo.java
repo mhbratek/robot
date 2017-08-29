@@ -16,6 +16,7 @@ public class VolumeInfo {
     private String description;
     private ImageLinks imageLinks;
     private String infoLink;
+    private String mainCategory;
 
     public VolumeInfo() {
 
@@ -59,6 +60,14 @@ public class VolumeInfo {
 
     public void setInfoLink(String infoLink) {
         this.infoLink = infoLink;
+    }
+
+    public String getMainCategory() {
+        return mainCategory;
+    }
+
+    public void setMainCategory(String mainCategory) {
+        this.mainCategory = mainCategory;
     }
 
     @Override
