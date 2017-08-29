@@ -35,7 +35,7 @@ public class BookServiceImpl implements BookService {
 			case "category":
 				return bookDao.getBooksByCategoryContaining(value);
 			case "bookstore":
-				return bookDao.getBooksByBookstoreContaining(value);
+				return bookDao.getBooksByBookstoreNameContaining(value);
 			default:
 				return bookDao.getBooksByAuthorContaining(value);
 		}

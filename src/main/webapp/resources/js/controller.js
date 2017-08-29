@@ -19,4 +19,5 @@ angular.module('searchingManager', [])
             window.alert($scope.myFilter);
         };
 
+        $scope.myFilter = 'Set filter'
     });
