@@ -26,12 +26,19 @@ public class BookServiceImpl implements BookService {
 		return bookDao.getBookById(bookId);
 	}
 
-	public List<Book> getBooksByCategory(String genre) {
-		return bookDao.getBooksByCategory(genre);
-	}
-	
-	public List<Book> getBooksByAuthor(String author) {
-		return bookDao.getBooksByAuthor(author);
+	public List<Book> getBooksByFilter(String filter, String value) {
+		switch (filter) {
+			case "title":
+				return bookDao.getBooksByTitleContaining(value);
+			case "author":
+				return bookDao.getBooksByAuthorContaining(value);
+			case "category":
+				return bookDao.getBooksByCategoryContaining(value);
+			case "bookstore":
+				return bookDao.getBooksByBookstoreNameContaining(value);
+			default:
+				return bookDao.getBooksByAuthorContaining(value);
+		}
 	}
 
 	public void addBook(Book book) {
@@ -42,9 +49,5 @@ public class BookServiceImpl implements BookService {
 	public void addBooksFromLibrary(List<Book> books) {
 		bookstoreDao.save(books.get(0).getBookstore());
 		bookDao.save(books);
-	}
-
-	public List<Book> getBooksFromBookstore(String bookstoreName) {
-		return bookDao.getBooksByBookstore(bookstoreName);
 	}
 }

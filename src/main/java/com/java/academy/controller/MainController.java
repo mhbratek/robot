@@ -5,6 +5,7 @@ import com.java.academy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,54 +42,25 @@ public class MainController {
 		return "books2";
 	}
 
-	@RequestMapping(value = "/rest/books", method = RequestMethod.GET)
-	public @ResponseBody List<Book> read() {
+	@RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
+	public @ResponseBody List<Book> readStartBooks() {
+		return bookService.getBooksByFilter("author", "Jan Kamiński");
+	}
 
-		return bookService.getAllBooks();
+	@RequestMapping(value = "/rest/books/{filter}/{data}", method = RequestMethod.GET)
+	public @ResponseBody List<Book> read(@PathVariable String filter, @PathVariable String data) {
+		List<Book> books = bookService.getBooksByFilter(filter, data);
+
+		return books;
 	}
 
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
 //		GandalfScrapper gandalfScrapper = new GandalfScrapper();
-//		bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
+//		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
+
 		RaveloBookProvider raveloBookProvider = new RaveloBookProvider();
 		bookService.addBooksFromLibrary(raveloBookProvider.getBooksFromRavelo());
-
 		return "redirect:/robot/books";
 	}
-/*
-	@RequestMapping("/addBooks")
-	public String addBooks(Model model) {
-		Bookstore bonito = new Bookstore();
-		bonito.setName("Bonito");
-		bonito.setUrl("www.bonito.pl");
-		
-		Book potop = new Book("Potop", "Henryk Sienkiewicz", "history novel", "-15%", new BigDecimal(42), bonito);
-		potop.setUrl(bonito.getUrl());
-		Book lalka = new Book("Lalka", "Bolesław Prus", "novel", "-25%", new BigDecimal(25), bonito);
-		lalka.setUrl(bonito.getUrl());
-		Book krewElfow = new Book("Krew Elfów", "Andrzej Sapkowski", "fantasy", "-15%", new BigDecimal(35), bonito);
-		krewElfow.setUrl(bonito.getUrl());
-		
-		bookService.addBook(potop);
-		bookService.addBook(lalka);
-		bookService.addBook(krewElfow);
-		
-		Bookstore helion = new Bookstore();
-		helion.setName("Helion");
-		helion.setUrl("www.helion.pl");
-		
-		potop = new Book("Potop", "Henryk Sienkiewicz", "history novel", "-25%", new BigDecimal(32), helion);
-		potop.setUrl(helion.getUrl());
-		lalka = new Book("Lalka", "Bolesław Prus", "novel", "-20%", new BigDecimal(20), helion);
-		lalka.setUrl(helion.getUrl());
-		krewElfow = new Book("Krew Elfów", "Andrzej Sapkowski", "fantasy", "-35%", new BigDecimal(30), helion);
-		krewElfow.setUrl(helion.getUrl());
-		
-		bookService.addBook(potop);
-		bookService.addBook(lalka);
-		bookService.addBook(krewElfow);
-		
-		return "redirect:/robot/books";
-	}*/
 }
