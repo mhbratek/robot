@@ -18,6 +18,10 @@ import java.util.List;
  */
 public class GoogleBookStore {
 
+    public static final String URL_TO_GET_BOOKS = "https://www.googleapis.com/books/v1/volumes?&q=-&fields=totalItems," +
+            "items(volumeInfo/title,volumeInfo/subtitle,volumeInfo/description,volumeInfo/infoLink,saleInfo/retailPrice," +
+            "saleInfo/listPrice/amount,volumeInfo/authors,volumeInfo/imageLinks/smallThumbnail)&maxResults=40";
+
     public List<Book> collectBooksFromGoogle() {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -25,7 +29,7 @@ public class GoogleBookStore {
 
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        HttpEntity<String> response = restTemplate.exchange("https://www.googleapis.com/books/v1/volumes?&q=-&fields=totalItems,items(volumeInfo/title,volumeInfo/subtitle,volumeInfo/description,volumeInfo/infoLink,saleInfo/retailPrice,saleInfo/listPrice/amount,volumeInfo/authors,volumeInfo/imageLinks/smallThumbnail)&maxResults=40", HttpMethod.GET, entity, String.class);
+        HttpEntity<String> response = restTemplate.exchange(URL_TO_GET_BOOKS, HttpMethod.GET, entity, String.class);
 
 
         GoogleBook googleBooks = new Gson().fromJson(response.getBody(), GoogleBook.class);
