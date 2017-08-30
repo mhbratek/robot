@@ -19,10 +19,12 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class RaveloScrapperTest {
 
+    public static final int BOOKS_NUM = 23;
+    private static final int NUM_OF_CATEGORIES = 1;
+
     private final String resourcePage = "src/test/resources/ravelo_test.html";
     private final String resourcePage1 = "src/test/resources/outlet_ravelo.html";
 
-    private static final int NUM_OF_CATEGORIES = 11;
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
@@ -34,7 +36,7 @@ public class RaveloScrapperTest {
     }
 
     @Test
-    public void shouldReturnTotalNumberOfPages() throws IOException {
+    public void shouldReturnTotalNumberOfCategories() throws IOException {
         //given
         RaveloScrapper raveloBookProvider = new RaveloScrapper(new JSOUPLoader());
 
@@ -57,7 +59,8 @@ public class RaveloScrapperTest {
         RaveloScrapper raveloScrapper = new RaveloScrapper(documentLoader);
 
         //then
-        assertEquals(raveloScrapper.prepareBookPackage(resourcePage).size(), 23);
+
+        assertEquals(raveloScrapper.prepareBookPackage(resourcePage).size(), BOOKS_NUM);
     }
 
 }

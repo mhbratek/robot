@@ -17,7 +17,7 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class MatrasScrapperTest {
 
-    public static final int BOOKS_ON_PAGE = 47;
+    public static final int BOOKS_ON_PAGE = 27;
     private final String resourcePage = "src/test/resources/matras_resource.html";
 
     @Test

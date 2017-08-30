@@ -82,6 +82,14 @@ public class RaveloScrapper implements BookScrapper{
         return booksByGenre;
     }
 
+    int getTotalNumberOfPages() {
+        String[] pages = shopConnection.getElementsByClass("pagination")
+                .text()
+                .replaceAll("[a-ż]+", "")
+                .split(" ");
+        return Integer.parseInt(pages[pages.length-1]);
+    }
+
     @Override
     public void initBookStore() {
         this.bookstore = new Bookstore();
@@ -98,14 +106,6 @@ public class RaveloScrapper implements BookScrapper{
             System.out.println("wrong url + " + linkToConnect);
         }
         return connection;
-    }
-
-    int getTotalNumberOfPages() {
-        String[] pages = shopConnection.getElementsByClass("pagination")
-                .text()
-                .replaceAll("[a-ż]+", "")
-                .split(" ");
-        return Integer.parseInt(pages[pages.length-1]);
     }
 
     @Override

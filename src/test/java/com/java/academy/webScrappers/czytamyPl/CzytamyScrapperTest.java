@@ -1,4 +1,4 @@
-package com.java.academy.webScrappers.gandalf;
+package com.java.academy.webScrappers.czytamyPl;
 
 import com.java.academy.webScrappers.DocumentLoader;
 import com.java.academy.webScrappers.JSOUPLoader;
@@ -14,20 +14,18 @@ import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 import static org.testng.Assert.assertEquals;
 
-
 @Test
-public class GandalfScrapperTest {
-
-    public static final int NUM_OF_BOOK = 30;
-    private final String resourcePage = "src/test/resources/Promocje i wyprzedaże książek _ Gandalf.com.pl.html";
+public class CzytamyScrapperTest {
+    public static final int BOOKS_ON_PAGE = 20; //for 10 times
+    private final String resourcePage = "src/test/resources/Księgarnia internetowa Czytam.pl.html";
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
-        GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
-        gandalfScrapper.initBookStore();
+        CzytamyScrapper czytamyScrapper = new CzytamyScrapper(new JSOUPLoader());
+        czytamyScrapper.initBookStore();
 
-        assertEquals(gandalfScrapper.getBookStore().getName(), "Gandalf");
-        assertEquals(gandalfScrapper.getBookStore().getUrl(), "http://www.gandalf.com.pl");
+        assertEquals(czytamyScrapper.getBookStore().getName(), "Czytamy");
+        assertEquals(czytamyScrapper.getBookStore().getUrl(), "http://czytam.pl");
     }
 
     @Test
@@ -38,9 +36,12 @@ public class GandalfScrapperTest {
 
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
-        GandalfScrapper gandalfScrapper = new GandalfScrapper(documentLoader);
+        CzytamyScrapper czytamyScrapper = new CzytamyScrapper(documentLoader);
 
         //then
-        assertEquals(gandalfScrapper.collectBooksFromGandalfBookstore().size(), NUM_OF_BOOK);
+        assertEquals(czytamyScrapper.collectBooksFromCzytamyPl().size(), BOOKS_ON_PAGE);
     }
+
 }
+
+
