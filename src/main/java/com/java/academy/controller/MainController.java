@@ -50,10 +50,7 @@ public class MainController {
 		return books;
 	}
 
-    @RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
-    public @ResponseBody List<Book> readStartBooks() {
-        return bookService.getBooksByFilter("category", "book");
-    }
+
 
     @RequestMapping(value = "/rest/books/{filter}/{data}", method = RequestMethod.GET)
     public @ResponseBody List<Book> read(@PathVariable String filter, @PathVariable String data) {
