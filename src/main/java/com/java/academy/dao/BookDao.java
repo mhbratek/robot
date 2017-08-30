@@ -1,11 +1,10 @@
 package com.java.academy.dao;
 
-import java.util.List;
-
+import com.java.academy.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.java.academy.model.Book;
+import java.util.List;
 
 @Repository
 public interface BookDao extends JpaRepository<Book, Long> {

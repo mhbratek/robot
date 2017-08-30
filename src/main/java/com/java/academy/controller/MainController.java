@@ -1,21 +1,19 @@
 package com.java.academy.controller;
 
 import com.java.academy.model.Book;
-import com.java.academy.model.bookstore.googlebookstore.*;
+import com.java.academy.model.bookstore.googlebookstore.GoogleBookStore;
 import com.java.academy.service.BookService;
+import com.java.academy.webScrappers.JSOUPLoader;
+import com.java.academy.webScrappers.gandalf.GandalfScrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import com.java.academy.model.Bookstore;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import webscrapper.gandalBookStore.GandalfScrapper;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/robot")
@@ -61,8 +59,8 @@ public class MainController {
 
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
-		GandalfScrapper gandalfScrapper = new GandalfScrapper();
-		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
+		GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
+		bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
 
 		GoogleBookStore bookStore = new GoogleBookStore();
 		bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
