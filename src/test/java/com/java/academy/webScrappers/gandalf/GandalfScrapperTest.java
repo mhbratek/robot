@@ -24,7 +24,6 @@ public class GandalfScrapperTest {
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
         GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
-        gandalfScrapper.initBookStore();
 
         assertEquals(gandalfScrapper.getBookStore().getName(), "Gandalf");
         assertEquals(gandalfScrapper.getBookStore().getUrl(), "http://www.gandalf.com.pl");

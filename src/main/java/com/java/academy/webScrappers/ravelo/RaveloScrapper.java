@@ -4,18 +4,16 @@ import com.java.academy.model.Book;
 import com.java.academy.model.Bookstore;
 import com.java.academy.webScrappers.BookScrapper;
 import com.java.academy.webScrappers.DocumentLoader;
-import com.java.academy.webScrappers.JSOUPLoader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RaveloScrapper implements BookScrapper{
     private static final int FIRST_ELEMENT = 0;
-    private final static String HOST = "https://www.ravelo.pl";
+    private static final String HOST = "https://www.ravelo.pl";
 
     private String url = "https://www.ravelo.pl/outlet";
     private Document shopConnection;
@@ -24,19 +22,14 @@ public class RaveloScrapper implements BookScrapper{
     private String bookCategory;
     private DocumentLoader loader;
 
-    public static void main(String[] args) {
-        RaveloScrapper raveloScrapper = new RaveloScrapper(new JSOUPLoader());
-        raveloScrapper.getBooksFromRavelo();
-    }
-
     RaveloScrapper(DocumentLoader documentLoader) {
         this.loader = documentLoader;
-        initBookStore();
+        this.bookstore = initBookStore("Ravelo", HOST);
     }
 
     public List<Book> getBooksFromRavelo() {
         List<Book> raveloBooks = new ArrayList<>();
-            Document raveloPromoBase = provideShopConnection(url);
+            Document raveloPromoBase = provideShopConnection(url, loader);
 
             collectLinksToAllBooksCategory(raveloPromoBase)
                     .forEach( link -> raveloBooks.addAll(prepareBookPackage(link)));
@@ -72,12 +65,12 @@ public class RaveloScrapper implements BookScrapper{
         List<Book> booksByGenre = new ArrayList<>();
         String nextPageLink;
 
-        this.shopConnection =  provideShopConnection(link);
+        this.shopConnection =  provideShopConnection(link, loader);
 
             for (int page = 0; page < getTotalNumberOfPages(); page++) {
                 booksByGenre.addAll(collectBooksFromSinglePage(shopConnection));
                 nextPageLink = link + "&p=" + (page+1);
-                provideShopConnection(nextPageLink);
+                provideShopConnection(nextPageLink, loader);
             }
         return booksByGenre;
     }
@@ -88,24 +81,6 @@ public class RaveloScrapper implements BookScrapper{
                 .replaceAll("[a-ż]+", "")
                 .split(" ");
         return Integer.parseInt(pages[pages.length-1]);
-    }
-
-    @Override
-    public void initBookStore() {
-        this.bookstore = new Bookstore();
-        this.bookstore.setName("Ravelo");
-        this.bookstore.setUrl(HOST);
-    }
-
-    @Override
-    public Document provideShopConnection(String linkToConnect)  {
-        Document connection = null;
-        try {
-            connection = loader.loadHTMLDocument(linkToConnect);
-        } catch (IOException e) {
-            System.out.println("wrong url + " + linkToConnect);
-        }
-        return connection;
     }
 
     @Override
@@ -165,14 +140,14 @@ public class RaveloScrapper implements BookScrapper{
 
     @Override
     public Double getBookPrice() {
-        Elements price = tempBook.getElementsByClass("newPrice");
-        return Double.parseDouble(price.text().replaceAll("[a-ż]+", ""));
+        return Double.parseDouble(getPropertyByClassName("newPrice", tempBook)
+                .replaceAll("[a-ż]+", ""));
     }
 
     @Override
     public String getDiscount() {
-        Elements discount = tempBook.getElementsByClass("save");
-        return discount.text().replaceAll("[a-ż]+", "-");
+        return getPropertyByClassName("save", tempBook)
+                .replaceAll("[a-ż]+", "-");
     }
 
     @Override

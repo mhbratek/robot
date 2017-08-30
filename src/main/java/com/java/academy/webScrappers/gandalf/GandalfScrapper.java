@@ -8,14 +8,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GandalfScrapper  implements BookScrapper {
 
     private static final int FIRST_ELEMENT = 0;
-    private final static String HOST = "http://www.gandalf.com.pl";
+    private static final String HOST = "http://www.gandalf.com.pl";
 
     private Element currentBook;
     private String url ="http://www.gandalf.com.pl/promocje/";
@@ -24,42 +23,24 @@ public class GandalfScrapper  implements BookScrapper {
 
     public GandalfScrapper(DocumentLoader loader) {
         this.loader = loader;
-        initBookStore();
+        this.bookstore = initBookStore("Gandalf", HOST);
     }
 
     public List<Book> collectBooksFromGandalfBookstore() {
         List<Book> books = new ArrayList<>();
 
-
-            Document doc = provideShopConnection(url);
+            Document doc = provideShopConnection(url, loader);
 //            Elements pages = doc.getElementsByClass("paging_number_link");
 //            int pagesNumber = Integer.parseInt(pages.get(pages.size()-1).text());
 //            for (int page = 1; page < pagesNumber-1; page++) { //to long to better performance just 5 pages
-            for (int page = 0; page < 10; page++) {
+        for (int page = FIRST_ELEMENT; page < 10; page++) {
                 books.addAll(collectBooksFromSinglePage(doc));
 
                 url = "http://www.gandalf.com.pl/promocje/" + (page + 1) + "/";
-                doc = provideShopConnection(url);
+                doc = provideShopConnection(url, loader);
             }
 
         return books;
-    }
-    @Override
-    public void initBookStore() {
-        bookstore = new Bookstore();
-        bookstore.setName("Gandalf");
-        bookstore.setUrl(HOST);
-    }
-
-    @Override
-    public Document provideShopConnection(String linkToConnect)  {
-        Document shopConnection = null;
-        try {
-             shopConnection = loader.loadHTMLDocument(linkToConnect);
-        } catch (IOException e) {
-            System.err.println("wrong url cannot connect "+ linkToConnect);
-        }
-        return shopConnection;
     }
 
     @Override
@@ -81,8 +62,7 @@ public class GandalfScrapper  implements BookScrapper {
 
     @Override
     public String getBookAuthor() {
-        Elements author = currentBook.getElementsByClass("h3");
-        return author.text();
+        return getPropertyByClassName("h3", currentBook);
     }
 
     @Override
@@ -93,15 +73,14 @@ public class GandalfScrapper  implements BookScrapper {
 
     @Override
     public String getBookCategory() {
-        Document productDetails = provideShopConnection(getBookLink());
+        Document productDetails = provideShopConnection(getBookLink(), loader);
         Elements genre = productDetails.getElementsByClass("product_categories");
-        return genre.text().substring(genre.text().lastIndexOf(":") + 1).trim();
+        return genre.text().substring(genre.text().lastIndexOf(':') + 1).trim();
     }
 
     @Override
     public String getBookTitle() {
-        Elements title = currentBook.getElementsByClass("h2");
-        return title.text();
+        return getPropertyByClassName("h2", currentBook);
     }
 
     @Override
@@ -112,15 +91,14 @@ public class GandalfScrapper  implements BookScrapper {
 
     @Override
     public Double getBookPrice() {
-        Elements price = currentBook.getElementsByClass("new_price");
-        return Double.parseDouble(price.text()
+        return Double.parseDouble(getPropertyByClassName("new_price", currentBook)
                 .replaceAll("[a-ż]+", "").replace(',', '.'));
     }
 
     @Override
     public String getDiscount() {
-        Elements discount = currentBook.getElementsByClass("price_dis");
-        return discount.text().replaceAll("[a-z]+", "");
+        return getPropertyByClassName("price_dis", currentBook)
+                .replaceAll("[a-z]+", "");
     }
 }
 

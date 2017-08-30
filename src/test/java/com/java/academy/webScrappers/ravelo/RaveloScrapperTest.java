@@ -29,7 +29,6 @@ public class RaveloScrapperTest {
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
         RaveloScrapper raveloBookProvider = new RaveloScrapper(new JSOUPLoader());
-        raveloBookProvider.initBookStore();
 
         assertEquals(raveloBookProvider.getBookStore().getName(), "Ravelo");
         assertEquals(raveloBookProvider.getBookStore().getUrl(), "https://www.ravelo.pl");

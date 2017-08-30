@@ -23,7 +23,6 @@ public class MatrasScrapperTest {
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
         MatrasScrapper matras = new MatrasScrapper(new JSOUPLoader());
-        matras.initBookStore();
 
         assertEquals(matras.getBookStore().getName(), "Matras");
         assertEquals(matras.getBookStore().getUrl(), "http://www.matras.pl");

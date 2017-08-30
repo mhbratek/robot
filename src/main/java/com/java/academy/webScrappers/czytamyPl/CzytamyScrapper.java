@@ -8,14 +8,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CzytamyScrapper implements BookScrapper {
 
-    private final static String HOST = "http://czytam.pl";
-    private final int FIRST_ELEMENT = 0;
+    private static final String HOST = "http://czytam.pl";
+    private static final int FIRST_ELEMENT = 0;
 
     private String url;
     private Bookstore bookstore;
@@ -24,7 +23,7 @@ public class CzytamyScrapper implements BookScrapper {
 
     public CzytamyScrapper(DocumentLoader loader) {
         this.loader = loader;
-        initBookStore();
+        this.bookstore = initBookStore("Czytamy", HOST);
     }
 
     public List<Book> collectBooksFromCzytamyPl() {
@@ -32,34 +31,10 @@ public class CzytamyScrapper implements BookScrapper {
 
         for (int page = 0; page < 10; page++) {
             url = "http://czytam.pl/ksiazki-promocje," + (page + 1) + ".html";
-            Document matrasBooks = provideShopConnection(url);
+            Document matrasBooks = provideShopConnection(url, loader);
             books.addAll(collectBooksFromSinglePage(matrasBooks));
         }
-
         return books;
-    }
-
-    @Override
-    public void initBookStore() {
-        bookstore = new Bookstore();
-        bookstore.setName("Czytamy");
-        bookstore.setUrl(HOST);
-    }
-
-    @Override
-    public Bookstore getBookStore() {
-        return this.bookstore;
-    }
-
-    @Override
-    public Document provideShopConnection(String linkToConnect) {
-        Document shopConnection = null;
-        try {
-            shopConnection = loader.loadHTMLDocument(linkToConnect);
-        } catch (IOException e) {
-            System.err.println("wrong url " + linkToConnect);
-        }
-        return shopConnection;
     }
 
     @Override
@@ -77,8 +52,7 @@ public class CzytamyScrapper implements BookScrapper {
 
     @Override
     public String getBookAuthor() {
-        Elements author = currentBook.getElementsByClass("product-author");
-        return author.text();
+        return getPropertyByClassName("product-author", currentBook);
     }
 
     @Override
@@ -89,15 +63,14 @@ public class CzytamyScrapper implements BookScrapper {
 
     @Override
     public String getBookCategory() {
-        Document details = provideShopConnection(getBookLink());
+        Document details = provideShopConnection(getBookLink(), loader);
         Elements category = details.getElementsByClass("headline-azure");
         return category.text().isEmpty() ? "nieznany" : category.text().replaceAll(getBookAuthor(), "").trim();
     }
 
     @Override
     public String getBookTitle() {
-        Elements title = currentBook.getElementsByClass("product-title");
-        return title.text();
+        return getPropertyByClassName("product-title", currentBook);
     }
 
     @Override
@@ -110,16 +83,19 @@ public class CzytamyScrapper implements BookScrapper {
 
     @Override
     public Double getBookPrice() {
-        Elements price = currentBook.getElementsByClass("strike");
-        return Double.parseDouble(price.text()
+        return Double.parseDouble(getPropertyByClassName("strike", currentBook)
                 .replaceAll(",", ".")
                 .replaceAll("[A-ż]+", ""));
     }
 
     @Override
     public String getDiscount() {
-        Elements discount = currentBook.getElementsByClass("icon_rabat");
-        return discount.text();
+        return getPropertyByClassName("icon_rabat", currentBook);
+    }
+
+    @Override
+    public Bookstore getBookStore() {
+        return bookstore;
     }
 }
 
