@@ -34,22 +34,20 @@ public class MainController {
 	
 	@RequestMapping("/books")
 	public String books(Model model) {
-		model.addAttribute("books", bookService.getAllBooks());
 
 		return "books";
 	}
 
-	@RequestMapping("/books2")
+	@RequestMapping("/booksTiles")
 	public String books2(Model model) {
-		model.addAttribute("books", bookService.getAllBooks());
 
-		return "books2";
+		return "booksTiles";
 	}
 
-	@RequestMapping(value = "/rest/books", method = RequestMethod.GET)
-	public @ResponseBody List<Book> read() {
-
-		return bookService.getAllBooks();
+	@RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
+	public @ResponseBody List<Book> readStartBooks() {
+		List<Book> books = bookService.getBooksByFilter("category", "book");
+		return books;
 	}
 
     @RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
