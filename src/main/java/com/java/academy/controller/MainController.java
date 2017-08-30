@@ -1,7 +1,7 @@
 package com.java.academy.controller;
 
 import com.java.academy.model.Book;
-import com.java.academy.model.bookstore.googlebookstore.*;
+import googlebookstore.*;
 import com.java.academy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import webscrapper.gandalBookStore.GandalfScrapper;
+import gandalBookStore.GandalfScrapper;
 
 @Controller
 @RequestMapping("/robot")
