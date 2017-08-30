@@ -1,23 +1,54 @@
-function sortUnicode(a,b){return a[0].toLowerCase().localeCompare(b[0].toLowerCase());}
-function sortIt(o,s,r,n,t,i) {
-    o.ord=!o.ord;
-    n=o.parentNode.cellIndex;
-    r=o.offsetParent.offsetParent.rows;
-    var rows=[],cols=[];s=s||1;
-    for(i=0;t=r[s+i];i++){
-        rows.push(t.cloneNode(true));
-        cols.push([t.cells[n].firstChild.nodeValue,i]);
+function convert(sValue, sDataType) {
+        switch(sDataType) {
+            case "int":
+                return parseInt(sValue);
+            case "float":
+                return parseFloat(sValue);
+            case "date":
+                return new Date(Date.parse(sValue));
+            default:
+                return sValue.toString();
+
+        }
     }
-    cols.sort(sortUnicode);
-    if(o.ord)cols.reverse()
-    for(i=0;t=r[s+i];i++){
-        var j = rows[cols[i][1]];
-        t.parentNode.replaceChild(j,t);
-        j.className=i%2?'odd':'even';
-    }
+
+function generateCompareTRs(iCol, sDataType) {
+
+    return  function compareTRs(oTR1, oTR2) {
+        var vValue1 = convert(oTR1.cells[iCol].firstChild.nodeValue, sDataType);
+        var vValue2 = convert(oTR2.cells[iCol].firstChild.nodeValue, sDataType);
+
+        if (vValue1 < vValue2) {
+            return -1;
+        } else if (vValue1 > vValue2) {
+            return 1;
+        } else {
+            return 0;
+        }
+    };
 }
-function toggleClass(o,s){
-    o.oldClassName=o.className
-    o.className=s
-    o.onmouseout=function(){o.className=o.oldClassName;}
+
+function sortTable(sTableID, iCol, sDataType) {
+    var oTable = document.getElementById(sTableID);
+    var oTBody = oTable.tBodies[0];
+    var colDataRows = oTBody.rows;
+    var aTRs = new Array;
+
+    for (var i=0; i < colDataRows.length; i++) {
+        aTRs[i] = colDataRows[i];
+    }
+
+    if (oTable.sortCol == iCol) {
+        aTRs.reverse();
+    } else {
+        aTRs.sort(generateCompareTRs(iCol, sDataType));
+    }
+
+    var oFragment = document.createDocumentFragment();
+    for (var i=0; i < aTRs.length; i++) {
+        oFragment.appendChild(aTRs[i]);
+    }
+
+    oTBody.appendChild(oFragment);
+    oTable.sortCol = iCol;
 }
