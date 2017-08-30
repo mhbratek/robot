@@ -26,21 +26,16 @@ public class MainController {
 
 	@RequestMapping()
 	public String welcome(Model model) {
-		model.addAttribute("start", "Robot application!");
-		model.addAttribute("content", "Team: Paweł S., Artur, Mateusz B.");
-
 		return "start";
 	}
 	
 	@RequestMapping("/books")
 	public String books(Model model) {
-
 		return "books";
 	}
 
 	@RequestMapping("/booksTiles")
 	public String books2(Model model) {
-
 		return "booksTiles";
 	}
 
@@ -57,7 +52,7 @@ public class MainController {
 		return books;
 	}
 
-	@RequestMapping(value = "/rest/add2", method = RequestMethod.POST)
+	@RequestMapping(value = "/rest/add", method = RequestMethod.POST)
 	public void addItems(@RequestBody String json) {
 		Gson gson = new Gson();
 		BookListWrapper bookListWrapper = gson.fromJson(json, BookListWrapper.class);
