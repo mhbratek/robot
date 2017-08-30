@@ -1,12 +1,16 @@
 package com.java.academy.webScrappers.gandalf;
 
+import com.java.academy.webScrappers.DocumentLoader;
+import com.java.academy.webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 import static org.testng.Assert.assertEquals;
 
@@ -18,7 +22,7 @@ public class GandalfScrapperTest {
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
-        GandalfScrapper gandalfScrapper = new GandalfScrapper();
+        GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
         gandalfScrapper.initBookStore();
 
         assertEquals(gandalfScrapper.getBookStore().getName(), "Gandalf");
@@ -28,13 +32,14 @@ public class GandalfScrapperTest {
     @Test
     public void shouldReturnAppropriateNumberOfBookFromGivenPage() throws IOException {
         //given
-        GandalfScrapper gandalfScrapper = new GandalfScrapper();
+        DocumentLoader documentLoader = mock(JSOUPLoader.class);
+        File in = getFile(resourcePage);
 
         //when
-        File in = getFile(resourcePage);
-        Document document = Jsoup.parse(in, "UTF-8");
+        when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
+        GandalfScrapper gandalfScrapper = new GandalfScrapper(documentLoader);
 
         //then
-        assertEquals(gandalfScrapper.collectBooksFromSinglePage(document).size(), 38);
+        assertEquals(gandalfScrapper.collectBooksFromGandalfBookstore().size(), 76);
     }
 }

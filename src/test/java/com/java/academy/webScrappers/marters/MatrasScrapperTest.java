@@ -1,12 +1,16 @@
 package com.java.academy.webScrappers.marters;
 
+import com.java.academy.webScrappers.DocumentLoader;
+import com.java.academy.webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 import static org.testng.Assert.assertEquals;
 
@@ -18,7 +22,7 @@ public class MatrasScrapperTest {
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
-        MatrasScrapper matras = new MatrasScrapper();
+        MatrasScrapper matras = new MatrasScrapper(new JSOUPLoader());
         matras.initBookStore();
 
         assertEquals(matras.getBookStore().getName(), "Matras");
@@ -28,14 +32,15 @@ public class MatrasScrapperTest {
     @Test
     public void shouldReturnAppropriateNumberOfBookFromGivenPage() throws IOException {
         //given
-        MatrasScrapper matras = new MatrasScrapper();
+        DocumentLoader documentLoader = mock(JSOUPLoader.class);
+        File in = getFile(resourcePage);
 
         //when
-        File in = getFile(resourcePage);
-        Document document = Jsoup.parse(in, "UTF-8");
+        when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
+        MatrasScrapper matras = new MatrasScrapper(documentLoader);
 
         //then
-        assertEquals(matras.collectBooksFromSinglePage(document).size(), BOOKS_ON_PAGE);
+        assertEquals(matras.collectBooksFromMatras().size(), BOOKS_ON_PAGE);
     }
 
 }

@@ -2,7 +2,6 @@ package com.java.academy.controller;
 
 import com.java.academy.model.Book;
 import com.java.academy.service.BookService;
-import com.java.academy.webScrappers.marters.MatrasScrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +43,7 @@ public class MainController {
 
 	@RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
 	public @ResponseBody List<Book> readStartBooks() {
-		return bookService.getBooksByFilter("author", "Jan Kamiński");
+		return bookService.getBooksByFilter("category", "book");
 	}
 
 	@RequestMapping(value = "/rest/books/{filter}/{data}", method = RequestMethod.GET)
@@ -57,10 +56,12 @@ public class MainController {
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
 //		GandalfScrapper gandalfScrapper = new GandalfScrapper();
-//		bookService.addBooksFromLibrary(gandalfScrapper.getBooksFromGandalf());
+//		MatrasScrapper matrasScrapper = new MatrasScrapper();
+//		RaveloBookProvider raveloBookProvider = new RaveloBookProvider();
+//		bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
+//		bookService.addBooksFromLibrary(matrasScrapper.collectBooksFromMatras());
+//		bookService.addBooksFromLibrary(raveloBookProvider.getBooksFromRavelo());
 
-		MatrasScrapper matrasScrapper = new MatrasScrapper();
-		bookService.addBooksFromLibrary(matrasScrapper.collectBooksFromMatras());
 		return "redirect:/robot/books";
 	}
 }

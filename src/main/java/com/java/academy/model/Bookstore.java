@@ -2,10 +2,11 @@ package com.java.academy.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "bookstores")
-public class Bookstore extends BaseEntity {
+public class Bookstore extends BaseEntity implements Serializable {
 
 	private String name;
 	private String url;

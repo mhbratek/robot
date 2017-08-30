@@ -1,16 +1,18 @@
 package com.java.academy.webScrappers.ravelo;
 
 
-import com.java.academy.model.Bookstore;
+import com.java.academy.webScrappers.DocumentLoader;
+import com.java.academy.webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.UnknownHostException;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 import static org.testng.Assert.assertEquals;
 
@@ -18,48 +20,44 @@ import static org.testng.Assert.assertEquals;
 public class RaveloScrapperTest {
 
     private final String resourcePage = "src/test/resources/ravelo_test.html";
+    private final String resourcePage1 = "src/test/resources/outlet_ravelo.html";
 
-    @DataProvider
-    public Object[][] wrongProvider(){
-        return new Object[][]{
-                {"http://WRONG.url"},
-                {"http://EVENWORSE.url"},
-        };
-    }
+    private static final int NUM_OF_CATEGORIES = 11;
 
-    @Test (dataProvider = "wrongProvider", expectedExceptions = UnknownHostException.class)
-    public void shouldReturnExceptionIfUrlIncorrect(String url) throws IOException {
-        //given
-        RaveloScrapper raveloScrapper = new RaveloScrapper(url, new Bookstore());
+    @Test
+    public void shouldInitializeBookstoreWithAppropriateValues() {
+        RaveloScrapper raveloBookProvider = new RaveloScrapper(new JSOUPLoader());
+        raveloBookProvider.initBookStore();
 
-        //then
-        raveloScrapper.provideShopConnection(url);
+        assertEquals(raveloBookProvider.getBookStore().getName(), "Ravelo");
+        assertEquals(raveloBookProvider.getBookStore().getUrl(), "https://www.ravelo.pl");
     }
 
     @Test
     public void shouldReturnTotalNumberOfPages() throws IOException {
         //given
-        RaveloScrapper raveloScrapper = new RaveloScrapper(resourcePage, new Bookstore());
+        RaveloScrapper raveloBookProvider = new RaveloScrapper(new JSOUPLoader());
 
         //when
-        File in = getFile(resourcePage);
+        File in = getFile(resourcePage1);
         Document document = Jsoup.parse(in, "UTF-8");
 
         //then
-        assertEquals(raveloScrapper.getTotalNumberOfPages(document), 1);
+        assertEquals(raveloBookProvider.collectLinksToAllBooksCategory(document).size(), NUM_OF_CATEGORIES);
     }
 
     @Test
     public void shouldReturnAppropriateNumberOfBookFromGivenPage() throws IOException {
         //given
-        RaveloScrapper raveloScrapper = new RaveloScrapper(resourcePage, new Bookstore());
+        DocumentLoader documentLoader = mock(JSOUPLoader.class);
+        File in = getFile(resourcePage);
 
         //when
-        File in = getFile(resourcePage);
-        Document document = Jsoup.parse(in, "UTF-8");
+        when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
+        RaveloScrapper raveloScrapper = new RaveloScrapper(documentLoader);
 
         //then
-        assertEquals(raveloScrapper.collectBooksFromSinglePage(document).size(), 23);
+        assertEquals(raveloScrapper.prepareBookPackage(resourcePage).size(), 23);
     }
 
 }
