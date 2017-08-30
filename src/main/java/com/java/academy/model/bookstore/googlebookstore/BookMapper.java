@@ -13,7 +13,9 @@ import java.util.List;
  */
 public class BookMapper {
 
-
+    private static final String DEFAULT_CATEGORY = "Book";
+    private static final int DEFAULT_PRICE = 0;
+    private static final String DEFAULT_AUTHOR = "Unknown";
 
     public static List<Book> mapFromGoogleBookStore(GoogleBook googleBook, Bookstore bookstore) {
         List<Book> books = new ArrayList<>();
@@ -47,7 +49,7 @@ public class BookMapper {
         if (ifBookHasCategory(book)) {
             bookToAdd.setCategory(book.getCategory());
         } else {
-            bookToAdd.setCategory("Book");
+            bookToAdd.setCategory(DEFAULT_CATEGORY);
         }
     }
 
@@ -61,7 +63,7 @@ public class BookMapper {
         if (ifBookHasPrice(book)) {
             bookToAdd.setPrice(new BigDecimal(book.getPrice()));
         } else {
-            bookToAdd.setPrice(new BigDecimal(0));
+            bookToAdd.setPrice(new BigDecimal(DEFAULT_PRICE));
         }
     }
     static void assignPromoDetails(Item book, Book bookToAdd) {
@@ -73,7 +75,7 @@ public class BookMapper {
         if (isAuthorExists(book)){
             bookToAdd.setAuthor(book.getAuthors());
         } else {
-            bookToAdd.setAuthor("Unknown");
+            bookToAdd.setAuthor(DEFAULT_AUTHOR);
         }
     }
 

@@ -6,6 +6,7 @@ import com.java.academy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
@@ -50,6 +51,18 @@ public class MainController {
 
 		return bookService.getAllBooks();
 	}
+
+    @RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
+    public @ResponseBody List<Book> readStartBooks() {
+        return bookService.getBooksByFilter("category", "book");
+    }
+
+    @RequestMapping(value = "/rest/books/{filter}/{data}", method = RequestMethod.GET)
+    public @ResponseBody List<Book> read(@PathVariable String filter, @PathVariable String data) {
+        List<Book> books = bookService.getBooksByFilter(filter, data);
+
+        return books;
+    }
 
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {

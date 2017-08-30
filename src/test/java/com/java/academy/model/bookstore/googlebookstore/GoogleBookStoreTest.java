@@ -10,10 +10,12 @@ import static org.testng.Assert.*;
  */
 public class GoogleBookStoreTest {
 
+    private static final int NUMBER_OF_COLLECTED_BOOKS = 440;
+
     @Test
     public void shouldReturn440Books() {
         GoogleBookStore bookStore = new GoogleBookStore();
 
-        assertEquals(bookStore.collectBooksFromGoogle().size(), 440);
+        assertEquals(bookStore.collectBooksFromGoogle().size(), NUMBER_OF_COLLECTED_BOOKS);
     }
 }
