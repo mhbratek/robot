@@ -3,11 +3,7 @@ package com.java.academy.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -16,20 +12,30 @@ import javax.validation.constraints.Size;
 public class Book extends BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = 3678107792576131001L;
+
 	@NotNull
+	@Size(max = 555)
 	private String title;
+
 	private String subtitle;
-	@NotNull
+
+//	@NotNull
 	private String author;
+
 	private String category;
+
 	private String promoDetails;
-	@NotNull
+
+//	@NotNull
 	private BigDecimal price;
+
 	@Size(max=555)
 	private String imgUrl;
-	@NotNull
+
+//	@NotNull
 	@Size(max=555)
 	private String url;
+
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "bookstore_id", nullable = false)
 	private Bookstore bookstore;

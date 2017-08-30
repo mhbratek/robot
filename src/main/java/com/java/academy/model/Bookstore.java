@@ -15,6 +15,11 @@ public class Bookstore extends BaseEntity implements Serializable {
 	
 	public Bookstore() {} //for hibernate
 
+	public Bookstore(String name, String url) {
+		this.name = name;
+		this.url = url;
+	}
+
 	public String getName() {
 		return name;
 	}

@@ -50,7 +50,7 @@
         <log4j.version>1.2.12</log4j.version>
         <jackson.mapper>2.8.4</jackson.mapper>
         <jsoup.scrapper>1.10.3</jsoup.scrapper>
-		
+
 		<!-- PLUGINS -->
 		<maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
 		<maven-war-plugin.version>3.1.0</maven-war-plugin.version>
@@ -103,7 +103,7 @@
 			<version>${java.servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.thymeleaf</groupId>
 		    <artifactId>thymeleaf</artifactId>
@@ -200,6 +200,29 @@
             <version>${jsoup.scrapper}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.11</version>
+        </dependency>
 
     </dependencies>
 
@@ -323,7 +346,7 @@
             </plugins>
         </pluginManagement>
 
-    </build>
+	</build>
 
     <reporting>
 
@@ -357,7 +380,7 @@
             </plugin>
 
             <plugin>
-                <groupId>org.jacoco</groupId>
+            <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
                 <reportSets>
@@ -370,4 +393,5 @@
             </plugin>
         </plugins>
     </reporting>
+
 </project>
