@@ -4,10 +4,13 @@
 	<groupId>com.java.academy</groupId>
 	<artifactId>robot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
     <modules>
         <module>webscrappers</module>
     </modules>
+
     <packaging>pom</packaging>
+
 	<name>Robot</name>
     <url>https://github.com/Ice94/robot</url>
 
@@ -231,6 +234,22 @@
 
     <build>
         <plugins>
+
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>exec</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- MAVEN PLUGINS -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

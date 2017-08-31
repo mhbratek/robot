@@ -33,7 +33,7 @@ public class GandalfScrapper  implements BookScrapper {
 //            Elements pages = doc.getElementsByClass("paging_number_link");
 //            int pagesNumber = Integer.parseInt(pages.get(pages.size()-1).text());
 //            for (int page = 1; page < pagesNumber-1; page++) { //to long to better performance just 5 pages
-        for (int page = FIRST_ELEMENT; page < 10; page++) {
+        for (int page = FIRST_ELEMENT; page < 2; page++) {
                 books.addAll(collectBooksFromSinglePage(doc));
 
                 url = "http://www.gandalf.com.pl/promocje/" + (page + 1) + "/";

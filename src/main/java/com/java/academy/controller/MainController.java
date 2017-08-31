@@ -1,6 +1,7 @@
 package com.java.academy.controller;
 
 import com.google.gson.Gson;
+
 import com.java.academy.model.Book;
 import com.java.academy.model.BookListWrapper;
 import com.java.academy.service.BookService;
@@ -61,10 +62,7 @@ public class MainController {
 
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
-		GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
-		bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
-		GoogleBookStore bookStore = new GoogleBookStore();
-		bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
+
 		return "redirect:/robot/books";
 	}
 

@@ -1,5 +1,6 @@
 package com.java.academy.configuration;
 
+import Scheduler.ScheduledTasks;
 import com.java.academy.interceptors.AuditingAPIInterceptor;
 import com.java.academy.interceptors.PerformanceMonitorInterceptor;
 import com.java.academy.view.JsonViewResolver;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -26,7 +28,8 @@ import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.java.academy")
+@EnableScheduling
+@ComponentScan(basePackages = "com.java.academy", basePackageClasses = ScheduledTasks.class)
 public class SpringMvcConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
