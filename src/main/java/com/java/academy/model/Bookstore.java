@@ -6,9 +6,9 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "bookstores")
-public class Bookstore extends BaseEntity implements Serializable{
+public class Bookstore extends BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = 3678107894576131001L;
+	private static final long serialVersionUID = 3678101234576131001L;
 
 	private String name;
 	private String url;

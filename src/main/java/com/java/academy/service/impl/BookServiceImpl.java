@@ -2,6 +2,7 @@ package com.java.academy.service.impl;
 
 import java.util.List;
 
+import com.java.academy.model.Bookstore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,14 @@ public class BookServiceImpl implements BookService {
 	}
 
 	public void addBooksFromLibrary(List<Book> books) {
-		bookstoreDao.save(books.get(0).getBookstore());
+		Bookstore bookstore = bookstoreDao.getBookstoreByName(books.get(0).getBookstore().getName());
+		if(bookstore == null) {
+			bookstore = bookstoreDao.save(books.get(0).getBookstore());
+		}
+		Bookstore finalBookstore = bookstore;
+		books.forEach(book -> {
+			book.setBookstore(finalBookstore);
+		});
 		bookDao.save(books);
 	}
 }
