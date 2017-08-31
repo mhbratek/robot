@@ -42,12 +42,6 @@ public class MainController {
 		return "booksTiles";
 	}
 
-	@RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
-	public @ResponseBody List<Book> readStartBooks() {
-		List<Book> books = bookService.getAllBooks();//bookService.getBooksByFilter("category", "book");
-		return books;
-	}
-
     @RequestMapping(value = "/rest/books/{filter}/{data}/{ByPriceRange}", method = RequestMethod.GET)
     public @ResponseBody Set<Book> read(@PathVariable String filter, @PathVariable String data,
 				   @MatrixVariable(pathVar="ByPriceRange") Map<String, List<String>> filterParams) {
@@ -55,13 +49,6 @@ public class MainController {
 
         return books;
     }
-//TODO do wyrzucenia
-	@RequestMapping(value = "/rest/books/{filter}/{data}", method = RequestMethod.GET)
-	public @ResponseBody List<Book> readBooks(@PathVariable String filter, @PathVariable String data) {
-		List<Book> books = bookService.getBooksByFilter(filter, data);
-
-		return books;
-	}
 
 	@RequestMapping(value = "/rest/add", method = RequestMethod.POST)
 	public void addItems(@RequestBody String json) {
@@ -70,7 +57,7 @@ public class MainController {
 		bookService.addBooksFromLibrary(bookListWrapper.getBooks());
 	}
 
-	@RequestMapping("/addBooks")
+	@RequestMapping("/addBooks") //TODO to remove after scheduling mechanism and ready REST API
 	public String addBooks(Model model) {
 		GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
 		bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
@@ -83,13 +70,3 @@ public class MainController {
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason="Wewnętrzny błąd serwera.")
 	public void handleServerErrors(Exception ex) {	}
 }
-/*
-
-try {
-			TempSender.sendingPostRequest("http://localhost:8090/robot/rest/add2");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-* */
