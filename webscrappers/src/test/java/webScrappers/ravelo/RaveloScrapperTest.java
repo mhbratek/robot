@@ -1,12 +1,12 @@
 package webScrappers.ravelo;
 
 
+import org.jsoup.Jsoup;
+import org.testng.annotations.Test;
 import webScrappers.DocumentLoader;
 import webScrappers.JSOUPLoader;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.testng.annotations.Test;
-import webScrappers.ravelo.RaveloScrapper;
+import webScrappers.mapper.BookMapper;
+import webScrappers.mapper.BookMapperByStore;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,12 +20,9 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class RaveloScrapperTest {
 
-    public static final int BOOKS_NUM = 23;
-    private static final int NUM_OF_CATEGORIES = 1;
+    public static final int BOOKS_NUM = 5;
 
     private final String resourcePage = "src/test/resources/ravelo_test.html";
-    private final String resourcePage1 = "src/test/resources/outlet_ravelo.html";
-
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
@@ -33,19 +30,6 @@ public class RaveloScrapperTest {
 
         assertEquals(raveloBookProvider.getBookStore().getName(), "Ravelo");
         assertEquals(raveloBookProvider.getBookStore().getUrl(), "https://www.ravelo.pl");
-    }
-
-    @Test
-    public void shouldReturnTotalNumberOfCategories() throws IOException {
-        //given
-        RaveloScrapper raveloBookProvider = new RaveloScrapper(new JSOUPLoader());
-
-        //when
-        File in = getFile(resourcePage1);
-        Document document = Jsoup.parse(in, "UTF-8");
-
-        //then
-        assertEquals(raveloBookProvider.collectLinksToAllBooksCategory(document).size(), NUM_OF_CATEGORIES);
     }
 
     @Test
@@ -57,10 +41,11 @@ public class RaveloScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         RaveloScrapper raveloScrapper = new RaveloScrapper(documentLoader);
+        BookMapper mapper = new BookMapperByStore(raveloScrapper);
 
         //then
 
-        assertEquals(raveloScrapper.prepareBookPackage(resourcePage).size(), BOOKS_NUM);
+        assertEquals(mapper.collectBooksFromBookStore().size(), BOOKS_NUM);
     }
 
 }

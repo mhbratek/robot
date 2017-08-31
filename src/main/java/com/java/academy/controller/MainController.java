@@ -4,9 +4,6 @@ import com.google.gson.Gson;
 import com.java.academy.model.Book;
 import com.java.academy.model.BookListWrapper;
 import com.java.academy.service.BookService;
-import googlebookstore.GoogleBookStore;
-import webScrappers.JSOUPLoader;
-import webScrappers.gandalf.GandalfScrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -61,10 +58,10 @@ public class MainController {
 
 	@RequestMapping("/addBooks")
 	public String addBooks(Model model) {
-		GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
-		bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
-		GoogleBookStore bookStore = new GoogleBookStore();
-		bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
+//		GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
+//		bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
+//		GoogleBookStore bookStore = new GoogleBookStore();
+//		bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
 		return "redirect:/robot/books";
 	}
 
