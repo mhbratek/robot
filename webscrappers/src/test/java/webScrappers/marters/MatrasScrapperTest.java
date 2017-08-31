@@ -1,9 +1,10 @@
-package com.java.academy.webScrappers.marters;
+package webScrappers.marters;
 
-import com.java.academy.webScrappers.DocumentLoader;
-import com.java.academy.webScrappers.JSOUPLoader;
+import webScrappers.DocumentLoader;
+import webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
+import webScrappers.marters.MatrasScrapper;
 
 import java.io.File;
 import java.io.IOException;

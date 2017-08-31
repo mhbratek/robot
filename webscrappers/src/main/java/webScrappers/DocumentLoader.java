@@ -1,4 +1,4 @@
-package com.java.academy.webScrappers;
+package webScrappers;
 
 import org.jsoup.nodes.Document;
 

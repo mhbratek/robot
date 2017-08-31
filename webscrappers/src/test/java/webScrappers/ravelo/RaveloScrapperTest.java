@@ -1,11 +1,12 @@
-package com.java.academy.webScrappers.ravelo;
+package webScrappers.ravelo;
 
 
-import com.java.academy.webScrappers.DocumentLoader;
-import com.java.academy.webScrappers.JSOUPLoader;
+import webScrappers.DocumentLoader;
+import webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.testng.annotations.Test;
+import webScrappers.ravelo.RaveloScrapper;
 
 import java.io.File;
 import java.io.IOException;

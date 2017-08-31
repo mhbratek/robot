@@ -1,9 +1,10 @@
-package com.java.academy.webScrappers.czytamyPl;
+package webScrappers.czytamyPl;
 
-import com.java.academy.webScrappers.DocumentLoader;
-import com.java.academy.webScrappers.JSOUPLoader;
+import webScrappers.DocumentLoader;
+import webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
+import webScrappers.czytamyPl.CzytamyScrapper;
 
 import java.io.File;
 import java.io.IOException;

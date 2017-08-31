@@ -1,9 +1,9 @@
-package com.java.academy.webScrappers.czytamyPl;
+package webScrappers.czytamyPl;
 
 import com.java.academy.model.Book;
 import com.java.academy.model.Bookstore;
-import com.java.academy.webScrappers.BookScrapper;
-import com.java.academy.webScrappers.DocumentLoader;
+import webScrappers.BookScrapper;
+import webScrappers.DocumentLoader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

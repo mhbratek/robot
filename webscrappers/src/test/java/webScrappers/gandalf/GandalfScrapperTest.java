@@ -1,9 +1,10 @@
-package com.java.academy.webScrappers.gandalf;
+package webScrappers.gandalf;
 
-import com.java.academy.webScrappers.DocumentLoader;
-import com.java.academy.webScrappers.JSOUPLoader;
+import webScrappers.DocumentLoader;
+import webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
+import webScrappers.gandalf.GandalfScrapper;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.java.academy.webScrappers;
+package webScrappers;
 
 import com.java.academy.model.Book;
 import com.java.academy.model.Bookstore;

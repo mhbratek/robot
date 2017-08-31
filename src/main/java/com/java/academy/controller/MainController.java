@@ -3,20 +3,17 @@ package com.java.academy.controller;
 import com.google.gson.Gson;
 import com.java.academy.model.Book;
 import com.java.academy.model.BookListWrapper;
-import com.java.academy.model.bookstore.googlebookstore.GoogleBookStore;
 import com.java.academy.service.BookService;
-import com.java.academy.webScrappers.JSOUPLoader;
-import com.java.academy.webScrappers.gandalf.GandalfScrapper;
+import googlebookstore.GoogleBookStore;
+import webScrappers.JSOUPLoader;
+import webScrappers.gandalf.GandalfScrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
 
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/robot")
