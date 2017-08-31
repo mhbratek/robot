@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,18 +44,24 @@ public class MainController {
 
 	@RequestMapping(value = "/rest/startBooks", method = RequestMethod.GET)
 	public @ResponseBody List<Book> readStartBooks() {
-		List<Book> books = bookService.getBooksByFilter("category", "book");
+		List<Book> books = bookService.getAllBooks();//bookService.getBooksByFilter("category", "book");
 		return books;
 	}
 
-
-
-    @RequestMapping(value = "/rest/books/{filter}/{data}", method = RequestMethod.GET)
-    public @ResponseBody List<Book> read(@PathVariable String filter, @PathVariable String data) {
-        List<Book> books = bookService.getBooksByFilter(filter, data);
+    @RequestMapping(value = "/rest/books/{filter}/{data}/{ByPriceRange}", method = RequestMethod.GET)
+    public @ResponseBody Set<Book> read(@PathVariable String filter, @PathVariable String data,
+				   @MatrixVariable(pathVar="ByPriceRange") Map<String, List<String>> filterParams) {
+        Set<Book> books = bookService.getBooksByParams(filter, data, filterParams);
 
         return books;
     }
+//TODO do wyrzucenia
+	@RequestMapping(value = "/rest/books/{filter}/{data}", method = RequestMethod.GET)
+	public @ResponseBody List<Book> readBooks(@PathVariable String filter, @PathVariable String data) {
+		List<Book> books = bookService.getBooksByFilter(filter, data);
+
+		return books;
+	}
 
 	@RequestMapping(value = "/rest/add", method = RequestMethod.POST)
 	public void addItems(@RequestBody String json) {

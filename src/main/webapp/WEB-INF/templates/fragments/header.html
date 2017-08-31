@@ -38,11 +38,21 @@
                             </div>
                         </span>
                         <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="set" th:placeholder="#{nav.findButton}">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooks(set)" th:text="#{nav.findButton}"></button>
-                        </span>
                     </div>
                 </form>
+
+                <form class="navbar-form navbar-left">
+                    <label for="price-min">Price low:  {{lower}}</label>
+                    <input type="range" ng-model="lower" id="price-min" value="0" min="0" max="500">
+                </form>
+                <form class="navbar-form navbar-left">
+                    <label for="price-max">Price high:  {{higher}}</label>
+                    <input type="range" ng-model="higher" id="price-max" value="200" min="0" max="2500">
+                </form>
+                <form class="navbar-form navbar-left">
+                    <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, lower, higher)" th:text="#{nav.findButton}"></button>
+                </form>
+                
                 <form class="navbar-form navbar-right">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><b> </b><td th:text="#{nav.langButton}"/></button>
@@ -61,6 +71,10 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+
+
+
+
 <!-- NORMAL HEADER -->
     <nav class="navbar navbar-default" th:fragment="header">
         <div class="container-fluid">
