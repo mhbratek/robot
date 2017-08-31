@@ -4,7 +4,10 @@
 	<groupId>com.java.academy</groupId>
 	<artifactId>robot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+    <modules>
+        <module>webscrappers</module>
+    </modules>
+    <packaging>pom</packaging>
 	<name>Robot</name>
     <url>https://github.com/Ice94/robot</url>
 
