@@ -1,159 +1,96 @@
 package webScrappers.ravelo;
 
-
-import com.java.academy.model.Book;
-import com.java.academy.model.Bookstore;
-import webScrappers.BookScrapper;
-import webScrappers.DocumentLoader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import webScrappers.AbstrackBookScrapper;
+import webScrappers.DocumentLoader;
+import webScrappers.JSOUPLoader;
+import webScrappers.mapper.BookMapper;
+import webScrappers.mapper.BookMapperByStore;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
-public class RaveloScrapper implements BookScrapper{
-    private static final int FIRST_ELEMENT = 0;
-    private static final String HOST = "https://www.ravelo.pl";
-
-    private String url = "https://www.ravelo.pl/outlet";
-    private Document shopConnection;
-    private Bookstore bookstore;
-    private Element tempBook;
-    private String bookCategory;
+public class RaveloScrapper extends AbstrackBookScrapper{
+    public static void main(String[] args) {
+        RaveloScrapper raveloScrapper = new RaveloScrapper(new JSOUPLoader());
+        BookMapper mapper = new BookMapperByStore(raveloScrapper);
+        mapper.collectBooksFromBookStore();
+    }
+    private String hostUrl;
     private DocumentLoader loader;
 
-    RaveloScrapper(DocumentLoader documentLoader) {
-        this.loader = documentLoader;
-        this.bookstore = initBookStore("Ravelo", HOST);
+    public RaveloScrapper(DocumentLoader loader) {
+        this.loader = loader;
+        this.hostUrl = "https://www.ravelo.pl";
+        initializeCztamScrapper();
     }
 
-    public List<Book> getBooksFromRavelo() {
-        List<Book> raveloBooks = new ArrayList<>();
-            Document raveloPromoBase = provideShopConnection(url, loader);
-
-            collectLinksToAllBooksCategory(raveloPromoBase)
-                    .forEach( link -> raveloBooks.addAll(prepareBookPackage(link)));
-
-        return raveloBooks;
-    }
-
-    List<String> collectLinksToAllBooksCategory(Document raveloPromoBase) {
-        Elements categories = raveloPromoBase.getElementsByClass("row showcase showcase6x1 m-books4 ");
-        List<String> categoryLinks = new ArrayList<>();
-
-        categories.forEach(element -> {
-            Elements links = element.getElementsByClass("see-more");
-
-            links.forEach(link -> {
-                categoryLinks.add(
-                        (HOST + link
-                                .getElementsByTag("a")
-                                .attr("href")
-                                .replaceAll(HOST, "")));
-            });
-        });
-
-        //last link is for toys so no need to check
-        categoryLinks.remove(categoryLinks.size() - 1);
-        //first is best offers so also no need to check
-        categoryLinks.remove(0);
-
-        return categoryLinks;
-    }
-
-    List<Book> prepareBookPackage(String link) {
-        List<Book> booksByGenre = new ArrayList<>();
-        String nextPageLink;
-
-        this.shopConnection =  provideShopConnection(link, loader);
-
-            for (int page = 0; page < getTotalNumberOfPages(); page++) {
-                booksByGenre.addAll(collectBooksFromSinglePage(shopConnection));
-                nextPageLink = link + "&p=" + (page+1);
-                provideShopConnection(nextPageLink, loader);
-            }
-        return booksByGenre;
-    }
-
-    int getTotalNumberOfPages() {
-        String[] pages = shopConnection.getElementsByClass("pagination")
-                .text()
-                .replaceAll("[a-ż]+", "")
-                .split(" ");
-        return Integer.parseInt(pages[pages.length-1]);
+    private void initializeCztamScrapper() {
+        bookstore = initBookStore("Ravelo", hostUrl);
+        authorClassName = "h3";
+        discountClassName = "price_dis";
+        titleClassName = "h2";
     }
 
     @Override
-    public List<Book> collectBooksFromSinglePage(Document connection) {
-        this.shopConnection = connection;
-        Elements bookContainer = connection.getElementsByClass("row productBox ");
-        List<Book> singlePage = new ArrayList<>();
+    public Elements getPageToCheck(int page) {
+        String url = "https://www.ravelo.pl/szukaj.html?query=&filterActive=1&search=1&filterCategory1" +
+                    "=Ksi%C4%85%C5%BCki&productsPerPage=24&filterIsSale" +
+                    "=0&filterIsOutlet=1&sortPublicationDate=desc&cat_id=12881" + "&p=" + (page+1);
 
-        bookContainer.forEach(book -> {
-            tempBook = book;
-            singlePage.add(setupBook());
-        });
+        Document ravelo = provideShopConnection(url, loader);
 
-        return singlePage;
+        return ravelo.getElementsByClass("row productBox ");
     }
 
     @Override
-    public String getBookAuthor() {
-        Elements author = tempBook.getElementsByClass("autor");
-        return author.get(FIRST_ELEMENT).getElementsByTag("a").get(FIRST_ELEMENT).text();
+    public String getBookAuthor(Element product) {
+        return product.getElementsByClass("autor")
+                .get(FIRST_ELEMENT).getElementsByTag("a").get(FIRST_ELEMENT).text();
     }
 
     @Override
-    public String getImageUrl() {
-        Elements image = tempBook.getElementsByClass("span2 imgContainer");
-        return image.get(FIRST_ELEMENT)
+    public String getImageUrl(Element product) {
+        return product.getElementsByClass("span2 imgContainer")
+                .get(FIRST_ELEMENT)
                 .getElementsByTag("a")
                 .get(FIRST_ELEMENT).getElementsByTag("img")
                 .attr("data-src");
     }
 
     @Override
-    public String getBookCategory() {
-        if (bookCategory == null || bookCategory.isEmpty()) {
-            Elements genre = shopConnection.getElementsByClass("searchNavHeader");
-            bookCategory = genre.get(FIRST_ELEMENT).text()
-                    .substring(genre.get(FIRST_ELEMENT).text().indexOf(':') + 1).trim();
-            return genre.get(FIRST_ELEMENT).text()
-                    .substring(genre.get(FIRST_ELEMENT).text().indexOf(':') + 1).trim();
-        }
-        return bookCategory;
+    public String getBookCategory(Element product) {
+        return "literatura";
     }
 
     @Override
-    public String getBookTitle() {
-        Elements title = tempBook.getElementsByTag("h2");
-        return title.text().replaceAll("Outlet", "");
+    public String getBookTitle(Element product) {
+        return product.getElementsByTag("h2")
+                .text().replaceAll("Outlet", "");
     }
 
     @Override
-    public String getBookLink() {
-        Elements bookLink = tempBook.getElementsByClass("span2 imgContainer");
-        return bookLink.get(FIRST_ELEMENT)
+    public String getBookLink(Element product) {
+        return product.getElementsByClass("span2 imgContainer")
+                .get(FIRST_ELEMENT)
                 .getElementsByTag("a")
                 .attr("href");
     }
 
     @Override
-    public Double getBookPrice() {
-        return Double.parseDouble(getPropertyByClassName("newPrice", tempBook)
-                .replaceAll("[a-ż]+", ""));
+    public BigDecimal getBookPrice(Element product) {
+        return new BigDecimal(Double.parseDouble(product.getElementsByClass("newPrice")
+                .text()
+                .replaceAll("[a-ż]+", "")));
     }
 
     @Override
-    public String getDiscount() {
-        return getPropertyByClassName("save", tempBook)
+    public String getDiscount(Element product) {
+        return product.getElementsByClass("save")
+                .text()
                 .replaceAll("[a-ż]+", "-");
     }
 
-    @Override
-    public Bookstore getBookStore() {
-        return bookstore;
-    }
 }
 
