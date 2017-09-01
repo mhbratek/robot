@@ -1,4 +1,4 @@
-package Scheduler;
+package com.java.academy.Scheduler;
 
 import com.java.academy.service.BookService;
 import googlebookstore.GoogleBookStore;

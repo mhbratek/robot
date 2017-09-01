@@ -1,5 +1,6 @@
 package webScrappers.czytamyPl;
 
+
 import com.java.academy.model.Book;
 import com.java.academy.model.Bookstore;
 import webScrappers.BookScrapper;

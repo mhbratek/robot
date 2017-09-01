@@ -8,18 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>webscrappers</artifactId>
-    <packaging>jar</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>com.java.academy</groupId>
-            <artifactId>Book</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
+<packaging>jar</packaging>
+    <artifactId>Book</artifactId>
+    
 
 </project>

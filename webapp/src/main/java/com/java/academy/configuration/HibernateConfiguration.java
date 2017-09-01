@@ -47,7 +47,7 @@ public class HibernateConfiguration {
         properties.put("hibernate.generate_statistics", environment.getProperty("hibernate.generate_statistics"));
 
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setPackagesToScan("com.java.academy.model");
+        factoryBean.setPackagesToScan("com.java.academy.com.java.academy.model");
         factoryBean.setJpaVendorAdapter(vendorAdapter);
         factoryBean.setJpaProperties(properties);
         factoryBean.setDataSource(dataSource());  

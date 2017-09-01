@@ -2,24 +2,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
         <artifactId>robot</artifactId>
         <groupId>com.java.academy</groupId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webscrappers</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>webapp</artifactId>
+<packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>com.java.academy</groupId>
             <artifactId>Book</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.java.academy</groupId>
+            <artifactId>webscrappers</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-
-
 </project>
