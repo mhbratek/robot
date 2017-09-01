@@ -1,10 +1,11 @@
-package webScrappers.czytamyPl;
+package webScrappers.matras;
 
 import webScrappers.DocumentLoader;
 import webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
-import webScrappers.czytamyPl.CzytamyScrapper;
+import webScrappers.mapper.BookMapper;
+import webScrappers.mapper.BookMapperByStore;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,16 +17,17 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static org.testng.Assert.assertEquals;
 
 @Test
-public class CzytamyScrapperTest {
-    public static final int BOOKS_ON_PAGE = 20; //for 10 times
-    private final String resourcePage = "src/test/resources/Księgarnia internetowa Czytam.pl.html";
+public class MatrasScrapperTest {
+
+    public static final int BOOKS_ON_PAGE = 5;
+    private final String resourcePage = "src/test/resources/matras_resource.html";
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
-        CzytamyScrapper czytamyScrapper = new CzytamyScrapper(new JSOUPLoader());
+        MatrasScrapper matras = new MatrasScrapper(new JSOUPLoader());
 
-        assertEquals(czytamyScrapper.getBookStore().getName(), "Czytamy");
-        assertEquals(czytamyScrapper.getBookStore().getUrl(), "http://czytam.pl");
+        assertEquals(matras.getBookStore().getName(), "Matras");
+        assertEquals(matras.getBookStore().getUrl(), "http://www.matras.pl");
     }
 
     @Test
@@ -36,12 +38,11 @@ public class CzytamyScrapperTest {
 
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
-        CzytamyScrapper czytamyScrapper = new CzytamyScrapper(documentLoader);
+        MatrasScrapper matras = new MatrasScrapper(documentLoader);
+        BookMapper mapper = new BookMapperByStore(matras);
 
         //then
-        assertEquals(czytamyScrapper.collectBooksFromCzytamyPl().size(), BOOKS_ON_PAGE);
+        assertEquals(mapper.collectBooksFromBookStore().size(), BOOKS_ON_PAGE);
     }
 
 }
-
-
