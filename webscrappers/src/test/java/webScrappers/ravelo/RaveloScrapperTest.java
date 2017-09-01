@@ -41,11 +41,11 @@ public class RaveloScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         RaveloScrapper raveloScrapper = new RaveloScrapper(documentLoader);
-        BookMapper mapper = new BookMapperByStore(raveloScrapper);
+        BookMapper mapper = new BookMapperByStore();
 
         //then
 
-        assertEquals(mapper.collectBooksFromBookStore().size(), BOOKS_NUM);
+        assertEquals(mapper.collectBooksFromBookStore(raveloScrapper).size(), BOOKS_NUM);
     }
 
 }

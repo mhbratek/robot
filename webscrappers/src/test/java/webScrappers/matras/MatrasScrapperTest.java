@@ -39,10 +39,10 @@ public class MatrasScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         MatrasScrapper matras = new MatrasScrapper(documentLoader);
-        BookMapper mapper = new BookMapperByStore(matras);
+        BookMapper mapper = new BookMapperByStore();
 
         //then
-        assertEquals(mapper.collectBooksFromBookStore().size(), BOOKS_ON_PAGE);
+        assertEquals(mapper.collectBooksFromBookStore(matras).size(), BOOKS_ON_PAGE);
     }
 
 }
