@@ -77,12 +77,16 @@
         <enforcer.requireMavenVersion>3.3.9</enforcer.requireMavenVersion>
         <enforcer.requireJavaVersion>1.8</enforcer.requireJavaVersion>
 
-        <!--DEPENDENCIES-->
+        <!-- TESTS -->
+        <mockito.version>1.10.19</mockito.version>
+        <testng.version>6.11</testng.version>
+        <spring.test.version>3.2.3.RELEASE</spring.test.version>
+        <junit.version>4.11</junit.version>
+
+        <!--QUALITY-->
         <findbugs.version>3.0.4</findbugs.version>
         <jacoco.version>0.7.9</jacoco.version>
         <sonar.version>3.3.0.603</sonar.version>
-        <mockito.version>1.10.19</mockito.version>
-        <testng.version>6.11</testng.version>
         <logback.version>1.2.3</logback.version>
         <checkstyle.version>2.17</checkstyle.version>
         <jxr.version>2.5</jxr.version>
@@ -186,6 +190,28 @@
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.test.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--Logger SLF4J-->

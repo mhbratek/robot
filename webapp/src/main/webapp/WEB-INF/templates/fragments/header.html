@@ -37,30 +37,47 @@
                                 <li><a href="#" ng-click="setFilter('bookstore')" th:text="#{nav.filterButtonBookstore}"></a></li>
                             </div>
                         </span>
-                        <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="set" th:placeholder="#{nav.findButton}">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooks(set)" th:text="#{nav.findButton}"></button>
-                        </span>
+                        <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="set" th:placeholder="#{nav.inputData}">
                     </div>
                 </form>
+
+                <form class="navbar-form navbar-left">
+                    <label for="price-min"><b th:text="#{nav.rangeLow}"/> {{lower}}</label>
+                    <input type="range" ng-model="lower" id="price-min" value="0" min="0" max="500">
+                </form>
+                <form class="navbar-form navbar-left">
+                    <label for="price-max"><b th:text="#{nav.rangeHigh}" /> {{higher}}</label>
+                    <input type="range" ng-model="higher" id="price-max" value="200" min="0" max="2500">
+                </form>
+                <form class="navbar-form navbar-left">
+                    <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, lower, higher)" th:text="#{nav.findButton}"></button>
+                </form>
+                
                 <form class="navbar-form navbar-right">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><b> </b><td th:text="#{nav.langButton}"/></button>
-                        <div class="dropdown-menu">
-                            <li><a href="?lang=en"><img src="/resource/img/flag_en.png"/><b> </b><td th:text="#{nav.langButtonEn}"></td></a></li>
-                            <li><a href="?lang=pl"><img src="/resource/img/flag_pl.png"/><b> </b><td th:text="#{nav.langButtonPl}"></td></a></li>
-                        </div>
-                    </span>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><b> </b><td th:text="#{nav.langButton}"/></button>
+                            <div class="dropdown-menu">
+                                <li><a href="?lang=en"><img src="/resource/img/flag_en.png"/><b> </b><td th:text="#{nav.langButtonEn}"></td></a></li>
+                                <li><a href="?lang=pl"><img src="/resource/img/flag_pl.png"/><b> </b><td th:text="#{nav.langButtonPl}"></td></a></li>
+                                <li><a href="?lang=ru"><img src="/resource/img/flag_ru.png"/><b> </b><td th:text="#{nav.langButtonRu}"></td></a></li>
+                            </div>
+                        </span>
+                    </div>
                 </form>
 
                 <form class="navbar-form navbar-right">
                     <div class="form-group">
                         <input type="text" class="form-control" aria-label="..." ng-model="search.$" th:placeholder="#{nav.filterInput}">
-                    </div><!-- /input-group -->
+                    </div>
                 </form>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+
+
+
+
 <!-- NORMAL HEADER -->
     <nav class="navbar navbar-default" th:fragment="header">
         <div class="container-fluid">
@@ -79,7 +96,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a th:href="@{/robot/books}" ng-init="getStartBooks()" th:text="#{nav.booksList}"></a></li>
-                    <li><a th:href="@{/robot/books2}" th:text="#{nav.booksTiles}"></a></li>
+                    <li><a th:href="@{/robot/booksTiles}" th:text="#{nav.booksTiles}"></a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->

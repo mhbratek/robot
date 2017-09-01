@@ -16,13 +16,13 @@
 <body>
 <div th:replace="fragments/header :: headerSearch"></div>
 <div th:replace="fragments/pagination :: paginationUp"></div>
-<div class="container" ng-init="getStartBooks()">
+<div class="container" ng-init="getBooksWithPriceRange(set, lower, higher)">
 	<div class="row">
 		<div dir-paginate="book in books | filter:search | itemsPerPage: pageSize" current-page="currentPage">
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 panel">
 				<div class="thumbnail">
 					<div class="caption">
-					<img src="{{book.imgUrl}}" height="120" width="180"/>
+						<img src="{{book.imgUrl}}" height="220" width="160"/>
 						<h3>{{book.title}}  {{book.subtitle}}</h3>
 						{{book.author}}
 						{{book.category}}

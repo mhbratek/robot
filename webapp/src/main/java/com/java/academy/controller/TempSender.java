@@ -51,4 +51,15 @@ public class TempSender {
         //printing result from response
         System.out.println(response.toString());
     }
+
+    /*
+
+try {
+			TempSender.sendingPostRequest("http://localhost:8090/robot/rest/add2");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+* */
 }

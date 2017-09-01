@@ -18,7 +18,7 @@ public class ScheduledTasks {
     @Autowired
     private BookService bookService;
 
-    @Scheduled(fixedRate = 20000)
+    @Scheduled(fixedRate = 40000)
     public void scheduleFixedDelayTask() {
         System.out.println("Start collecting data: " + new Date().toString());
         GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());

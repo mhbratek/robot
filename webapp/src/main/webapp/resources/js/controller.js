@@ -1,15 +1,14 @@
 angular.module('searchingManager', ['angularUtils.directives.dirPagination'])
     .controller('AppCtl', function($scope, $filter, $http, jsonFilter){
 
-        $scope.getStartBooks = function() {
-            $http.get('/robot/rest/startBooks').success(function(data) {
+        $scope.getBooks = function(data) {
+            $http.get('/robot/rest/books/'+$scope.myFilter+"/"+data).success(function(data) {
                 $scope.books = data;
             });
         };
 
-        $scope.getBooks = function(data) {
-            window.alert($scope.myFilter+ "   " + data);
-            $http.get('/robot/rest/books/'+$scope.myFilter+"/"+data).success(function(data) {
+        $scope.getBooksWithPriceRange = function(data, lower, higher) {
+            $http.get('/robot/rest/books/'+$scope.myFilter+"/"+data+"/price;low="+lower+";high="+higher).success(function(data) {
                 $scope.books = data;
             });
         };
@@ -19,9 +18,11 @@ angular.module('searchingManager', ['angularUtils.directives.dirPagination'])
             window.alert($scope.myFilter);
         };
 
+        $scope.lower = 0;
+        $scope.higher = 200;
         $scope.myFilter = 'Set filter'
         $scope.currentPage = 1;
-        $scope.pageSize = 10;
+        $scope.pageSize = 20;
         $scope.meals = [];
     });
 
