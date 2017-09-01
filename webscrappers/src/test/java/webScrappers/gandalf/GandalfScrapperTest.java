@@ -40,9 +40,9 @@ public class GandalfScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         GandalfScrapper gandalfScrapper = new GandalfScrapper(documentLoader);
-        BookMapper mapper = new BookMapperByStore(gandalfScrapper);
+        BookMapper mapper = new BookMapperByStore();
 
         //then
-        assertEquals(mapper.collectBooksFromBookStore().size(), NUM_OF_BOOK);
+        assertEquals(mapper.collectBooksFromBookStore(gandalfScrapper).size(), NUM_OF_BOOK);
     }
 }
