@@ -29,7 +29,7 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @EnableScheduling
-@ComponentScan(basePackages = "com.java.academy", basePackageClasses = ScheduledTasks.class)
+@ComponentScan(basePackages = "com.java.academy")
 public class SpringMvcConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;

@@ -7,6 +7,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import webScrappers.JSOUPLoader;
 import webScrappers.gandalf.GandalfScrapper;
+import webScrappers.mapper.BookMapper;
+import webScrappers.mapper.BookMapperByStore;
 
 import java.util.Date;
 
@@ -20,7 +22,8 @@ public class ScheduledTasks {
     public void scheduleFixedDelayTask() {
         System.out.println("Start collecting data: " + new Date().toString());
         GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
-        bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
+        BookMapper mapper = new BookMapperByStore(gandalfScrapper);
+        bookService.addBooksFromLibrary(mapper.collectBooksFromBookStore());
         GoogleBookStore bookStore = new GoogleBookStore();
         bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
     }
