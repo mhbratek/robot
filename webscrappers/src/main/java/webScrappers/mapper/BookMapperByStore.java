@@ -23,7 +23,7 @@ public class BookMapperByStore implements BookMapper {
 
         List<Book> books = new ArrayList<>();
 
-        totalPageToCheck = 5;
+        totalPageToCheck = 2;
         for (int page = FIRST; page < totalPageToCheck; page++) {
             Elements booksFromStore = bookScrapper.getPageToCheck(page);
 

@@ -1,6 +1,5 @@
 package com.java.academy.configuration;
 
-import com.java.academy.Scheduler.ScheduledTasks;
 import com.java.academy.interceptors.AuditingAPIInterceptor;
 import com.java.academy.interceptors.PerformanceMonitorInterceptor;
 import com.java.academy.view.JsonViewResolver;
