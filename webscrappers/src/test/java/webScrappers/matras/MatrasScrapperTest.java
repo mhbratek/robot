@@ -1,10 +1,9 @@
-package webScrappers.ravelo;
+package webScrappers.matras;
 
-
-import org.jsoup.Jsoup;
-import org.testng.annotations.Test;
 import webScrappers.DocumentLoader;
 import webScrappers.JSOUPLoader;
+import org.jsoup.Jsoup;
+import org.testng.annotations.Test;
 import webScrappers.mapper.BookMapper;
 import webScrappers.mapper.BookMapperByStore;
 
@@ -18,18 +17,17 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static org.testng.Assert.assertEquals;
 
 @Test
-public class RaveloScrapperTest {
+public class MatrasScrapperTest {
 
-    public static final int BOOKS_NUM = 2;
-
-    private final String resourcePage = "src/test/resources/ravelo_test.html";
+    public static final int BOOKS_ON_PAGE = 2;
+    private final String resourcePage = "src/test/resources/matras_resource.html";
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
-        RaveloScrapper raveloBookProvider = new RaveloScrapper(new JSOUPLoader());
+        MatrasScrapper matras = new MatrasScrapper(new JSOUPLoader());
 
-        assertEquals(raveloBookProvider.getBookStore().getName(), "Ravelo");
-        assertEquals(raveloBookProvider.getBookStore().getUrl(), "https://www.ravelo.pl");
+        assertEquals(matras.getBookStore().getName(), "Matras");
+        assertEquals(matras.getBookStore().getUrl(), "http://www.matras.pl");
     }
 
     @Test
@@ -40,12 +38,11 @@ public class RaveloScrapperTest {
 
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
-        RaveloScrapper raveloScrapper = new RaveloScrapper(documentLoader);
+        MatrasScrapper matras = new MatrasScrapper(documentLoader);
         BookMapper mapper = new BookMapperByStore();
 
         //then
-
-        assertEquals(mapper.collectBooksFromBookStore(raveloScrapper).size(), BOOKS_NUM);
+        assertEquals(mapper.collectBooksFromBookStore(matras).size(), BOOKS_ON_PAGE);
     }
 
 }
