@@ -20,7 +20,7 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class GandalfScrapperTest {
 
-    public static final int NUM_OF_BOOK = 5;
+    public static final int NUM_OF_BOOK = 2;
     private final String resourcePage = "src/test/resources/Promocje i wyprzedaże książek _ Gandalf.com.pl.html";
 
     @Test
@@ -40,9 +40,9 @@ public class GandalfScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         GandalfScrapper gandalfScrapper = new GandalfScrapper(documentLoader);
-        BookMapper mapper = new BookMapperByStore(gandalfScrapper);
+        BookMapper mapper = new BookMapperByStore();
 
         //then
-        assertEquals(mapper.collectBooksFromBookStore().size(), NUM_OF_BOOK);
+        assertEquals(mapper.collectBooksFromBookStore(gandalfScrapper).size(), NUM_OF_BOOK);
     }
 }

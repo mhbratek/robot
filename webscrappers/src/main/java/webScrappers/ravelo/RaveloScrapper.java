@@ -12,11 +12,7 @@ import webScrappers.mapper.BookMapperByStore;
 import java.math.BigDecimal;
 
 public class RaveloScrapper extends AbstrackBookScrapper{
-    public static void main(String[] args) {
-        RaveloScrapper raveloScrapper = new RaveloScrapper(new JSOUPLoader());
-        BookMapper mapper = new BookMapperByStore(raveloScrapper);
-        mapper.collectBooksFromBookStore();
-    }
+
     private String hostUrl;
     private DocumentLoader loader;
 

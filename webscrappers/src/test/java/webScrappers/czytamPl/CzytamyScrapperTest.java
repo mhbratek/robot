@@ -18,7 +18,7 @@ import static org.testng.Assert.assertEquals;
 
 @Test
 public class CzytamyScrapperTest {
-    public static final int BOOKS_ON_PAGE = 5; //for 5 times
+    public static final int BOOKS_ON_PAGE = 2; //for 5 times
     private final String resourcePage = "src/test/resources/Księgarnia internetowa Czytam.pl.html";
 
     @Test
@@ -38,10 +38,10 @@ public class CzytamyScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         CzytamyScrapper czytamyScrapper = new CzytamyScrapper(documentLoader);
-        BookMapper bookMapper = new BookMapperByStore(czytamyScrapper);
+        BookMapper bookMapper = new BookMapperByStore();
 
         //then
-        assertEquals(bookMapper.collectBooksFromBookStore().size(), BOOKS_ON_PAGE);
+        assertEquals(bookMapper.collectBooksFromBookStore(czytamyScrapper).size(), BOOKS_ON_PAGE);
     }
 
 }

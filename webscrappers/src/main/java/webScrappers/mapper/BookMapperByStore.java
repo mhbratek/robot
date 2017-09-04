@@ -14,16 +14,16 @@ public class BookMapperByStore implements BookMapper {
     private BookScrapper bookScrapper;
     private int totalPageToCheck;
 
-    public BookMapperByStore(BookScrapper bookScrapper) {
-        this.bookScrapper = bookScrapper;
-    }
+
 
     @Override
-    public List<Book> collectBooksFromBookStore() {
+    public List<Book> collectBooksFromBookStore(BookScrapper bookScrapper) {
+
+        this.bookScrapper = bookScrapper;
 
         List<Book> books = new ArrayList<>();
 
-        totalPageToCheck = 5;
+        totalPageToCheck = 2;
         for (int page = FIRST; page < totalPageToCheck; page++) {
             Elements booksFromStore = bookScrapper.getPageToCheck(page);
 

@@ -19,7 +19,7 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class MatrasScrapperTest {
 
-    public static final int BOOKS_ON_PAGE = 5;
+    public static final int BOOKS_ON_PAGE = 2;
     private final String resourcePage = "src/test/resources/matras_resource.html";
 
     @Test
@@ -39,10 +39,10 @@ public class MatrasScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         MatrasScrapper matras = new MatrasScrapper(documentLoader);
-        BookMapper mapper = new BookMapperByStore(matras);
+        BookMapper mapper = new BookMapperByStore();
 
         //then
-        assertEquals(mapper.collectBooksFromBookStore().size(), BOOKS_ON_PAGE);
+        assertEquals(mapper.collectBooksFromBookStore(matras).size(), BOOKS_ON_PAGE);
     }
 
 }
