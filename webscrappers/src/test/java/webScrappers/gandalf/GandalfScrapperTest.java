@@ -20,7 +20,7 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class GandalfScrapperTest {
 
-    public static final int NUM_OF_BOOK = 5;
+    public static final int NUM_OF_BOOK = 2;
     private final String resourcePage = "src/test/resources/Promocje i wyprzedaże książek _ Gandalf.com.pl.html";
 
     @Test

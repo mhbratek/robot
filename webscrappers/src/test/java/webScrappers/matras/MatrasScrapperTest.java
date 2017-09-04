@@ -19,7 +19,7 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class MatrasScrapperTest {
 
-    public static final int BOOKS_ON_PAGE = 5;
+    public static final int BOOKS_ON_PAGE = 2;
     private final String resourcePage = "src/test/resources/matras_resource.html";
 
     @Test
