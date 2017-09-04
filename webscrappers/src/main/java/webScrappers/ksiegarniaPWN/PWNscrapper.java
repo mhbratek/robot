@@ -5,18 +5,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import webScrappers.AbstrackBookScrapper;
 import webScrappers.DocumentLoader;
-import webScrappers.JSOUPLoader;
-import webScrappers.mapper.BookMapper;
-import webScrappers.mapper.BookMapperByStore;
 
 import java.math.BigDecimal;
 
 public class PWNscrapper extends AbstrackBookScrapper {
-    public static void main(String[] args) {
-        PWNscrapper pwNscrapper = new PWNscrapper(new JSOUPLoader());
-        BookMapper mapper = new BookMapperByStore(pwNscrapper);
-        mapper.collectBooksFromBookStore();
-    }
 
     private String hostUrl;
     private DocumentLoader loader;
@@ -43,6 +35,21 @@ public class PWNscrapper extends AbstrackBookScrapper {
     }
 
     @Override
+    public String getBookAuthor(Element product) {
+        StringBuffer buffer = new StringBuffer();
+        Elements element = product.getElementsByClass(authorClassName);
+        int NumberOfAuthors = element.size() / 2;
+        if (element.size() > 0) {
+            for (int i = FIRST_ELEMENT; i < NumberOfAuthors; i++) {
+                buffer.append(element.get(i).text());
+            }
+        } else
+            buffer.append("nieznany");
+
+        return buffer.toString();
+    }
+
+    @Override
     public String getImageUrl(Element product) {
         return product.getElementsByClass("emp-image")
                 .get(FIRST_ELEMENT).getElementsByTag("img").attr("src");
@@ -51,13 +58,13 @@ public class PWNscrapper extends AbstrackBookScrapper {
     @Override
     public String getBookCategory(Element product) {
         Document details = provideShopConnection(getBookLink(product), loader);
-        String category = details.getElementsByClass("category wartosc").text();
-        return category.isEmpty() ? "nieznany" : category;
+        return details.getElementsByClass("category wartosc") == null ? "nieznany"
+                : details.getElementsByClass("category wartosc").text();
     }
 
     @Override
     public String getBookLink(Element product) {
-        return hostUrl + product.getElementsByClass("emp-info-container")
+        return hostUrl + product.getElementsByClass("emp-image")
                 .get(FIRST_ELEMENT)
                 .getElementsByTag("a")
                 .attr("href");
@@ -68,7 +75,15 @@ public class PWNscrapper extends AbstrackBookScrapper {
         return new BigDecimal(Double.parseDouble(product.getElementsByClass("emp-sale-price-value")
                 .text()
                 .replaceAll(",", ".")
-                .replaceAll("[A-ż]+", "")));
+                .substring(0, product.getElementsByClass("emp-sale-price-value")
+                        .text().indexOf("zł"))
+                .trim()));
+    }
+
+    @Override
+    public String getDiscount(Element product) {
+        Elements elements = product.getElementsByClass(discountClassName);
+        return elements.size() > 0 ? elements.get(FIRST_ELEMENT).text() : "-";
     }
 
 }

@@ -49,7 +49,7 @@ public class GandalfScrapper extends AbstrackBookScrapper {
     public String getBookCategory(Element product) {
         Document productDetails = provideShopConnection(getBookLink(product), loader);
         Elements genre = productDetails.getElementsByClass("product_categories");
-        return genre.text().substring(genre.text().lastIndexOf(':') + 1).trim();
+        return genre == null? "nieznany" : genre.text().substring(genre.text().lastIndexOf(':') + 1).trim();
     }
 
     @Override

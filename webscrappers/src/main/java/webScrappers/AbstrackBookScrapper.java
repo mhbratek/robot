@@ -38,7 +38,7 @@ public abstract class AbstrackBookScrapper implements BookScrapper {
 
     @Override
     public String getBookAuthor(Element product) {
-        return product.getElementsByClass(authorClassName).get(FIRST_ELEMENT).text();
+        return product.getElementsByClass(authorClassName).text();
     }
 
     @Override

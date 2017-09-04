@@ -49,9 +49,9 @@ public class MatrasScrapper extends AbstrackBookScrapper{
     @Override
     public String getBookCategory(Element product) {
         Document details = provideShopConnection(getBookLink(product), loader);
-        Elements category = details.getElementsByClass("m-list");
-        return category.text().isEmpty() ? "nieznany" : category.text()
-                                                    .substring(category.text()
+        return details.getElementsByClass("m-list") == null ? "nieznany" :
+                details.getElementsByClass("m-list").text()
+                                                    .substring(details.getElementsByClass("m-list").text()
                                                     .lastIndexOf("Książki") + "Książki".length()).trim();
             }
 

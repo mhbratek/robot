@@ -43,8 +43,9 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
     @Override
     public String getBookCategory(Element product) {
         Document details = provideShopConnection(getBookLink(product), loader);
-        String category = details.getElementsByClass("headline-azure").text();
-        return category.isEmpty() ? "nieznany" : category.replaceAll(getBookAuthor(product), "").trim();
+        return details.getElementsByClass("headline-azure") == null ? "nieznany"
+                : details.getElementsByClass("headline-azure").text()
+                .replaceAll(getBookAuthor(product), "").trim();
     }
 
     @Override
@@ -62,7 +63,6 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
                 .replaceAll(",", ".")
                 .replaceAll("[A-ż]+", "")));
     }
-
 }
 
 

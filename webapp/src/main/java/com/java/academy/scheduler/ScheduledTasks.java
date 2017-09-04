@@ -9,10 +9,12 @@ import webScrappers.BookScrapper;
 import webScrappers.JSOUPLoader;
 import webScrappers.czytamPl.CzytamyScrapper;
 import webScrappers.gandalf.GandalfScrapper;
+import webScrappers.ksiegarniaPWN.PWNscrapper;
 import webScrappers.mapper.BookMapper;
 import webScrappers.mapper.BookMapperByStore;
 import webScrappers.matras.MatrasScrapper;
 import webScrappers.ravelo.RaveloScrapper;
+import webScrappers.taniaKsiazka.TaniaKsiazkaScrapper;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -31,9 +33,11 @@ public class ScheduledTasks {
 
         List<BookScrapper> bookstores = Arrays.asList(
                 new GandalfScrapper(new JSOUPLoader()),
-                new CzytamyScrapper(new JSOUPLoader()),
                 new MatrasScrapper(new JSOUPLoader()),
-                new RaveloScrapper(new JSOUPLoader())
+                new CzytamyScrapper(new JSOUPLoader()),
+                new RaveloScrapper(new JSOUPLoader()),
+                new PWNscrapper(new JSOUPLoader()),
+                new TaniaKsiazkaScrapper(new JSOUPLoader())
         );
 
         bookService.addBooksFromLibrary(bookstores.stream()
