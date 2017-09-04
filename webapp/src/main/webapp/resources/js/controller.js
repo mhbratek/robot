@@ -23,7 +23,6 @@ angular.module('searchingManager', ['angularUtils.directives.dirPagination'])
         $scope.myFilter = 'Set filter'
         $scope.currentPage = 1;
         $scope.pageSize = 20;
-        $scope.meals = [];
     });
 
 function OtherController($scope) {
