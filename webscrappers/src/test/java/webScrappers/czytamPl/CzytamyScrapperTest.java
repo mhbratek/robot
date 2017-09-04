@@ -18,7 +18,7 @@ import static org.testng.Assert.assertEquals;
 
 @Test
 public class CzytamyScrapperTest {
-    public static final int BOOKS_ON_PAGE = 5; //for 5 times
+    public static final int BOOKS_ON_PAGE = 2; //for 5 times
     private final String resourcePage = "src/test/resources/Księgarnia internetowa Czytam.pl.html";
 
     @Test

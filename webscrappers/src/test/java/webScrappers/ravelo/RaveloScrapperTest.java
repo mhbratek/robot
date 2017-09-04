@@ -20,7 +20,7 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class RaveloScrapperTest {
 
-    public static final int BOOKS_NUM = 5;
+    public static final int BOOKS_NUM = 2;
 
     private final String resourcePage = "src/test/resources/ravelo_test.html";
 
