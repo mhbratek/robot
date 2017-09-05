@@ -20,6 +20,11 @@ public class VolumeInfo {
 
     }
 
+    public VolumeInfo(String title, String infoLink) {
+        this.title = title;
+        this.infoLink = infoLink;
+    }
+
     public String getTitle() {
         return title;
     }
