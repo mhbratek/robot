@@ -52,8 +52,10 @@ public class MainController {
 		bookstore.setUrl("http://www.matras.pl");
 		bookstore.setName("matras");
 
-		Book book = new Book("Lalka", "Bolesław Prus", "book", null, bookstore);
-		CollectionTime collectionTime = new CollectionTime(book, new BigDecimal(Math.random()) ,new Date());
+
+		BigDecimal price = new BigDecimal(Math.random());
+		Book book = new Book("Lalka", "Bolesław Prus", "book", null, price,  bookstore);
+		CollectionTime collectionTime = new CollectionTime(book, price ,new Date());
 		collectionTime.setDate(new Date());
 
 		bookService.addBook(book, collectionTime);
