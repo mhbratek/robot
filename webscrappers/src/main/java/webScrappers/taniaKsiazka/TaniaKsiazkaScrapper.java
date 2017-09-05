@@ -42,7 +42,7 @@ public class TaniaKsiazkaScrapper extends AbstrackBookScrapper {
     @Override
     public String getImageUrl(Element product) {
         return product.getElementsByClass("photo")
-                .get(FIRST_ELEMENT).getElementsByTag("img").attr("src");
+                .select("img").attr("src");
     }
 
     @Override
@@ -56,14 +56,13 @@ public class TaniaKsiazkaScrapper extends AbstrackBookScrapper {
     @Override
     public String getBookLink(Element product) {
         return hostUrl + product.getElementsByClass("ecommerce-datalayer ")
-                .get(FIRST_ELEMENT)
-                .getElementsByTag("a")
+                .select("a")
                 .attr("href");
     }
 
     @Override
     public BigDecimal getBookPrice(Element product) {
-        return new BigDecimal(Double.parseDouble(product.getElementsByClass("ecommerce-datalayer ")
+        return BigDecimal.valueOf(Double.parseDouble(product.getElementsByClass("ecommerce-datalayer ")
                 .attr("data-price")
                 .replaceAll(",", ".")
                 .replaceAll("[A-ż]+", "")));

@@ -26,7 +26,7 @@ public abstract class AbstrackBookScrapper implements BookScrapper {
         try {
             shopConnection = loader.loadHTMLDocument(linkToConnect);
         } catch (IOException e) {
-            System.err.println("wrong url cannot connect "+ linkToConnect);
+            System.err.println(e.getMessage());
         }
         return shopConnection;
     }

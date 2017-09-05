@@ -52,27 +52,29 @@ public class PWNscrapper extends AbstrackBookScrapper {
     @Override
     public String getImageUrl(Element product) {
         return product.getElementsByClass("emp-image")
-                .get(FIRST_ELEMENT).getElementsByTag("img").attr("src");
+                .select("img").attr("src");
     }
 
     @Override
     public String getBookCategory(Element product) {
         Document details = provideShopConnection(getBookLink(product), loader);
-        return details.getElementsByClass("category wartosc") == null ? "nieznany"
-                : details.getElementsByClass("category wartosc").last().select("a").last().text();
+        return details.getElementsByClass("category wartosc") != null &&
+                details.getElementsByClass("category wartosc").size() > 0
+                ?
+                details.getElementsByClass("category wartosc").last().select("a").text()
+                : "nieznany";
     }
 
     @Override
     public String getBookLink(Element product) {
         return hostUrl + product.getElementsByClass("emp-image")
-                .get(FIRST_ELEMENT)
-                .getElementsByTag("a")
+                .select("a")
                 .attr("href");
     }
 
     @Override
     public BigDecimal getBookPrice(Element product) {
-        return new BigDecimal(Double.parseDouble(product.getElementsByClass("emp-sale-price-value")
+        return BigDecimal.valueOf(Double.parseDouble(product.getElementsByClass("emp-sale-price-value")
                 .text()
                 .replaceAll(",", ".")
                 .substring(0, product.getElementsByClass("emp-sale-price-value")

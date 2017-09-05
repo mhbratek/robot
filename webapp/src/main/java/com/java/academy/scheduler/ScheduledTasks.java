@@ -19,7 +19,6 @@ import webScrappers.taniaKsiazka.TaniaKsiazkaScrapper;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ScheduledTasks {
@@ -27,8 +26,9 @@ public class ScheduledTasks {
     @Autowired
     private BookService bookService;
     final BookMapper mapper = new BookMapperByStore();
-    @Scheduled(fixedRate = 120000)
+    @Scheduled(fixedRate = 3200000)
     public void scheduleFixedDelayTask() {
+
         System.out.println("Collecting data: " + new Date().toString());
 
         List<BookScrapper> bookstores = Arrays.asList(
@@ -40,9 +40,8 @@ public class ScheduledTasks {
                 new TaniaKsiazkaScrapper(new JSOUPLoader())
         );
 
-        bookService.addBooksFromLibrary(bookstores.stream()
-                .flatMap(i -> mapper.collectBooksFromBookStore(i).stream())
-                .collect(Collectors.toList()));
+        bookstores.forEach(bookScrapper -> bookService
+                .addBooksFromLibrary(mapper.collectBooksFromBookStore(bookScrapper)));
 
         GoogleBookStore bookStore = new GoogleBookStore();
         bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());

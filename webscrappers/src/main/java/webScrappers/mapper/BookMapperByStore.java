@@ -23,16 +23,24 @@ public class BookMapperByStore implements BookMapper {
 
         List<Book> books = new ArrayList<>();
 
-        totalPageToCheck = 2;
+        totalPageToCheck = 10;
         for (int page = FIRST; page < totalPageToCheck; page++) {
-            Elements booksFromStore = bookScrapper.getPageToCheck(page);
 
-            booksFromStore.forEach(product -> books.add(setupBook(product)));
+            Elements booksFromStore = bookScrapper.getPageToCheck(page);
+            for (Element product : booksFromStore) {
+                try {
+                    books.add(setupBook(product));
+                } catch (RuntimeException ex) {
+                    System.out.println(ex.getMessage());
+                    continue;
+                }
+            }
         }
         return books;
     }
 
     private Book setupBook(Element product) {
+
         Book singleBook = new Book(bookScrapper.getBookTitle(product),
                 bookScrapper.getBookAuthor(product),
                 bookScrapper.getBookCategory(product),
@@ -43,6 +51,7 @@ public class BookMapperByStore implements BookMapper {
         singleBook.setUrl(bookScrapper.getBookLink(product));
         singleBook.setImgUrl(bookScrapper.getImageUrl(product));
 
+        System.out.println(singleBook);
         return singleBook;
         }
 

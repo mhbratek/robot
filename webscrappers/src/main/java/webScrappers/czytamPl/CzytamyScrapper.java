@@ -20,7 +20,7 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
     }
 
     private void initializeCztamScrapper() {
-        bookstore = initBookStore("Czytamy", hostUrl);
+        bookstore = initBookStore("Czytam", hostUrl);
         authorClassName = "product-author";
         discountClassName = "icon_rabat";
         titleClassName = "product-title";
@@ -36,29 +36,26 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
 
     @Override
     public String getImageUrl(Element product) {
-        return product.getElementsByClass("has-tip [tip-left] th [radius]")
-                .get(FIRST_ELEMENT).getElementsByTag("img").attr("src");
+        return product.getElementsByClass("has-tip [tip-left] th [radius]").attr("src");
     }
 
     @Override
     public String getBookCategory(Element product) {
         Document details = provideShopConnection(getBookLink(product), loader);
-        return details.getElementsByClass("headline-azure") == null ? "nieznany"
-                : details.getElementsByClass("headline-azure").text()
-                .replaceAll(getBookAuthor(product), "").trim();
+        return details.getElementsByClass("trail") == null ? "nieznany"
+                : details.getElementsByClass("trail").text();
     }
 
     @Override
     public String getBookLink(Element product) {
         return hostUrl + product.getElementsByClass("product-title")
-                .get(FIRST_ELEMENT)
-                .getElementsByTag("a")
+                .select("a")
                 .attr("href");
     }
 
     @Override
     public BigDecimal getBookPrice(Element product) {
-        return new BigDecimal(Double.parseDouble(product.getElementsByClass("strike")
+        return BigDecimal.valueOf(Double.parseDouble(product.getElementsByClass("strike")
                 .text()
                 .replaceAll(",", ".")
                 .replaceAll("[A-ż]+", "")));

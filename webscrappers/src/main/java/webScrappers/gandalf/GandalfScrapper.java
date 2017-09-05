@@ -54,13 +54,12 @@ public class GandalfScrapper extends AbstrackBookScrapper {
 
     @Override
     public String getBookLink(Element product) {
-        return (hostUrl + product.getElementsByClass("h2").get(FIRST_ELEMENT)
-                .getElementsByTag("a").attr("href"));
+        return (hostUrl + product.getElementsByClass("h2").select("a").attr("href"));
     }
 
     @Override
     public BigDecimal getBookPrice(Element product) {
-        return new BigDecimal(Double.parseDouble(product.getElementsByClass("new_price")
+        return BigDecimal.valueOf(Double.parseDouble(product.getElementsByClass("new_price")
                 .text().replaceAll("[a-ż]+", "").replace(',', '.')));
     }
 
