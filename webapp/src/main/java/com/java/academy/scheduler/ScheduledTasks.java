@@ -40,10 +40,10 @@ public class ScheduledTasks {
                 new TaniaKsiazkaScrapper(new JSOUPLoader())
         );
 
-        bookstores.forEach(bookScrapper -> bookService
-                .addBooksFromLibrary(mapper.collectBooksFromBookStore(bookScrapper)));
+       // bookstores.forEach(bookScrapper -> bookService
+               // .addBooksFromLibrary(mapper.collectBooksFromBookStore(bookScrapper)));
 
         GoogleBookStore bookStore = new GoogleBookStore();
-        bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
+        //bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
     }
 }

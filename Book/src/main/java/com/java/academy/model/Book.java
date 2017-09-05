@@ -30,10 +30,11 @@ public class Book extends BaseEntity implements Serializable {
 
 	private String promoDetails;
 
+	private BigDecimal price;
+
 	@Size(max=555)
 	private String imgUrl;
 
-//	@NotNull
 	@Size(max=555)
 	private String url;
 
@@ -47,11 +48,12 @@ public class Book extends BaseEntity implements Serializable {
 	public Book() {
 	}
 	
-	public Book(String title, String author, String category, String promoDetails, Bookstore bookstore) {
+	public Book(String title, String author, String category, String promoDetails, BigDecimal price, Bookstore bookstore) {
 		this.title = title;
 		this.author = author;
 		this.category = category;
 		this.promoDetails = promoDetails;
+		this.price = price;
 		this.bookstore = bookstore;
 		collectedDates = new ArrayList<>();
 	}
@@ -94,6 +96,14 @@ public class Book extends BaseEntity implements Serializable {
 
 	public void setPromoDetails(String promoDetails) {
 		this.promoDetails = promoDetails;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 	public String getImgUrl() {

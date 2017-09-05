@@ -71,7 +71,7 @@ public class BookServiceImpl implements BookService {
 		Set<Book> booksByLowPriceRange = new HashSet<>();
 		Set<Book> booksByHighPriceRange = new HashSet<>();
 		Set<Book> booksByPriceRange = new HashSet<>();
-		/*if(criterias.contains("low")) {
+		if(criterias.contains("low")) {
 			for(String price: filterParams.get("low")) {
 				for(Book book: listOfBooks) {
 					if((new BigDecimal(price)).compareTo(book.getPrice()) <= 0){
@@ -88,7 +88,7 @@ public class BookServiceImpl implements BookService {
 					}
 				}
 			}
-		}*/
+		}
 
 		if(!booksByLowPriceRange.isEmpty() && !booksByHighPriceRange.isEmpty()) {
 			booksByHighPriceRange.retainAll(booksByLowPriceRange);
