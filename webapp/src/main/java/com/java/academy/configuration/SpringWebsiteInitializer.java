@@ -10,9 +10,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class SpringWebsiteInitializer implements WebApplicationInitializer {
-/* dziedziczymy po klasie SpringServletContainerInitializer lub implementujemy jej interface
-	WebApplicationInitializer
-*/
+
 	public void onStartup(ServletContext servletContext) throws ServletException {
 
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();

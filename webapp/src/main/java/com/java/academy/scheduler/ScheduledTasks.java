@@ -26,7 +26,7 @@ public class ScheduledTasks {
     @Autowired
     private BookService bookService;
     final BookMapper mapper = new BookMapperByStore();
-    @Scheduled(fixedRate = 120000)
+    @Scheduled(fixedRate = 24000000)
     public void scheduleFixedDelayTask() {
         System.out.println("Collecting data: " + new Date().toString());
 

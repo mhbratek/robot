@@ -17,11 +17,18 @@ import com.java.academy.service.BookService;
 
 @Service
 public class BookServiceImpl implements BookService {
-	
-	@Autowired
+
 	private BookDao bookDao;
-	@Autowired
 	private BookstoreDao bookstoreDao;
+
+	@Autowired
+	public void setBookDao(BookDao bookDao) {
+		this.bookDao = bookDao;
+	}
+	@Autowired
+	public void setBookstoreDao(BookstoreDao bookstoreDao) {
+		this.bookstoreDao = bookstoreDao;
+	}
 
 	public List<Book> getAllBooks() {
 		return bookDao.findAll();
@@ -35,6 +42,10 @@ public class BookServiceImpl implements BookService {
 		if(value.equals("undefined")) {
 			return bookDao.findAll();
 		}
+		return getBooksFromDaoByFilter(filter, value);
+	}
+
+	List<Book> getBooksFromDaoByFilter(String filter, String value) {
 		switch (filter) {
 			case "title":
 				return bookDao.getBooksByTitleContaining(value);
@@ -45,7 +56,7 @@ public class BookServiceImpl implements BookService {
 			case "bookstore":
 				return bookDao.getBooksByBookstoreNameContaining(value);
 			default:
-				return bookDao.getBooksByAuthorContaining(value);
+				return bookDao.getBooksByCategoryContaining(value);
 		}
 	}
 
