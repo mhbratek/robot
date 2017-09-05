@@ -47,6 +47,7 @@ public class ScheduledTasks {
             List<Book> books = mapper.collectBooksFromBookStore(bookScrapper);
 
             for (Book book : books) {
+                System.out.println(book);
                 bookService.addBook(book, new CollectionTime(book, book.getPrice(), new Date()));
             }
         }
