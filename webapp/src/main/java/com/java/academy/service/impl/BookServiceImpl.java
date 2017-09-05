@@ -25,10 +25,12 @@ public class BookServiceImpl implements BookService {
 	public void setBookDao(BookDao bookDao) {
 		this.bookDao = bookDao;
 	}
+
 	@Autowired
 	public void setBookstoreDao(BookstoreDao bookstoreDao) {
 		this.bookstoreDao = bookstoreDao;
 	}
+
 	@Autowired
 	public void setCollectedDatesDao(CollectedDatesDao collectedDatesDao) {
 		this.collectedDatesDao = collectedDatesDao;
@@ -71,6 +73,7 @@ public class BookServiceImpl implements BookService {
 		Set<Book> booksByLowPriceRange = new HashSet<>();
 		Set<Book> booksByHighPriceRange = new HashSet<>();
 		Set<Book> booksByPriceRange = new HashSet<>();
+
 		if(criterias.contains("low")) {
 			for(String price: filterParams.get("low")) {
 				for(Book book: listOfBooks) {
@@ -80,6 +83,7 @@ public class BookServiceImpl implements BookService {
 				}
 			}
 		}
+
 		if(criterias.contains("high")) {
 			for(String price: filterParams.get("high")) {
 				for(Book book: listOfBooks) {
@@ -102,7 +106,7 @@ public class BookServiceImpl implements BookService {
 
 	public void addBook(Book book, CollectionTime collectionTime) {
 		Bookstore bookstore = bookstoreDao.getBookstoreByName(book.getBookstore().getName());
-		if(bookstore == null) {
+		if(isItANewBookStore(bookstore)) {
 			bookstore = bookstoreDao.save(book.getBookstore());
 		}
 		book.setBookstore(bookstore);
@@ -116,5 +120,9 @@ public class BookServiceImpl implements BookService {
 
 		bookDao.save(bookFromBase);
 		collectedDatesDao.save(bookFromBase.getCollectedDates());
+	}
+
+	private boolean isItANewBookStore(Bookstore bookstore) {
+		return bookstore == null;
 	}
 }
