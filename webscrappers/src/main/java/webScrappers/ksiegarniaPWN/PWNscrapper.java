@@ -28,7 +28,7 @@ public class PWNscrapper extends AbstrackBookScrapper {
 
     @Override
     public Elements getPageToCheck(int page) {
-        String url = "https://ksiegarnia.pwn.pl/promocje?fc_category_id=2195456&limit=96&page=" + (page + 1);
+        String url = "https://ksiegarnia.pwn.pl/promocje?fc_category_id=2195456&limit=24&page=" + (page + 1);
         Document pwnBooks = provideShopConnection(url, loader);
 
         return pwnBooks.getElementsByClass("emp-product-hover");

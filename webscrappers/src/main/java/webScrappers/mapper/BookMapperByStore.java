@@ -15,7 +15,7 @@ public class BookMapperByStore implements BookMapper {
     private int totalPageToCheck;
 
     public BookMapperByStore() {
-        totalPageToCheck = 10;
+        totalPageToCheck = 5;
     }
 
     @Override
@@ -30,6 +30,7 @@ public class BookMapperByStore implements BookMapper {
             Elements booksFromStore = bookScrapper.getPageToCheck(page);
             for (Element product : booksFromStore) {
                 try {
+
                     books.add(setupBook(product));
                 } catch (RuntimeException ex) {
                     System.out.println(ex.getMessage());
