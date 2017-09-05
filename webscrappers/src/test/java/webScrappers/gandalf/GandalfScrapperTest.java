@@ -2,10 +2,9 @@ package webScrappers.gandalf;
 
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
-import webScrappers.mapper.BookMapper;
-import webScrappers.mapper.BookMapperByStore;
 import webScrappers.DocumentLoader;
 import webScrappers.JSOUPLoader;
+import webScrappers.mapper.BookMapperByStore;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +19,6 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class GandalfScrapperTest {
 
-    public static final int NUM_OF_BOOK = 2;
     private final String resourcePage = "src/test/resources/Promocje i wyprzedaże książek _ Gandalf.com.pl.html";
 
     @Test
@@ -40,9 +38,9 @@ public class GandalfScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         GandalfScrapper gandalfScrapper = new GandalfScrapper(documentLoader);
-        BookMapper mapper = new BookMapperByStore();
+        BookMapperByStore mapper = new BookMapperByStore();
 
         //then
-        assertEquals(mapper.collectBooksFromBookStore(gandalfScrapper).size(), NUM_OF_BOOK);
+        assertEquals(mapper.collectBooksFromBookStore(gandalfScrapper).size(), mapper.getTotalPageToCheck());
     }
 }

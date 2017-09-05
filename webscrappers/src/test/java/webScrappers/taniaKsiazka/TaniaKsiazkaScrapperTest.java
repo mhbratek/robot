@@ -1,4 +1,4 @@
-package webScrappers.czytamPl;
+package webScrappers.taniaKsiazka;
 
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
@@ -16,16 +16,16 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static org.testng.Assert.assertEquals;
 
 @Test
-public class CzytamyScrapperTest {
+public class TaniaKsiazkaScrapperTest {
 
-    private final String resourcePage = "src/test/resources/Księgarnia internetowa Czytam.pl.html";
+    private final String resourcePage = "src/test/resources/taniaksiazka.html";
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
-        CzytamyScrapper czytamyScrapper = new CzytamyScrapper(new JSOUPLoader());
+        TaniaKsiazkaScrapper taniaKsiazkaScrapper = new TaniaKsiazkaScrapper(new JSOUPLoader());
 
-        assertEquals(czytamyScrapper.getBookStore().getName(), "Czytam");
-        assertEquals(czytamyScrapper.getBookStore().getUrl(), "http://czytam.pl");
+        assertEquals(taniaKsiazkaScrapper.getBookStore().getName(), "TaniaKsiazka");
+        assertEquals(taniaKsiazkaScrapper.getBookStore().getUrl(), "http://www.taniaksiazka.pl");
     }
 
     @Test
@@ -36,13 +36,12 @@ public class CzytamyScrapperTest {
 
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
-        CzytamyScrapper czytamyScrapper = new CzytamyScrapper(documentLoader);
+        TaniaKsiazkaScrapper taniaKsiazkaScrapper = new TaniaKsiazkaScrapper(documentLoader);
         BookMapperByStore bookMapper = new BookMapperByStore();
 
         //then
-        assertEquals(bookMapper.collectBooksFromBookStore(czytamyScrapper).size(), bookMapper.getTotalPageToCheck());
+        assertEquals(bookMapper.collectBooksFromBookStore(taniaKsiazkaScrapper).size(), bookMapper.getTotalPageToCheck());
     }
-
 }
 
 

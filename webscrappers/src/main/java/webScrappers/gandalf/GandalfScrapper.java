@@ -49,18 +49,17 @@ public class GandalfScrapper extends AbstrackBookScrapper {
     public String getBookCategory(Element product) {
         Document productDetails = provideShopConnection(getBookLink(product), loader);
         Elements genre = productDetails.getElementsByClass("product_categories");
-        return genre.text().substring(genre.text().lastIndexOf(':') + 1).trim();
+        return genre == null? "nieznany" : genre.text().substring(genre.text().lastIndexOf(':') + 1).trim();
     }
 
     @Override
     public String getBookLink(Element product) {
-        return (hostUrl + product.getElementsByClass("h2").get(FIRST_ELEMENT)
-                .getElementsByTag("a").attr("href"));
+        return (hostUrl + product.getElementsByClass("h2").select("a").attr("href"));
     }
 
     @Override
     public BigDecimal getBookPrice(Element product) {
-        return new BigDecimal(Double.parseDouble(product.getElementsByClass("new_price")
+        return BigDecimal.valueOf(Double.parseDouble(product.getElementsByClass("new_price")
                 .text().replaceAll("[a-ż]+", "").replace(',', '.')));
     }
 

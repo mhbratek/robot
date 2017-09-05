@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.java.academy.model.Book;
+import com.java.academy.model.CollectionTime;
 
 public interface BookService {
 	
@@ -16,7 +17,7 @@ public interface BookService {
 
 	Set<Book> getBooksByParams(String filter, String value, Map<String, List<String>> filterParams);
 	
-	void addBook(Book book);
+	void addBook(Book book, CollectionTime collectionTime);
 
 	void addBooksFromLibrary(List<Book> books);
 }

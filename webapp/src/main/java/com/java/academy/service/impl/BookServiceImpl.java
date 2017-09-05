@@ -1,12 +1,11 @@
 package com.java.academy.service.impl;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import com.java.academy.dao.CollectedDatesDao;
 import com.java.academy.model.Bookstore;
+import com.java.academy.model.CollectionTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,7 @@ public class BookServiceImpl implements BookService {
 
 	private BookDao bookDao;
 	private BookstoreDao bookstoreDao;
+	private CollectedDatesDao collectedDatesDao;
 
 	@Autowired
 	public void setBookDao(BookDao bookDao) {
@@ -28,6 +28,10 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	public void setBookstoreDao(BookstoreDao bookstoreDao) {
 		this.bookstoreDao = bookstoreDao;
+	}
+	@Autowired
+	public void setCollectedDatesDao(CollectedDatesDao collectedDatesDao) {
+		this.collectedDatesDao = collectedDatesDao;
 	}
 
 	public List<Book> getAllBooks() {
@@ -67,7 +71,7 @@ public class BookServiceImpl implements BookService {
 		Set<Book> booksByLowPriceRange = new HashSet<>();
 		Set<Book> booksByHighPriceRange = new HashSet<>();
 		Set<Book> booksByPriceRange = new HashSet<>();
-		if(criterias.contains("low")) {
+		/*if(criterias.contains("low")) {
 			for(String price: filterParams.get("low")) {
 				for(Book book: listOfBooks) {
 					if((new BigDecimal(price)).compareTo(book.getPrice()) <= 0){
@@ -84,7 +88,7 @@ public class BookServiceImpl implements BookService {
 					}
 				}
 			}
-		}
+		}*/
 
 		if(!booksByLowPriceRange.isEmpty() && !booksByHighPriceRange.isEmpty()) {
 			booksByHighPriceRange.retainAll(booksByLowPriceRange);
@@ -96,13 +100,22 @@ public class BookServiceImpl implements BookService {
 		return booksByPriceRange;
 	}
 
-	public void addBook(Book book) {
+	public void addBook(Book book, CollectionTime collectionTime) {
 		Bookstore bookstore = bookstoreDao.getBookstoreByName(book.getBookstore().getName());
 		if(bookstore == null) {
 			bookstore = bookstoreDao.save(book.getBookstore());
 		}
 		book.setBookstore(bookstore);
-		bookDao.save(book);
+
+		Book bookFromBase = bookDao.getBookByTitle(book.getTitle());
+		if(bookFromBase == null) {
+			bookFromBase = book;
+		}
+		collectionTime.setBook(bookFromBase);
+		bookFromBase.addCollectedDates(collectionTime);
+
+		bookDao.save(bookFromBase);
+		collectedDatesDao.save(bookFromBase.getCollectedDates());
 	}
 
 	public void addBooksFromLibrary(List<Book> books) {

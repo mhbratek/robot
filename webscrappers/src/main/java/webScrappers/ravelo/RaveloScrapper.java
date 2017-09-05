@@ -5,9 +5,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import webScrappers.AbstrackBookScrapper;
 import webScrappers.DocumentLoader;
-import webScrappers.JSOUPLoader;
-import webScrappers.mapper.BookMapper;
-import webScrappers.mapper.BookMapperByStore;
 
 import java.math.BigDecimal;
 
@@ -43,24 +40,23 @@ public class RaveloScrapper extends AbstrackBookScrapper{
     @Override
     public String getBookAuthor(Element product) {
         return product.getElementsByClass("autor")
-                .get(FIRST_ELEMENT).getElementsByTag("a").get(FIRST_ELEMENT).text();
+                .select("a").size() > 0 ? product.getElementsByClass("autor")
+                .select("a").get(FIRST_ELEMENT).text() : "nieznany";
     }
 
     @Override
     public String getImageUrl(Element product) {
         return product.getElementsByClass("span2 imgContainer")
-                .get(FIRST_ELEMENT)
-                .getElementsByTag("a")
-                .get(FIRST_ELEMENT).getElementsByTag("img")
+                .select("img")
                 .attr("data-src");
     }
 
     @Override
     public String getBookCategory(Element product) {
-        return "literatura";
+        return "literatura piękna";
     }
 
-    @Override
+        @Override
     public String getBookTitle(Element product) {
         return product.getElementsByTag("h2")
                 .text().replaceAll("Outlet", "");
@@ -69,14 +65,13 @@ public class RaveloScrapper extends AbstrackBookScrapper{
     @Override
     public String getBookLink(Element product) {
         return product.getElementsByClass("span2 imgContainer")
-                .get(FIRST_ELEMENT)
-                .getElementsByTag("a")
+                .select("a")
                 .attr("href");
     }
 
     @Override
     public BigDecimal getBookPrice(Element product) {
-        return new BigDecimal(Double.parseDouble(product.getElementsByClass("newPrice")
+        return BigDecimal.valueOf(Double.parseDouble(product.getElementsByClass("newPrice")
                 .text()
                 .replaceAll("[a-ż]+", "")));
     }
