@@ -11,7 +11,7 @@ import java.util.List;
 
 public class BookMapperByStore implements BookMapper {
 
-    public static final int FIRST = 0;
+    private static final int FIRST = 0;
     private BookScrapper bookScrapper;
     private int totalPageToCheck;
 

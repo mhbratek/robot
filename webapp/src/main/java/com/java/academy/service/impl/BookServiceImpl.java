@@ -115,6 +115,7 @@ public class BookServiceImpl implements BookService {
 		if(bookFromBase == null) {
 			bookFromBase = book;
 		}
+		bookFromBase.setPrice(book.getPrice());
 		collectionTime.setBook(bookFromBase);
 		bookFromBase.addCollectedDates(collectionTime);
 

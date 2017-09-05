@@ -48,6 +48,11 @@ public class MainController {
 
     @RequestMapping("/addBook")
     public String addBook() {
+		Bookstore bookstore = new Bookstore("matras", "http://www.matras.pl");
+
+		BigDecimal price = new BigDecimal(Math.random());
+		Book book = new Book("Lalka", "Bolesław Prus", "book", null, price,  bookstore);
+		CollectionTime collectionTime = new CollectionTime(book, price ,new Date());
 		return "start";
 	}
 
