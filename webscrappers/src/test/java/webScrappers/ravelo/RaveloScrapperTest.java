@@ -5,7 +5,6 @@ import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
 import webScrappers.DocumentLoader;
 import webScrappers.JSOUPLoader;
-import webScrappers.mapper.BookMapper;
 import webScrappers.mapper.BookMapperByStore;
 
 import java.io.File;
@@ -19,8 +18,6 @@ import static org.testng.Assert.assertEquals;
 
 @Test
 public class RaveloScrapperTest {
-
-    public static final int BOOKS_NUM = 2;
 
     private final String resourcePage = "src/test/resources/ravelo_test.html";
 
@@ -41,11 +38,11 @@ public class RaveloScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         RaveloScrapper raveloScrapper = new RaveloScrapper(documentLoader);
-        BookMapper mapper = new BookMapperByStore();
+        BookMapperByStore mapper = new BookMapperByStore();
 
         //then
 
-        assertEquals(mapper.collectBooksFromBookStore(raveloScrapper).size(), BOOKS_NUM);
+        assertEquals(mapper.collectBooksFromBookStore(raveloScrapper).size(), mapper.getTotalPageToCheck());
     }
 
 }

@@ -1,11 +1,10 @@
 package webScrappers.czytamPl;
 
-import webScrappers.mapper.BookMapper;
-import webScrappers.mapper.BookMapperByStore;
-import webScrappers.DocumentLoader;
-import webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
+import webScrappers.DocumentLoader;
+import webScrappers.JSOUPLoader;
+import webScrappers.mapper.BookMapperByStore;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +17,7 @@ import static org.testng.Assert.assertEquals;
 
 @Test
 public class CzytamyScrapperTest {
-    public static final int BOOKS_ON_PAGE = 2; //for 5 times
+
     private final String resourcePage = "src/test/resources/Księgarnia internetowa Czytam.pl.html";
 
     @Test
@@ -38,10 +37,10 @@ public class CzytamyScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         CzytamyScrapper czytamyScrapper = new CzytamyScrapper(documentLoader);
-        BookMapper bookMapper = new BookMapperByStore();
+        BookMapperByStore bookMapper = new BookMapperByStore();
 
         //then
-        assertEquals(bookMapper.collectBooksFromBookStore(czytamyScrapper).size(), BOOKS_ON_PAGE);
+        assertEquals(bookMapper.collectBooksFromBookStore(czytamyScrapper).size(), bookMapper.getTotalPageToCheck());
     }
 
 }

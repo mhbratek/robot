@@ -14,7 +14,9 @@ public class BookMapperByStore implements BookMapper {
     private BookScrapper bookScrapper;
     private int totalPageToCheck;
 
-
+    public BookMapperByStore() {
+        totalPageToCheck = 10;
+    }
 
     @Override
     public List<Book> collectBooksFromBookStore(BookScrapper bookScrapper) {
@@ -23,7 +25,6 @@ public class BookMapperByStore implements BookMapper {
 
         List<Book> books = new ArrayList<>();
 
-        totalPageToCheck = 10;
         for (int page = FIRST; page < totalPageToCheck; page++) {
 
             Elements booksFromStore = bookScrapper.getPageToCheck(page);
@@ -55,4 +56,11 @@ public class BookMapperByStore implements BookMapper {
         return singleBook;
         }
 
+    public void setTotalPageToCheck(int totalPageToCheck) {
+        this.totalPageToCheck = totalPageToCheck;
+    }
+
+    public int getTotalPageToCheck() {
+        return totalPageToCheck;
+    }
 }

@@ -1,4 +1,4 @@
-package webScrappers.gandalf;
+package webScrappers.ksiegarniaPWN;
 
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
@@ -15,18 +15,16 @@ import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 import static org.testng.Assert.assertEquals;
 
-
 @Test
-public class GandalfScrapperTest {
-
-    private final String resourcePage = "src/test/resources/Promocje i wyprzedaże książek _ Gandalf.com.pl.html";
+public class PWNscrapperTest {
+    private final String resourcePage = "src/test/resources/pwn.html";
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
-        GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
+        PWNscrapper czytamyScrapper = new PWNscrapper(new JSOUPLoader());
 
-        assertEquals(gandalfScrapper.getBookStore().getName(), "Gandalf");
-        assertEquals(gandalfScrapper.getBookStore().getUrl(), "http://www.gandalf.com.pl");
+        assertEquals(czytamyScrapper.getBookStore().getName(), "PWN");
+        assertEquals(czytamyScrapper.getBookStore().getUrl(), "https://ksiegarnia.pwn.pl");
     }
 
     @Test
@@ -37,10 +35,12 @@ public class GandalfScrapperTest {
 
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
-        GandalfScrapper gandalfScrapper = new GandalfScrapper(documentLoader);
-        BookMapperByStore mapper = new BookMapperByStore();
+        PWNscrapper pwn = new PWNscrapper(documentLoader);
+        BookMapperByStore bookMapper = new BookMapperByStore();
 
         //then
-        assertEquals(mapper.collectBooksFromBookStore(gandalfScrapper).size(), mapper.getTotalPageToCheck());
+        assertEquals(bookMapper.collectBooksFromBookStore(pwn).size(), bookMapper.getTotalPageToCheck());
     }
+
 }
+

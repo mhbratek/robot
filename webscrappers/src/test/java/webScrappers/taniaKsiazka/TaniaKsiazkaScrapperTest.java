@@ -4,7 +4,6 @@ import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
 import webScrappers.DocumentLoader;
 import webScrappers.JSOUPLoader;
-import webScrappers.mapper.BookMapper;
 import webScrappers.mapper.BookMapperByStore;
 
 import java.io.File;
@@ -19,7 +18,6 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class TaniaKsiazkaScrapperTest {
 
-    public static final int BOOKS_ON_PAGE = 2; //for 5 times
     private final String resourcePage = "src/test/resources/taniaksiazka.html";
 
     @Test
@@ -39,12 +37,11 @@ public class TaniaKsiazkaScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         TaniaKsiazkaScrapper taniaKsiazkaScrapper = new TaniaKsiazkaScrapper(documentLoader);
-        BookMapper bookMapper = new BookMapperByStore();
+        BookMapperByStore bookMapper = new BookMapperByStore();
 
         //then
-        assertEquals(bookMapper.collectBooksFromBookStore(taniaKsiazkaScrapper).size(), BOOKS_ON_PAGE);
+        assertEquals(bookMapper.collectBooksFromBookStore(taniaKsiazkaScrapper).size(), bookMapper.getTotalPageToCheck());
     }
-
 }
 
 
