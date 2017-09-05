@@ -16,14 +16,8 @@ public class MatrasScrapper extends AbstrackBookScrapper{
     public MatrasScrapper(DocumentLoader loader) {
         this.loader = loader;
         this.hostUrl = "http://www.matras.pl";
-        initializeMatrasScrapper();
-    }
-
-    private void initializeMatrasScrapper() {
-        bookstore = initBookStore("Matras", hostUrl);
-        authorClassName = "item-author";
-        discountClassName = "line discount-line";
-        titleClassName = "item-title";
+        initializeDataToScrap("Matras", hostUrl, "item-author",
+                "line discount-line", "item-title");
     }
 
     @Override

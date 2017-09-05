@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 
 public interface BookScrapper {
 
-    int FIRST_ELEMENT = 0;
-
     Elements getPageToCheck(int page);
     String getBookTitle(Element product);
     String getBookAuthor(Element product);

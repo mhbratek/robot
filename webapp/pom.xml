@@ -12,7 +12,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.java.academy.webapp</groupId>
     <artifactId>webapp</artifactId>
     <packaging>war</packaging>
 
@@ -30,6 +29,7 @@
             <artifactId>webscrappers</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 
 </project>
