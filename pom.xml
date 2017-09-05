@@ -36,6 +36,7 @@
     </developers>
 
 	<properties>
+        <sonar.coverage.exclusions>src/main/webapp/resources/**</sonar.coverage.exclusions>
 
         <!-- JAVA & ENCODING -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
