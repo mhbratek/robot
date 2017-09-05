@@ -6,6 +6,9 @@ import org.testng.asserts.SoftAssert;
 
 import java.math.BigDecimal;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+
 @Test
 public class BookTest {
 
@@ -42,6 +45,7 @@ public class BookTest {
         sa.assertEquals(book.getBookstore(), bookstore);
         sa.assertEquals(book.getImgUrl(), image);
         sa.assertEquals(book.getUrl(), link);
+        sa.assertEquals(book.getSubtitle(), null);
         sa.assertAll();
     }
 
@@ -60,6 +64,7 @@ public class BookTest {
         book.setPromoDetails(discount);
         book.setImgUrl(image);
         book.setUrl(link);
+        book.setSubtitle("-");
 
         //then
         SoftAssert sa = new SoftAssert();
@@ -71,6 +76,65 @@ public class BookTest {
         sa.assertEquals(book.getBookstore(), bookstore);
         sa.assertEquals(book.getImgUrl(), image);
         sa.assertEquals(book.getUrl(), link);
+        sa.assertEquals(book.getSubtitle(), "-");
         sa.assertAll();
+    }
+
+    @Test (dataProvider = "booksValues")
+    public void shouldReturnTrueIfEquals(String title, String author, String category, String discount,
+                                         BigDecimal price, Bookstore bookstore, String image, String link) {
+
+        //given
+        Book book = new Book(title, author, category, discount, price, bookstore);
+        Book book1 = new Book(title, author, category, discount, price, bookstore);
+
+        //when
+        book.setImgUrl(image);
+        book.setUrl(link);
+
+        //then
+        assertTrue(book1.equals(book));
+        assertTrue(book.equals(book1));
+
+    }
+
+    @Test (dataProvider = "booksValues")
+    public void shouldReturnSameHashCodeIfEquals(String title, String author, String category, String discount,
+                                         BigDecimal price, Bookstore bookstore, String image, String link) {
+
+        //given
+        Book book = new Book(title, author, category, discount, price, bookstore);
+        Book book1 = new Book(title, author, category, discount, price, bookstore);
+
+        //when
+        book.setImgUrl(image);
+        book.setUrl(link);
+
+        //then
+        assertEquals(book.hashCode(), book1.hashCode());
+    }
+
+    @Test (dataProvider = "booksValues")
+    public void shouldRetrunAppropriateString(String title, String author, String category, String discount,
+                                              BigDecimal price, Bookstore bookstore, String image, String link) {
+
+        //given
+        Book book = new Book(title, author, category, discount, price, bookstore);
+
+        //when
+        book.setImgUrl(image);
+        book.setUrl(link);
+
+        //then
+        assertEquals(book.toString(), ("Book{" +
+                "title='" + title + '\'' +
+                ", subtitle='" + null + '\'' +
+                ", author='" + author + '\'' +
+                ", category='" + category + '\'' +
+                ", promoDetails='" + discount + '\'' +
+                ", imgUrl='" + image + '\'' +
+                ", url='" + link + '\'' +
+                ", bookstore=" + bookstore +
+                '}'));
     }
 }
