@@ -1,5 +1,6 @@
 package com.java.academy.scheduler;
 
+import com.java.academy.model.CollectionTime;
 import logger.RLog;
 import com.java.academy.service.BookService;
 import googlebookstore.GoogleBookStore;
@@ -16,6 +17,7 @@ import webScrappers.mapper.BookMapperByStore;
 import webScrappers.matras.MatrasScrapper;
 import webScrappers.ravelo.RaveloScrapper;
 import webScrappers.taniaKsiazka.TaniaKsiazkaScrapper;
+import com.java.academy.model.Book;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -41,10 +43,19 @@ public class ScheduledTasks {
                 new TaniaKsiazkaScrapper(new JSOUPLoader())
         );
 
-       // bookstores.forEach(bookScrapper -> bookService
-               // .addBooksFromLibrary(mapper.collectBooksFromBookStore(bookScrapper)));
+        for (BookScrapper bookScrapper : bookstores) {
+            List<Book> books = mapper.collectBooksFromBookStore(bookScrapper);
+
+            for (Book book : books) {
+                bookService.addBook(book, new CollectionTime(book, book.getPrice(), new Date()));
+            }
+        }
 
         GoogleBookStore bookStore = new GoogleBookStore();
-        //bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
+        List<Book> books = bookStore.collectBooksFromGoogle();
+
+        for (Book book : books) {
+            bookService.addBook(book, new CollectionTime(book, book.getPrice(), new Date()));
+        }
     }
 }
