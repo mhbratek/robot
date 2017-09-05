@@ -16,6 +16,13 @@
 	<name>Robot</name>
     <url>https://github.com/Ice94/robot</url>
 
+    <distributionManagement>
+        <site>
+            <id>Robot</id>
+            <url>http://Robot</url>
+        </site>
+    </distributionManagement>
+
     <prerequisites>
         <maven>${enforcer.requireMavenVersion}</maven>
     </prerequisites>
@@ -35,7 +42,9 @@
         </developer>
     </developers>
 
+
 	<properties>
+        <sonar.coverage.exclusions>src/main/webapp/resources/**</sonar.coverage.exclusions>
 
         <!-- JAVA & ENCODING -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -169,6 +178,12 @@
             <version>${jackson.mapper}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.mapper}</version>
+        </dependency>
+
         <!-- GSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -232,30 +247,6 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.scrapper}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.6.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.6.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.11</version>
         </dependency>
 
     </dependencies>

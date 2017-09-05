@@ -44,22 +44,6 @@ public class MainController {
         return books;
     }
 
-	@RequestMapping(value = "/rest/add", method = RequestMethod.POST)
-	public void addItems(@RequestBody String json) {
-		Gson gson = new Gson();
-		BookListWrapper bookListWrapper = gson.fromJson(json, BookListWrapper.class);
-		bookService.addBooksFromLibrary(bookListWrapper.getBooks());
-	}
-
-	@RequestMapping("/addBooks") //TODO to remove after scheduling mechanism and ready REST API
-	public String addBooks(Model model) {
-//		GandalfScrapper gandalfScrapper = new GandalfScrapper(new JSOUPLoader());
-//		bookService.addBooksFromLibrary(gandalfScrapper.collectBooksFromGandalfBookstore());
-//		GoogleBookStore bookStore = new GoogleBookStore();
-//		bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());
-		return "redirect:/robot/books";
-	}
-
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason="Wewnętrzny błąd serwera.")
 	public void handleServerErrors(Exception ex) {	}

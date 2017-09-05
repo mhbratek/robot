@@ -9,16 +9,16 @@ import webScrappers.BookScrapper;
 import webScrappers.JSOUPLoader;
 import webScrappers.czytamPl.CzytamyScrapper;
 import webScrappers.gandalf.GandalfScrapper;
+import webScrappers.ksiegarniaPWN.PWNscrapper;
 import webScrappers.mapper.BookMapper;
 import webScrappers.mapper.BookMapperByStore;
 import webScrappers.matras.MatrasScrapper;
 import webScrappers.ravelo.RaveloScrapper;
-import com.java.academy.model.Book;
+import webScrappers.taniaKsiazka.TaniaKsiazkaScrapper;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ScheduledTasks {
@@ -26,20 +26,22 @@ public class ScheduledTasks {
     @Autowired
     private BookService bookService;
     final BookMapper mapper = new BookMapperByStore();
-    @Scheduled(fixedRate = 120000)
+    @Scheduled(fixedRate = 3200000)
     public void scheduleFixedDelayTask() {
+
         System.out.println("Collecting data: " + new Date().toString());
 
         List<BookScrapper> bookstores = Arrays.asList(
                 new GandalfScrapper(new JSOUPLoader()),
-                new CzytamyScrapper(new JSOUPLoader()),
                 new MatrasScrapper(new JSOUPLoader()),
-                new RaveloScrapper(new JSOUPLoader())
+                new CzytamyScrapper(new JSOUPLoader()),
+                new RaveloScrapper(new JSOUPLoader()),
+                new PWNscrapper(new JSOUPLoader()),
+                new TaniaKsiazkaScrapper(new JSOUPLoader())
         );
 
-        bookService.addBooksFromLibrary(bookstores.stream()
-                .flatMap(i -> mapper.collectBooksFromBookStore(i).stream())
-                .collect(Collectors.toList()));
+        bookstores.forEach(bookScrapper -> bookService
+                .addBooksFromLibrary(mapper.collectBooksFromBookStore(bookScrapper)));
 
         GoogleBookStore bookStore = new GoogleBookStore();
         bookService.addBooksFromLibrary(bookStore.collectBooksFromGoogle());

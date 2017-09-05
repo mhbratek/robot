@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -47,11 +48,4 @@ public class MainControllerTest {
     public void booksTilesPageTest() throws Exception {
         mockMvc.perform(get("/robot/booksTiles")).andExpect(status().isOk()).andExpect(view().name("booksTiles"));
     }
-
-    @Test
-    public void shouldBeInternalError() throws Exception {
-        mockMvc.perform(post("/robot/rest/add")).andExpect(status().isInternalServerError());
-    }
-
-
 }

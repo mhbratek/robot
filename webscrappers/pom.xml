@@ -11,14 +11,19 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.java.academy.webscrappers</groupId>
     <artifactId>webscrappers</artifactId>
     <packaging>jar</packaging>
+
+    <description>WebScrappers module collecting data from Bookstores</description>
+
     <dependencies>
         <dependency>
             <groupId>com.java.academy</groupId>
             <artifactId>Book</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 
 

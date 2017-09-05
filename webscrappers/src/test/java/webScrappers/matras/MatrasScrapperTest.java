@@ -1,10 +1,9 @@
 package webScrappers.matras;
 
-import webScrappers.DocumentLoader;
-import webScrappers.JSOUPLoader;
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
-import webScrappers.mapper.BookMapper;
+import webScrappers.DocumentLoader;
+import webScrappers.JSOUPLoader;
 import webScrappers.mapper.BookMapperByStore;
 
 import java.io.File;
@@ -19,7 +18,6 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class MatrasScrapperTest {
 
-    public static final int BOOKS_ON_PAGE = 2;
     private final String resourcePage = "src/test/resources/matras_resource.html";
 
     @Test
@@ -39,10 +37,10 @@ public class MatrasScrapperTest {
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
         MatrasScrapper matras = new MatrasScrapper(documentLoader);
-        BookMapper mapper = new BookMapperByStore();
+        BookMapperByStore mapper = new BookMapperByStore();
 
         //then
-        assertEquals(mapper.collectBooksFromBookStore(matras).size(), BOOKS_ON_PAGE);
+        assertEquals(mapper.collectBooksFromBookStore(matras).size(), mapper.getTotalPageToCheck());
     }
 
 }

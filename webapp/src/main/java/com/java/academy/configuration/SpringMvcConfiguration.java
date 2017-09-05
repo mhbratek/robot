@@ -1,6 +1,5 @@
 package com.java.academy.configuration;
 
-import com.java.academy.interceptors.AuditingAPIInterceptor;
 import com.java.academy.interceptors.PerformanceMonitorInterceptor;
 import com.java.academy.view.JsonViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,6 @@ public class SpringMvcConfiguration extends WebMvcConfigurerAdapter implements A
 	private ApplicationContext applicationContext;
 	@Autowired
 	private PerformanceMonitorInterceptor performanceMonitorInterceptor;
-	@Autowired
-	private AuditingAPIInterceptor auditingAPIInterceptor;
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
@@ -57,7 +54,6 @@ public class SpringMvcConfiguration extends WebMvcConfigurerAdapter implements A
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(performanceMonitorInterceptor);
-		registry.addInterceptor(auditingAPIInterceptor);
 		registry.addInterceptor(localeChangeInterceptor());
 	}
 

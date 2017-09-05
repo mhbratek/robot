@@ -12,7 +12,7 @@ and free books.
   
 ## Run instruction 
  
- ### TEMPORARY 
+### TEMPORARY 
     
    Deploy by IDE on Tomcat Servlet Container. 
    In addition change user and password in hibernate.properties file to local sql value
