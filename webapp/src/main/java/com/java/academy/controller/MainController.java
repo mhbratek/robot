@@ -60,8 +60,8 @@ public class MainController {
 
 		return "start";
 	}
-/*
+
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason="Wewnętrzny błąd serwera.")
-	public void handleServerErrors(Exception ex) {	}*/
+	public void handleServerErrors(Exception ex) {	}
 }

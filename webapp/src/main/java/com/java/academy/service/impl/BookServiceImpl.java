@@ -117,16 +117,4 @@ public class BookServiceImpl implements BookService {
 		bookDao.save(bookFromBase);
 		collectedDatesDao.save(bookFromBase.getCollectedDates());
 	}
-
-	public void addBooksFromLibrary(List<Book> books) {
-		Bookstore bookstore = bookstoreDao.getBookstoreByName(books.get(0).getBookstore().getName());
-		if(bookstore == null) {
-			bookstore = bookstoreDao.save(books.get(0).getBookstore());
-		}
-		Bookstore finalBookstore = bookstore;
-		books.forEach(book -> {
-			book.setBookstore(finalBookstore);
-		});
-		bookDao.save(books);
-	}
 }
