@@ -1,5 +1,6 @@
 package com.java.academy.scheduler;
 
+import logger.RLog;
 import com.java.academy.service.BookService;
 import googlebookstore.GoogleBookStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ScheduledTasks {
     @Scheduled(fixedRate = 3200000)
     public void scheduleFixedDelayTask() {
 
-        System.out.println("Collecting data: " + new Date().toString());
+        RLog.info(RLog.getLogger(getClass()), ("Collecting data: " + new Date().toString()));
 
         List<BookScrapper> bookstores = Arrays.asList(
                 new GandalfScrapper(new JSOUPLoader()),

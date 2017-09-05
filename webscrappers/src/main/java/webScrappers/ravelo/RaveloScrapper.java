@@ -16,14 +16,8 @@ public class RaveloScrapper extends AbstrackBookScrapper{
     public RaveloScrapper(DocumentLoader loader) {
         this.loader = loader;
         this.hostUrl = "https://www.ravelo.pl";
-        initializeCztamScrapper();
-    }
-
-    private void initializeCztamScrapper() {
-        bookstore = initBookStore("Ravelo", hostUrl);
-        authorClassName = "h3";
-        discountClassName = "price_dis";
-        titleClassName = "h2";
+        initializeDataToScrap("Ravelo", hostUrl, "h3",
+                "price_dis", "h2");
     }
 
     @Override

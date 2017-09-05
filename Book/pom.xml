@@ -11,7 +11,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.java.academy.Book</groupId>
     <artifactId>Book</artifactId>
     <packaging>jar</packaging>
 

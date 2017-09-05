@@ -1,5 +1,6 @@
 package webScrappers;
 
+import logger.RLog;
 import com.java.academy.model.Bookstore;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,6 +9,8 @@ import java.io.IOException;
 
 
 public abstract class AbstrackBookScrapper implements BookScrapper {
+
+    protected final int FIRST_ELEMENT = 0;
 
     protected Bookstore bookstore;
     protected String authorClassName;
@@ -26,9 +29,17 @@ public abstract class AbstrackBookScrapper implements BookScrapper {
         try {
             shopConnection = loader.loadHTMLDocument(linkToConnect);
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            RLog.error(RLog.getLogger(getClass()), e.getMessage());
         }
         return shopConnection;
+    }
+
+    protected void initializeDataToScrap(String bookstoreName, String bookstroeUrl, String author,
+                                         String title, String discount) {
+        bookstore = initBookStore(bookstoreName, bookstroeUrl);
+        authorClassName = author;
+        discountClassName = discount;
+        titleClassName = title;
     }
 
     @Override

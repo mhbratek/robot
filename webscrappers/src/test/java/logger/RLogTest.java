@@ -1,4 +1,4 @@
-package com.java.academy.logger;
+package logger;
 
 import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeTest;

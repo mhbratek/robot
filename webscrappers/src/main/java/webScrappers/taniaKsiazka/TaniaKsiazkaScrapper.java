@@ -16,14 +16,8 @@ public class TaniaKsiazkaScrapper extends AbstrackBookScrapper {
     public TaniaKsiazkaScrapper(DocumentLoader loader) {
         this.loader = loader;
         this.hostUrl = "http://www.taniaksiazka.pl";
-        initializeTaniaKsiazka();
-    }
-
-    private void initializeTaniaKsiazka() {
-        bookstore = initBookStore("TaniaKsiazka", hostUrl);
-        authorClassName = "author";
-        discountClassName = "discount";
-        titleClassName = "ecommerce-datalayer ";
+        initializeDataToScrap("TaniaKsiazka", hostUrl, "author",
+                "discount", "ecommerce-datalayer ");
     }
 
     @Override
