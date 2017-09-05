@@ -24,7 +24,7 @@ public class CzytamyScrapperTest {
     public void shouldInitializeBookstoreWithAppropriateValues() {
         CzytamyScrapper czytamyScrapper = new CzytamyScrapper(new JSOUPLoader());
 
-        assertEquals(czytamyScrapper.getBookStore().getName(), "Czytamy");
+        assertEquals(czytamyScrapper.getBookStore().getName(), "Czytam");
         assertEquals(czytamyScrapper.getBookStore().getUrl(), "http://czytam.pl");
     }
 
