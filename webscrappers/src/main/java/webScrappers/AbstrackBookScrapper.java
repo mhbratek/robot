@@ -35,7 +35,8 @@ public abstract class AbstrackBookScrapper implements BookScrapper {
     }
 
     protected void initializeDataToScrap(String bookstoreName, String bookstroeUrl, String author,
-                                         String title, String discount) {
+                                         String discount, String title) {
+
         bookstore = initBookStore(bookstoreName, bookstroeUrl);
         authorClassName = author;
         discountClassName = discount;
