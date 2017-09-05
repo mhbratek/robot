@@ -16,6 +16,13 @@
 	<name>Robot</name>
     <url>https://github.com/Ice94/robot</url>
 
+    <distributionManagement>
+        <site>
+            <id>Robot</id>
+            <url>http://Robot</url>
+        </site>
+    </distributionManagement>
+
     <prerequisites>
         <maven>${enforcer.requireMavenVersion}</maven>
     </prerequisites>
@@ -34,6 +41,7 @@
             <email>Pawel_Stabryla@epam.com</email>
         </developer>
     </developers>
+
 
 	<properties>
         <sonar.coverage.exclusions>src/main/webapp/resources/**</sonar.coverage.exclusions>
