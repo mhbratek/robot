@@ -1,4 +1,4 @@
-package webScrappers.czytamPl;
+package webScrappers.ksiegarniaPWN;
 
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
@@ -16,16 +16,15 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static org.testng.Assert.assertEquals;
 
 @Test
-public class CzytamyScrapperTest {
-
-    private final String resourcePage = "src/test/resources/Księgarnia internetowa Czytam.pl.html";
+public class PWNscrapperTest {
+    private final String resourcePage = "src/test/resources/pwn.html";
 
     @Test
     public void shouldInitializeBookstoreWithAppropriateValues() {
-        CzytamyScrapper czytamyScrapper = new CzytamyScrapper(new JSOUPLoader());
+        PWNscrapper czytamyScrapper = new PWNscrapper(new JSOUPLoader());
 
-        assertEquals(czytamyScrapper.getBookStore().getName(), "Czytam");
-        assertEquals(czytamyScrapper.getBookStore().getUrl(), "http://czytam.pl");
+        assertEquals(czytamyScrapper.getBookStore().getName(), "PWN");
+        assertEquals(czytamyScrapper.getBookStore().getUrl(), "https://ksiegarnia.pwn.pl");
     }
 
     @Test
@@ -36,13 +35,12 @@ public class CzytamyScrapperTest {
 
         //when
         when(documentLoader.loadHTMLDocument(anyString())).thenReturn(Jsoup.parse(in, "UTF-8"));
-        CzytamyScrapper czytamyScrapper = new CzytamyScrapper(documentLoader);
+        PWNscrapper pwn = new PWNscrapper(documentLoader);
         BookMapperByStore bookMapper = new BookMapperByStore();
 
         //then
-        assertEquals(bookMapper.collectBooksFromBookStore(czytamyScrapper).size(), bookMapper.getTotalPageToCheck());
+        assertEquals(bookMapper.collectBooksFromBookStore(pwn).size(), bookMapper.getTotalPageToCheck());
     }
 
 }
-
 

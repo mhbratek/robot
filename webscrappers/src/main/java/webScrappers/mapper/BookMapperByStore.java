@@ -14,7 +14,9 @@ public class BookMapperByStore implements BookMapper {
     private BookScrapper bookScrapper;
     private int totalPageToCheck;
 
-
+    public BookMapperByStore() {
+        totalPageToCheck = 10;
+    }
 
     @Override
     public List<Book> collectBooksFromBookStore(BookScrapper bookScrapper) {
@@ -23,16 +25,23 @@ public class BookMapperByStore implements BookMapper {
 
         List<Book> books = new ArrayList<>();
 
-        totalPageToCheck = 2;
         for (int page = FIRST; page < totalPageToCheck; page++) {
-            Elements booksFromStore = bookScrapper.getPageToCheck(page);
 
-            booksFromStore.forEach(product -> books.add(setupBook(product)));
+            Elements booksFromStore = bookScrapper.getPageToCheck(page);
+            for (Element product : booksFromStore) {
+                try {
+                    books.add(setupBook(product));
+                } catch (RuntimeException ex) {
+                    System.out.println(ex.getMessage());
+                    continue;
+                }
+            }
         }
         return books;
     }
 
     private Book setupBook(Element product) {
+
         Book singleBook = new Book(bookScrapper.getBookTitle(product),
                 bookScrapper.getBookAuthor(product),
                 bookScrapper.getBookCategory(product),
@@ -43,7 +52,15 @@ public class BookMapperByStore implements BookMapper {
         singleBook.setUrl(bookScrapper.getBookLink(product));
         singleBook.setImgUrl(bookScrapper.getImageUrl(product));
 
+        System.out.println(singleBook);
         return singleBook;
         }
 
+    public void setTotalPageToCheck(int totalPageToCheck) {
+        this.totalPageToCheck = totalPageToCheck;
+    }
+
+    public int getTotalPageToCheck() {
+        return totalPageToCheck;
+    }
 }

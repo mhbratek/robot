@@ -43,29 +43,26 @@ public class MatrasScrapper extends AbstrackBookScrapper{
     @Override
     public String getImageUrl(Element product) {
         return product.getElementsByClass("image")
-                .get(FIRST_ELEMENT).getElementsByTag("img").attr("data-original");
+                .select("img").attr("data-original");
     }
 
     @Override
     public String getBookCategory(Element product) {
         Document details = provideShopConnection(getBookLink(product), loader);
-        Elements category = details.getElementsByClass("m-list");
-        return category.text().isEmpty() ? "nieznany" : category.text()
-                                                    .substring(category.text()
-                                                    .lastIndexOf("Książki") + "Książki".length()).trim();
+        return details.getElementsByClass("m-list") == null ? "nieznany" :
+                details.getElementsByClass("m-list").text();
             }
 
     @Override
     public String getBookLink(Element product) {
-        Elements bookLink = product.getElementsByClass("right-side");
-        return bookLink.get(FIRST_ELEMENT)
-                .getElementsByTag("a")
+        return product.getElementsByClass("right-side")
+                .select("a")
                 .attr("href");
     }
 
     @Override
     public BigDecimal getBookPrice(Element product) {
-        return new BigDecimal(Double.parseDouble(product.getElementsByClass("item-price")
+        return BigDecimal.valueOf(Double.parseDouble(product.getElementsByClass("item-price")
                 .text()
                 .replaceAll(",", ".")
                 .replaceAll("[a-ż]+", "")));
