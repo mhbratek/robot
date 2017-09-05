@@ -5,6 +5,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "books")
@@ -26,9 +30,6 @@ public class Book extends BaseEntity implements Serializable {
 
 	private String promoDetails;
 
-//	@NotNull
-	private BigDecimal price;
-
 	@Size(max=555)
 	private String imgUrl;
 
@@ -40,15 +41,19 @@ public class Book extends BaseEntity implements Serializable {
 	@JoinColumn(name = "bookstore_id", nullable = false)
 	private Bookstore bookstore;
 
-	public Book() {}
+	@OneToMany(mappedBy="book", fetch = FetchType.EAGER)
+    private List<CollectionTime> collectedDates;
+
+	public Book() {
+	}
 	
-	public Book(String title, String author, String category, String promoDetails, BigDecimal price, Bookstore bookstore) {
+	public Book(String title, String author, String category, String promoDetails, Bookstore bookstore) {
 		this.title = title;
 		this.author = author;
 		this.category = category;
 		this.promoDetails = promoDetails;
-		this.price = price;
 		this.bookstore = bookstore;
+		collectedDates = new ArrayList<>();
 	}
 
 	public String getTitle() {
@@ -91,14 +96,6 @@ public class Book extends BaseEntity implements Serializable {
 		this.promoDetails = promoDetails;
 	}
 
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
 	public String getImgUrl() {
 		return imgUrl;
 	}
@@ -123,6 +120,18 @@ public class Book extends BaseEntity implements Serializable {
 		this.bookstore = bookstore;
 	}
 
+	public List<CollectionTime> getCollectedDates() {
+		return collectedDates;
+	}
+
+	public void addCollectedDates(CollectionTime collectedTime) {
+		this.collectedDates.add(collectedTime);
+	}
+
+	public void setCollectedDates(List<CollectionTime> collectedDates) {
+		this.collectedDates = collectedDates;
+	}
+
 	@Override
 	public String toString() {
 		return "Book{" +
@@ -131,10 +140,33 @@ public class Book extends BaseEntity implements Serializable {
 				", author='" + author + '\'' +
 				", category='" + category + '\'' +
 				", promoDetails='" + promoDetails + '\'' +
-				", price=" + price +
 				", imgUrl='" + imgUrl + '\'' +
 				", url='" + url + '\'' +
 				", bookstore=" + bookstore +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Book book = (Book) o;
+
+		if (!title.equals(book.title)) return false;
+		if (subtitle != null ? !subtitle.equals(book.subtitle) : book.subtitle != null) return false;
+		if (!author.equals(book.author)) return false;
+		if (!category.equals(book.category)) return false;
+		return bookstore.equals(book.bookstore);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = title.hashCode();
+		result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
+		result = 31 * result + author.hashCode();
+		result = 31 * result + category.hashCode();
+		result = 31 * result + bookstore.hashCode();
+		return result;
 	}
 }

@@ -1,12 +1,11 @@
 package com.java.academy.service.impl;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import com.java.academy.dao.CollectedDatesDao;
 import com.java.academy.model.Bookstore;
+import com.java.academy.model.CollectionTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +16,23 @@ import com.java.academy.service.BookService;
 
 @Service
 public class BookServiceImpl implements BookService {
-	
-	@Autowired
+
 	private BookDao bookDao;
-	@Autowired
 	private BookstoreDao bookstoreDao;
+	private CollectedDatesDao collectedDatesDao;
+
+	@Autowired
+	public void setBookDao(BookDao bookDao) {
+		this.bookDao = bookDao;
+	}
+	@Autowired
+	public void setBookstoreDao(BookstoreDao bookstoreDao) {
+		this.bookstoreDao = bookstoreDao;
+	}
+	@Autowired
+	public void setCollectedDatesDao(CollectedDatesDao collectedDatesDao) {
+		this.collectedDatesDao = collectedDatesDao;
+	}
 
 	public List<Book> getAllBooks() {
 		return bookDao.findAll();
@@ -35,6 +46,10 @@ public class BookServiceImpl implements BookService {
 		if(value.equals("undefined")) {
 			return bookDao.findAll();
 		}
+		return getBooksFromDaoByFilter(filter, value);
+	}
+
+	List<Book> getBooksFromDaoByFilter(String filter, String value) {
 		switch (filter) {
 			case "title":
 				return bookDao.getBooksByTitleContaining(value);
@@ -45,7 +60,7 @@ public class BookServiceImpl implements BookService {
 			case "bookstore":
 				return bookDao.getBooksByBookstoreNameContaining(value);
 			default:
-				return bookDao.getBooksByAuthorContaining(value);
+				return bookDao.getBooksByCategoryContaining(value);
 		}
 	}
 
@@ -56,7 +71,7 @@ public class BookServiceImpl implements BookService {
 		Set<Book> booksByLowPriceRange = new HashSet<>();
 		Set<Book> booksByHighPriceRange = new HashSet<>();
 		Set<Book> booksByPriceRange = new HashSet<>();
-		if(criterias.contains("low")) {
+		/*if(criterias.contains("low")) {
 			for(String price: filterParams.get("low")) {
 				for(Book book: listOfBooks) {
 					if((new BigDecimal(price)).compareTo(book.getPrice()) <= 0){
@@ -73,7 +88,7 @@ public class BookServiceImpl implements BookService {
 					}
 				}
 			}
-		}
+		}*/
 
 		if(!booksByLowPriceRange.isEmpty() && !booksByHighPriceRange.isEmpty()) {
 			booksByHighPriceRange.retainAll(booksByLowPriceRange);
@@ -85,24 +100,21 @@ public class BookServiceImpl implements BookService {
 		return booksByPriceRange;
 	}
 
-	public void addBook(Book book) {
+	public void addBook(Book book, CollectionTime collectionTime) {
 		Bookstore bookstore = bookstoreDao.getBookstoreByName(book.getBookstore().getName());
 		if(bookstore == null) {
 			bookstore = bookstoreDao.save(book.getBookstore());
 		}
 		book.setBookstore(bookstore);
-		bookDao.save(book);
-	}
 
-	public void addBooksFromLibrary(List<Book> books) {
-		Bookstore bookstore = bookstoreDao.getBookstoreByName(books.get(0).getBookstore().getName());
-		if(bookstore == null) {
-			bookstore = bookstoreDao.save(books.get(0).getBookstore());
+		Book bookFromBase = bookDao.getBookByTitle(book.getTitle());
+		if(bookFromBase == null) {
+			bookFromBase = book;
 		}
-		Bookstore finalBookstore = bookstore;
-		books.forEach(book -> {
-			book.setBookstore(finalBookstore);
-		});
-		bookDao.save(books);
+		collectionTime.setBook(bookFromBase);
+		bookFromBase.addCollectedDates(collectionTime);
+
+		bookDao.save(bookFromBase);
+		collectedDatesDao.save(bookFromBase.getCollectedDates());
 	}
 }
