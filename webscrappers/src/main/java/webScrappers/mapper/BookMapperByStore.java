@@ -16,7 +16,7 @@ public class BookMapperByStore implements BookMapper {
     private int totalPageToCheck;
 
     public BookMapperByStore() {
-        setTotalPageToCheck(5);
+        setTotalPageToCheck(25);
     }
 
     @Override

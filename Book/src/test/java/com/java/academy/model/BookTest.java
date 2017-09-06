@@ -126,8 +126,8 @@ public class BookTest {
     }
 
     @Test (dataProvider = "booksValues")
-    public void shouldRetrunAppropriateString(String title, String author, String category, String discount,
-                                              BigDecimal price, Bookstore bookstore, String image, String link) {
+    public void shouldRerunAppropriateString(String title, String author, String category, String discount,
+                                             BigDecimal price, Bookstore bookstore, String image, String link) {
 
         //given
         Book book = new Book(title, author, category, discount, price, bookstore);
