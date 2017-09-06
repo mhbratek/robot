@@ -2,6 +2,7 @@ package com.java.academy.service.impl;
 
 import com.java.academy.dao.BookDao;
 import com.java.academy.dao.BookstoreDao;
+import com.java.academy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 import com.java.academy.model.Book;
@@ -88,5 +89,25 @@ public class BookServiceImplTest {
         bookService.getBooksByFilter("dummy", "dummy");
 
         verify(bookDaoMock, times(1)).getBooksByCategoryContaining("dummy");
+    }
+
+    @Test
+    public void shouldAddBook () {
+        BookServiceImpl bookService = new BookServiceImpl();
+
+        Book bookMock = mock(Book.class);
+        when(bookMock.getBookstore()).thenReturn(new Bookstore("Dummy", "Dummy"));
+
+        BookDao bookDaoMock = mock(BookDao.class);
+        BookstoreDao bookstoreDaoMock = mock(BookstoreDao.class);
+
+        bookService.setBookDao(bookDaoMock);
+        bookService.setBookstoreDao(bookstoreDaoMock);
+
+        when(bookstoreDaoMock.getBookstoreByName(anyString())).thenReturn(null);
+
+        bookService.addBook(bookMock);
+
+        verify(bookstoreDaoMock, times(1)).save(bookMock.getBookstore());
     }
 }
