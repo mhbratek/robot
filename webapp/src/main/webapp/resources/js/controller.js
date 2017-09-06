@@ -1,14 +1,8 @@
 angular.module('searchingManager', ['angularUtils.directives.dirPagination'])
     .controller('AppCtl', function($scope, $filter, $http, jsonFilter){
 
-        $scope.getBooks = function(data) {
-            $http.get('/robot/rest/books/'+$scope.myFilter+"/"+data).success(function(data) {
-                $scope.books = data;
-            });
-        };
-
-        $scope.getBooksWithPriceRange = function(data, lower, higher) {
-            $http.get('/robot/rest/books/'+$scope.myFilter+"/"+data+"/price;low="+lower+";high="+higher).success(function(data) {
+        $scope.getBooksByFilters = function(author, title, category, bookstore, lower, higher, version) {
+            $http.get('/robot/rest/books/filters;price='+lower+","+higher+";author="+author+";title="+title+";category="+category+";bookstore="+bookstore+";version="+version).success(function(data) {
                 $scope.books = data;
             });
         };

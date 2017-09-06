@@ -28,7 +28,6 @@ public class BookServiceImpl implements BookService {
 		this.bookstoreDao = bookstoreDao;
 	}
 
-
 	public List<Book> getAllBooks() {
 		return bookDao.findAll();
 	}
@@ -37,71 +36,77 @@ public class BookServiceImpl implements BookService {
 		return bookDao.getBookById(bookId);
 	}
 
-	public List<Book> getBooksByFilter(String filter, String value) {
-		if(value.equals("undefined")) {
-			return bookDao.findAll();
-		}
-		if(value.equals("new")) {
-			return getOnlyNewBooks();
-		}
-		return getBooksFromDaoByFilter(filter, value);
-	}
-
-	List<Book> getBooksFromDaoByFilter(String filter, String value) {
-		switch (filter) {
-			case "title":
-				return bookDao.getBooksByTitleContaining(value);
-			case "author":
-				return bookDao.getBooksByAuthorContaining(value);
-			case "category":
-				return bookDao.getBooksByCategoryContaining(value);
-			case "bookstore":
-				return bookDao.getBooksByBookstoreNameContaining(value);
-			default:
-				return bookDao.getBooksByCategoryContaining(value);
-		}
-	}
-
-	private List<Book> getOnlyNewBooks() {
+	public List<Book> getOnlyNewBooks() {
 		return bookDao.getBooksByVersion(1L);
 	}
 
 	@Override
-	public Set<Book> getBooksByParams(String filter, String value, Map<String, List<String>> filterParams) {
-		List<Book> listOfBooks = getBooksByFilter(filter, value);
-		Set<String> criterias = filterParams.keySet();
-		Set<Book> booksByLowPriceRange = new HashSet<>();
-		Set<Book> booksByHighPriceRange = new HashSet<>();
-		Set<Book> booksByPriceRange = new HashSet<>();
-
-		if(criterias.contains("low")) {
-			for(String price: filterParams.get("low")) {
-				for(Book book: listOfBooks) {
-					if((new BigDecimal(price)).compareTo(book.getPrice()) <= 0){
-						booksByLowPriceRange.add(book);
+	public List<Book> getBooksByParams(Map<String, List<String>> filterParams) {
+		List<Book> allBooks = getAllBooks(); //TODO reduce amount of books by searching with filter
+		for(Map.Entry<String, List<String>> filter: filterParams.entrySet()) {
+			System.out.println(filter.getKey());
+			System.out.println(filter.getValue());
+			System.out.println(allBooks.size());
+			if(filter.getKey().equals("price")) {
+				allBooks = filterByPrice(allBooks, filter.getValue());
+			} else if(filter.getValue().get(0).equals("undefined")) {
+				continue;
+			} else {
+				allBooks = filterByParams(allBooks, filter.getKey(), filter.getValue().get(0));
+			}
+			System.out.println(allBooks.size());
+		}
+		return allBooks;
+	}
+//TODO REFACTOR 
+	private List<Book> filterByParams(List<Book> allBooks, String filter, String value) {
+		List<Book> booksToReturn = new ArrayList<>();
+		switch (filter) {
+			case "title":
+				for(Book book: allBooks) {
+					if(book.getTitle().toLowerCase().contains(value.toLowerCase())) {
+						booksToReturn.add(book);
 					}
 				}
-			}
-		}
-
-		if(criterias.contains("high")) {
-			for(String price: filterParams.get("high")) {
-				for(Book book: listOfBooks) {
-					if((new BigDecimal(price)).compareTo(book.getPrice()) >= 0){
-						booksByHighPriceRange.add(book);
+				break;
+			case "author":
+				for(Book book: allBooks) {
+					if(book.getAuthor().toLowerCase().contains(value.toLowerCase())) {
+						booksToReturn.add(book);
 					}
 				}
+				break;
+			case "category":
+				for(Book book: allBooks) {
+					if(book.getCategory().toLowerCase().contains(value.toLowerCase())) {
+						booksToReturn.add(book);
+					}
+				}
+				break;
+			case "bookstore":
+				for(Book book: allBooks) {
+					if(book.getBookstore().getName().toLowerCase().contains(value.toLowerCase())) {
+						booksToReturn.add(book);
+					}
+				}
+				break;
+			case "version":
+				//TODO checking version
+				booksToReturn.addAll(allBooks);
+				break;
+		}
+		return booksToReturn;
+	}
+
+
+	private List<Book> filterByPrice(List<Book> allBooks, List<String> value) {
+		List<Book> booksToReturn = new ArrayList<>();
+		for (Book book : allBooks) {
+			if ((new BigDecimal(value.get(0))).compareTo(book.getPrice()) <= 0 && (new BigDecimal(value.get(1))).compareTo(book.getPrice()) >= 0) {
+				booksToReturn.add(book);
 			}
 		}
-
-		if(!booksByLowPriceRange.isEmpty() && !booksByHighPriceRange.isEmpty()) {
-			booksByHighPriceRange.retainAll(booksByLowPriceRange);
-			booksByPriceRange.addAll(booksByHighPriceRange);
-		}else{
-			booksByPriceRange.addAll(booksByHighPriceRange);
-			booksByPriceRange.addAll(booksByLowPriceRange);
-		}
-		return booksByPriceRange;
+		return booksToReturn;
 	}
 
 	public void addBook(Book book) {

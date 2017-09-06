@@ -6,43 +6,43 @@
 </head>
 <body>
 
-<div class="jumbotron" th:fragment="menu">
-    <form class="navbar-form navbar-left">
-        <div class="input-group">
-             <span class="input-group-btn">
-                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{myFilter}} <span class="caret"></span></button>
-                 <div class="dropdown-menu">
-                     <li><a href="#" ng-click="setFilter('title')" th:text="#{nav.filterButtonTitle}"></a></li>
-                     <li><a href="#" ng-click="setFilter('author')" th:text="#{nav.filterButtonAuthor}"></a></li>
-                     <li><a href="#" ng-click="setFilter('category')" th:text="#{nav.filterButtonCategory}"></a></li>
-                     <li role="separator" class="divider"></li>
-                     <li><a href="#" ng-click="setFilter('bookstore')" th:text="#{nav.filterButtonBookstore}"></a></li>
-                 </div>
-             </span>
-            <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="set" th:placeholder="#{nav.inputData}">
-        </div>
-    </form>
+<div class="container" th:fragment="menu">
+    <nav class="navbar navbar-default">
 
-    <form class="navbar-form navbar-left">
-        <label for="price-min"><b th:text="#{nav.rangeLow}"/> {{lower}}</label>
-        <input type="range" ng-model="lower" id="price-min" value="0" min="0" max="500">
-    </form>
-    <form class="navbar-form navbar-left">
-        <label for="price-max"><b th:text="#{nav.rangeHigh}" /> {{higher}}</label>
-        <input type="range" ng-model="higher" id="price-max" value="200" min="0" max="2500">
-    </form>
-    <form class="navbar-form navbar-left">
-        <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, lower, higher)" th:text="#{nav.findButton}"></button>
-        <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, 0, 0)" th:text="#{nav.freeButton}"></button>
-        <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange('new', 0, 2500)" th:text="#{nav.newBooks}"></button>
-    </form>
-
-    <form class="navbar-form navbar-right">
-        <div class="form-group">
-            <input type="text" class="form-control" aria-label="..." ng-model="search.$" th:placeholder="#{nav.filterInput}">
+        <div class="center" style="text-align: center">
+            <form class="navbar-form">
+                <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="mAuthor" th:placeholder="#{nav.searchByAuthor}">
+                <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="mTitle" th:placeholder="#{nav.searchByTitle}">
+                <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="mCategory" th:placeholder="#{nav.searchByCategory}">
+                <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="mBookstore" th:placeholder="#{nav.searchByBookstore}">
+            </form>
         </div>
-    </form>
+
+        </br>
+
+        <div class="row">
+            <div class="center" style="text-align: center">
+                <div class="col-sm-6">
+                    <form class="navbar-form">
+                        <label for="price-min"><b th:text="#{nav.rangeLow}"/> {{lower}}</label>
+                        <input type="range" ng-model="lower" id="price-min" value="0" min="0" max="500">
+                    </form>
+                    <form class="navbar-form">
+                        <label for="price-max"><b th:text="#{nav.rangeHigh}" /> {{higher}}</label>
+                        <input type="range" ng-model="higher" id="price-max" value="200" min="0" max="3000">
+                    </form>
+                </div>
+                <div class="col-sm-6">
+                    <form class="navbar-form">
+                        <button type="button" class="btn btn-default" ng-click="getBooksByFilters(mAuthor, mTitle, mCategory, mBookstore, lower, higher, 0)" th:text="#{nav.findButton}"></button>
+                        <button type="button" class="btn btn-default" ng-click="getBooksByFilters(mAuthor, mTitle, mCategory, mBookstore, 0, 0, 0)" th:text="#{nav.freeButton}"></button>
+                        <button type="button" class="btn btn-default" ng-click="getBooksByFilters(mAuthor, mTitle, mCategory, mBookstore, 0, 3500, 1)" th:text="#{nav.newBooks}"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </nav>
 </div>
-
 </body>
 </html>
