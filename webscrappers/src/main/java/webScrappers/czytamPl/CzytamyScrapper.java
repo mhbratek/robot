@@ -58,9 +58,17 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
 
     @Override
     public String getSubtitle(Element product) {
-        String subtitle = details.select(".show-for-medium-up").select("h1").first().text();
-        return subtitle.isEmpty() ? "-" :  subtitle.replaceAll(getBookTitle(product), "");
+        String subtitle = details.getElementsByClass("tabs-content tabs-default").text();
+        String pattern = "Podtytuł:";
+        String endPattern1 = "Autor:";
+        String endPattern2 = "Wydawnictwo:";
+        if (subtitle.contains(pattern)) {
+            subtitle = subtitle.contains(endPattern1) ?
+                    subtitle.substring(subtitle.indexOf(pattern) + pattern.length(), subtitle.indexOf(endPattern1)) :
+                    subtitle.substring(subtitle.indexOf(pattern) + pattern.length(), subtitle.indexOf(endPattern2));
+            return subtitle;
+        }
+        return "";
     }
 }
-
 

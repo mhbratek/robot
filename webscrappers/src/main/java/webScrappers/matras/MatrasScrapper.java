@@ -63,5 +63,4 @@ public class MatrasScrapper extends AbstrackBookScrapper{
                 .replaceAll("[a-ż]+", "")));
     }
 
-
 }

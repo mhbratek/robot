@@ -11,12 +11,6 @@ import java.util.List;
 
 public class BookMapperByStore implements BookMapper {
 
-//    public static void main(String[] args) {
-//        BookMapper mapper = new BookMapperByStore();
-//        BookScrapper scrapper = new MatrasScrapper(new JSOUPLoader());
-//        mapper.collectBooksFromBookStore(scrapper);
-//    }
-
     private static final int FIRST = 0;
     private BookScrapper bookScrapper;
     private int totalPageToCheck;
@@ -38,7 +32,7 @@ public class BookMapperByStore implements BookMapper {
                 try {
                     books.add(setupBook(product));
                 } catch (RuntimeException ex) {
-//                    RLog.error(RLog.getLogger(getClass()), ex.getMessage());
+                    RLog.error(RLog.getLogger(getClass()), ex.getMessage());
                     continue;
                 }
             }
@@ -61,7 +55,7 @@ public class BookMapperByStore implements BookMapper {
         singleBook.setUrl(bookScrapper.getBookLink(product));
         singleBook.setImgUrl(bookScrapper.getImageUrl(product));
 
-        System.out.println(singleBook);
+        System.out.println(singleBook.getSubtitle());
         return singleBook;
         }
 
