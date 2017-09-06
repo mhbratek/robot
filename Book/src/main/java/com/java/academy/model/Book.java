@@ -42,8 +42,7 @@ public class Book extends BaseEntity implements Serializable {
 	@JoinColumn(name = "bookstore_id", nullable = false)
 	private Bookstore bookstore;
 
-	@OneToMany(mappedBy="book", fetch = FetchType.EAGER)
-    private List<CollectionTime> collectedDates;
+	private Long version;
 
 	public Book() {
 	}
@@ -55,7 +54,7 @@ public class Book extends BaseEntity implements Serializable {
 		this.promoDetails = promoDetails;
 		this.price = price;
 		this.bookstore = bookstore;
-		collectedDates = new ArrayList<>();
+		version = 1l;
 	}
 
 	public String getTitle() {
@@ -130,16 +129,16 @@ public class Book extends BaseEntity implements Serializable {
 		this.bookstore = bookstore;
 	}
 
-	public List<CollectionTime> getCollectedDates() {
-		return collectedDates;
+	public Long getVersion() {
+		return version;
 	}
 
-	public void addCollectedDates(CollectionTime collectedTime) {
-		this.collectedDates.add(collectedTime);
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
-	public void setCollectedDates(List<CollectionTime> collectedDates) {
-		this.collectedDates = collectedDates;
+	public void incrementVersion() {
+		this.version += 1;
 	}
 
 	@Override
@@ -156,27 +155,4 @@ public class Book extends BaseEntity implements Serializable {
 				'}';
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		Book book = (Book) o;
-
-		if (!title.equals(book.title)) return false;
-		if (subtitle != null ? !subtitle.equals(book.subtitle) : book.subtitle != null) return false;
-		if (!author.equals(book.author)) return false;
-		if (!category.equals(book.category)) return false;
-		return bookstore.equals(book.bookstore);
-	}
-
-	@Override
-	public int hashCode() {
-		int result = title.hashCode();
-		result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
-		result = 31 * result + author.hashCode();
-		result = 31 * result + category.hashCode();
-		result = 31 * result + bookstore.hashCode();
-		return result;
-	}
 }

@@ -52,15 +52,17 @@
                 <form class="navbar-form navbar-left">
                     <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, lower, higher)" th:text="#{nav.findButton}"></button>
                 </form>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <form class="navbar-form navbar-left">
+                            <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, 0, 0)" th:text="#{nav.freeButton}"></button>
+                        </form>
 
-                <form class="navbar-form navbar-left">
-                    <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, 0, 0)" th:text="#{nav.freeButton}"></button>
-                </form>
-
-                <form class="navbar-form navbar-left">
-                    <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, 0, 0)" th:text="#{nav.newBooks}"></button>
-                </form>
-                
+                        <form class="navbar-form navbar-left">
+                            <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange('new', 0, 2500)" th:text="#{nav.newBooks}"></button>
+                        </form>
+                    </span>
+                </div>
                 <form class="navbar-form navbar-right">
                     <div class="input-group">
                         <span class="input-group-btn">

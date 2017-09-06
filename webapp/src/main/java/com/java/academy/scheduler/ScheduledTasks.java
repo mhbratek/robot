@@ -1,6 +1,5 @@
 package com.java.academy.scheduler;
 
-import com.java.academy.model.CollectionTime;
 import logger.RLog;
 import com.java.academy.service.BookService;
 import googlebookstore.GoogleBookStore;
@@ -48,7 +47,7 @@ public class ScheduledTasks {
 
             for (Book book : books) {
                 System.out.println(book);
-                bookService.addBook(book, new CollectionTime(book, book.getPrice(), new Date()));
+                bookService.addBook(book);
             }
         }
 
@@ -56,7 +55,7 @@ public class ScheduledTasks {
         List<Book> books = bookStore.collectBooksFromGoogle();
 
         for (Book book : books) {
-            bookService.addBook(book, new CollectionTime(book, book.getPrice(), new Date()));
+            bookService.addBook(book);
         }
     }
 }
