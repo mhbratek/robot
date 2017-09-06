@@ -1,6 +1,7 @@
 package com.java.academy.dao;
 
 import com.java.academy.model.Book;
+import com.java.academy.model.Bookstore;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ public interface BookDao extends JpaRepository<Book, Long> {
 	
 	Book getBookById(String bookId);
 
-	Book getBookByTitle(String title);
+	Book getBookByTitleAndAuthorAndBookstore(String title, String Author, Bookstore bookstore);
 	
 	List<Book> getBooksByCategoryContaining(String category);
 

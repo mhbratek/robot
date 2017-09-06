@@ -5,9 +5,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -58,8 +56,6 @@ public class BookTest {
         //given
         Book book = new Book();
         Date start = new Date();
-        List<CollectionTime> collectDates = new ArrayList<>();
-        CollectionTime time;
 
 
         //when
@@ -72,9 +68,6 @@ public class BookTest {
         book.setImgUrl(image);
         book.setUrl(link);
         book.setSubtitle("-");
-        time = new CollectionTime(book, book.getPrice(), start);
-        book.setCollectedDates(collectDates);
-        book.addCollectedDates(time);
 
         //then
         SoftAssert sa = new SoftAssert();
@@ -87,7 +80,6 @@ public class BookTest {
         sa.assertEquals(book.getImgUrl(), image);
         sa.assertEquals(book.getUrl(), link);
         sa.assertEquals(book.getSubtitle(), "-");
-        sa.assertEquals(book.getCollectedDates().size(), 1);
         sa.assertAll();
     }
 

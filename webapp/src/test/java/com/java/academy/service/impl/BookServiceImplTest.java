@@ -2,8 +2,6 @@ package com.java.academy.service.impl;
 
 import com.java.academy.dao.BookDao;
 import com.java.academy.dao.BookstoreDao;
-import com.java.academy.dao.CollectedDatesDao;
-import com.java.academy.model.CollectionTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 import com.java.academy.model.Book;
@@ -25,8 +23,6 @@ public class BookServiceImplTest {
     private BookDao bookDao;
 
     private BookstoreDao bookstoreDao;
-
-    private CollectedDatesDao collectedDatesDao;
 
     @Test
     public void shouldReturnAllBooks () {

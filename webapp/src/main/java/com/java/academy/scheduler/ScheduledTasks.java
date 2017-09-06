@@ -1,7 +1,6 @@
 package com.java.academy.scheduler;
 
 import com.java.academy.model.Book;
-import com.java.academy.model.CollectionTime;
 import com.java.academy.service.BookService;
 import googlebookstore.GoogleBookStore;
 import logger.RLog;
@@ -42,7 +41,7 @@ public class ScheduledTasks {
             List<Book> books = mapper.collectBooksFromBookStore(bookScrapper);
 
             for (Book book : books) {
-                bookService.addBook(book, new CollectionTime(book, book.getPrice(), new Date()));
+                bookService.addBook(book);
             }
         }
 
@@ -50,7 +49,7 @@ public class ScheduledTasks {
         List<Book> books = bookStore.collectBooksFromGoogle();
 
         for (Book book : books) {
-            bookService.addBook(book, new CollectionTime(book, book.getPrice(), new Date()));
+            bookService.addBook(book);
         }
     }
 

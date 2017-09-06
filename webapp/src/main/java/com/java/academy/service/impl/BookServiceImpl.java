@@ -3,9 +3,7 @@ package com.java.academy.service.impl;
 import java.math.BigDecimal;
 import java.util.*;
 
-import com.java.academy.dao.CollectedDatesDao;
 import com.java.academy.model.Bookstore;
-import com.java.academy.model.CollectionTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +17,6 @@ public class BookServiceImpl implements BookService {
 
 	private BookDao bookDao;
 	private BookstoreDao bookstoreDao;
-	private CollectedDatesDao collectedDatesDao;
 
 	@Autowired
 	public void setBookDao(BookDao bookDao) {
@@ -31,10 +28,6 @@ public class BookServiceImpl implements BookService {
 		this.bookstoreDao = bookstoreDao;
 	}
 
-	@Autowired
-	public void setCollectedDatesDao(CollectedDatesDao collectedDatesDao) {
-		this.collectedDatesDao = collectedDatesDao;
-	}
 
 	public List<Book> getAllBooks() {
 		return bookDao.findAll();
@@ -47,6 +40,9 @@ public class BookServiceImpl implements BookService {
 	public List<Book> getBooksByFilter(String filter, String value) {
 		if(value.equals("undefined")) {
 			return bookDao.findAll();
+		}
+		if(value.equals("new")) {
+			return getOnlyNewBooks();
 		}
 		return getBooksFromDaoByFilter(filter, value);
 	}
@@ -64,6 +60,11 @@ public class BookServiceImpl implements BookService {
 			default:
 				return bookDao.getBooksByCategoryContaining(value);
 		}
+	}
+
+	private List<Book> getOnlyNewBooks() {
+
+		return null;
 	}
 
 	@Override
@@ -104,26 +105,27 @@ public class BookServiceImpl implements BookService {
 		return booksByPriceRange;
 	}
 
-	public void addBook(Book book, CollectionTime collectionTime) {
+	public void addBook(Book book) {
 		Bookstore bookstore = bookstoreDao.getBookstoreByName(book.getBookstore().getName());
 		if(isItANewBookStore(bookstore)) {
 			bookstore = bookstoreDao.save(book.getBookstore());
 		}
 		book.setBookstore(bookstore);
 
-		Book bookFromBase = bookDao.getBookByTitle(book.getTitle());
+		Book bookFromBase = bookDao.getBookByTitleAndAuthorAndBookstore(book.getTitle(), book.getAuthor(), book.getBookstore());
+		if(bookFromBase != null) {
+			bookFromBase.incrementVersion();
+		}
 		if(bookFromBase == null) {
 			bookFromBase = book;
 		}
 		bookFromBase.setPrice(book.getPrice());
-		collectionTime.setBook(bookFromBase);
-		bookFromBase.addCollectedDates(collectionTime);
 
 		bookDao.save(bookFromBase);
-		collectedDatesDao.save(bookFromBase.getCollectedDates());
 	}
 
 	private boolean isItANewBookStore(Bookstore bookstore) {
 		return bookstore == null;
 	}
+
 }
