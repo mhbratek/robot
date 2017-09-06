@@ -62,7 +62,6 @@ public class ScheduledTasks {
                 new PWNscrapper(new JSOUPLoader()),
                 new TaniaKsiazkaScrapper(new JSOUPLoader())
         );
-
         return bookstores;
     }
 }
