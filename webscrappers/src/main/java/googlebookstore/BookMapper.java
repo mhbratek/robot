@@ -64,9 +64,9 @@ public class BookMapper {
 
     static void assignPrice(Item book, Book bookToAdd) {
         if (ifBookHasPrice(book)) {
-           // bookToAdd.setPrice(new BigDecimal(book.getPrice()));
+            bookToAdd.setPrice(new BigDecimal(book.getPrice()));
         } else {
-            //bookToAdd.setPrice(new BigDecimal(DEFAULT_PRICE));
+            bookToAdd.setPrice(new BigDecimal(DEFAULT_PRICE));
         }
     }
     static void assignPromoDetails(Item book, Book bookToAdd) {

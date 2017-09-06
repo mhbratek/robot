@@ -21,7 +21,7 @@ public class CollectionTime extends BaseEntity {
     public CollectionTime(Book book, BigDecimal price, Date date) {
         this.book = book;
         this.price = price;
-        this.date = date;
+        this.date = new Date(date.getTime());
     }
 
     public Book getBook() {
@@ -41,11 +41,11 @@ public class CollectionTime extends BaseEntity {
     }
 
     public Date getDate() {
-        return date;
+        return new Date(this.date.getTime());
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.date = new Date(date.getTime());
     }
 
     @Override
