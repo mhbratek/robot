@@ -27,9 +27,13 @@ public class ScheduledTasks {
 
     @Autowired
     private BookService bookService;
+
     final BookMapper mapper = new BookMapperByStore();
+
+
+//    @Scheduled(cron = "0 0 8 * * *")
     @Scheduled(fixedRate = 3200000)
-    public void scheduleFixedDelayTask() {
+    public void bookCollector() {
 
         RLog.info(RLog.getLogger(getClass()), ("Collecting data: " + new Date().toString()));
 
