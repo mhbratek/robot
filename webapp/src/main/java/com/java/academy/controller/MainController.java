@@ -3,6 +3,7 @@ package com.java.academy.controller;
 import com.java.academy.model.Book;
 import com.java.academy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/robot")
@@ -34,13 +34,12 @@ public class MainController {
 		return "booksTiles";
 	}
 
-    @RequestMapping(value = "/rest/books/{filter}/{data}/{ByPriceRange}", method = RequestMethod.GET)
-    public @ResponseBody Set<Book> read(@PathVariable String filter, @PathVariable String data,
-				   @MatrixVariable(pathVar="ByPriceRange") Map<String, List<String>> filterParams) {
-        Set<Book> books = bookService.getBooksByParams(filter, data, filterParams);
+	@RequestMapping(value = "/rest/books/{filters}", method = RequestMethod.GET)
+	public @ResponseBody List<Book> getFiltered(@MatrixVariable(pathVar="filters") Map<String, List<String>> filters) {
+		List<Book> books = bookService.getBooksByParams(filters);
 
-        return books;
-    }
+		return books;
+	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason="Wewnętrzny błąd serwera.")

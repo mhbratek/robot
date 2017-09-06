@@ -42,7 +42,7 @@ public class BookServiceImplTest {
         BookDao bookDaoMock = mock(BookDao.class);
         bookService.setBookDao(bookDaoMock);
 
-        bookService.getBooksByFilter("title", "dummy");
+       // bookService.getBooksByFilter("title", "dummy");
 
         verify(bookDaoMock, times(1)).getBooksByTitleContaining("dummy");
     }
@@ -53,7 +53,7 @@ public class BookServiceImplTest {
         BookDao bookDaoMock = mock(BookDao.class);
         bookService.setBookDao(bookDaoMock);
 
-        bookService.getBooksByFilter("author", "dummy");
+       // bookService.getBooksByFilter("author", "dummy");
 
         verify(bookDaoMock, times(1)).getBooksByAuthorContaining("dummy");
     }
@@ -64,7 +64,7 @@ public class BookServiceImplTest {
         BookDao bookDaoMock = mock(BookDao.class);
         bookService.setBookDao(bookDaoMock);
 
-        bookService.getBooksByFilter("category", "dummy");
+       // bookService.getBooksByFilter("category", "dummy");
 
         verify(bookDaoMock, times(1)).getBooksByCategoryContaining("dummy");
     }
@@ -75,7 +75,7 @@ public class BookServiceImplTest {
         BookDao bookDaoMock = mock(BookDao.class);
         bookService.setBookDao(bookDaoMock);
 
-        bookService.getBooksByFilter("bookstore", "dummy");
+       // bookService.getBooksByFilter("bookstore", "dummy");
 
         verify(bookDaoMock, times(1)).getBooksByBookstoreNameContaining("dummy");
     }
@@ -86,7 +86,7 @@ public class BookServiceImplTest {
         BookDao bookDaoMock = mock(BookDao.class);
         bookService.setBookDao(bookDaoMock);
 
-        bookService.getBooksByFilter("dummy", "dummy");
+      //  bookService.getBooksByFilter("dummy", "dummy");
 
         verify(bookDaoMock, times(1)).getBooksByCategoryContaining("dummy");
     }

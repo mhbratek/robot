@@ -17,6 +17,12 @@
 </head>
 <body>
 <div th:replace="fragments/header :: headerSearch"></div>
+
+
+<div ng-hide="!isHidden">
+    <div th:replace="fragments/searchMenu :: menu"></div>
+</div>
+
 <div th:replace="fragments/pagination :: paginationUp"></div>
 <div class="container" ng-init="getBooksWithPriceRange(set, lower, higher)">
     <div class="table-responsive">
