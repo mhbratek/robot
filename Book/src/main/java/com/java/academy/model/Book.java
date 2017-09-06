@@ -6,9 +6,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "books")
@@ -43,7 +41,7 @@ public class Book extends BaseEntity implements Serializable {
 	private Bookstore bookstore;
 
 	@OneToMany(mappedBy="book", fetch = FetchType.EAGER)
-    private List<CollectionTime> collectedDates;
+    private transient List<CollectionTime> collectedDates;
 
 	public Book() {
 	}

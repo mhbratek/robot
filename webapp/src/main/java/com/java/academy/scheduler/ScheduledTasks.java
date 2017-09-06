@@ -10,8 +10,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import webScrappers.BookScrapper;
 import webScrappers.JSOUPLoader;
+import webScrappers.czytamPl.CzytamyScrapper;
+import webScrappers.gandalf.GandalfScrapper;
+import webScrappers.ksiegarniaPWN.PWNscrapper;
 import webScrappers.mapper.BookMapper;
 import webScrappers.mapper.BookMapperByStore;
+import webScrappers.matras.MatrasScrapper;
+import webScrappers.ravelo.RaveloScrapper;
 import webScrappers.taniaKsiazka.TaniaKsiazkaScrapper;
 
 import java.util.Arrays;
@@ -24,19 +29,14 @@ public class ScheduledTasks {
     @Autowired
     private BookService bookService;
     final BookMapper mapper = new BookMapperByStore();
+
+
     @Scheduled(fixedRate = 3200000)
     public void scheduleFixedDelayTask() {
 
         RLog.info(RLog.getLogger(getClass()), ("Collecting data: " + new Date().toString()));
 
-        List<BookScrapper> bookstores = Arrays.asList(
-//                new GandalfScrapper(new JSOUPLoader()),
-//                new MatrasScrapper(new JSOUPLoader()),
-//                new CzytamyScrapper(new JSOUPLoader()),
-//                new RaveloScrapper(new JSOUPLoader()),
-//                new PWNscrapper(new JSOUPLoader()),
-                new TaniaKsiazkaScrapper(new JSOUPLoader())
-        );
+        List<BookScrapper> bookstores = initBookStores();
 
         for (BookScrapper bookScrapper : bookstores) {
             List<Book> books = mapper.collectBooksFromBookStore(bookScrapper);
@@ -52,5 +52,18 @@ public class ScheduledTasks {
         for (Book book : books) {
             bookService.addBook(book, new CollectionTime(book, book.getPrice(), new Date()));
         }
+    }
+
+     List<BookScrapper> initBookStores() {
+        List<BookScrapper> bookstores = Arrays.asList(
+                new GandalfScrapper(new JSOUPLoader()),
+                new MatrasScrapper(new JSOUPLoader()),
+                new CzytamyScrapper(new JSOUPLoader()),
+                new RaveloScrapper(new JSOUPLoader()),
+                new PWNscrapper(new JSOUPLoader()),
+                new TaniaKsiazkaScrapper(new JSOUPLoader())
+        );
+
+        return bookstores;
     }
 }
