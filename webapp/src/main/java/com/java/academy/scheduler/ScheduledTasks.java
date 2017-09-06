@@ -37,14 +37,7 @@ public class ScheduledTasks {
 
         RLog.info(RLog.getLogger(getClass()), ("Collecting data: " + new Date().toString()));
 
-        List<BookScrapper> bookstores = Arrays.asList(
-                new GandalfScrapper(new JSOUPLoader()),
-                new MatrasScrapper(new JSOUPLoader()),
-                new CzytamyScrapper(new JSOUPLoader()),
-                new RaveloScrapper(new JSOUPLoader()),
-                new PWNscrapper(new JSOUPLoader()),
-                new TaniaKsiazkaScrapper(new JSOUPLoader())
-        );
+        List<BookScrapper> bookstores = initBookStores();
 
         for (BookScrapper bookScrapper : bookstores) {
             List<Book> books = mapper.collectBooksFromBookStore(bookScrapper);
@@ -61,5 +54,17 @@ public class ScheduledTasks {
         for (Book book : books) {
             bookService.addBook(book);
         }
+    }
+
+     List<BookScrapper> initBookStores() {
+        List<BookScrapper> bookstores = Arrays.asList(
+                new GandalfScrapper(new JSOUPLoader()),
+                new MatrasScrapper(new JSOUPLoader()),
+                new CzytamyScrapper(new JSOUPLoader()),
+                new RaveloScrapper(new JSOUPLoader()),
+                new PWNscrapper(new JSOUPLoader()),
+                new TaniaKsiazkaScrapper(new JSOUPLoader())
+        );
+        return bookstores;
     }
 }

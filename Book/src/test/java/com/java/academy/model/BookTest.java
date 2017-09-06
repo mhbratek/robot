@@ -5,9 +5,9 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 
 @Test
 public class BookTest {
@@ -54,6 +54,8 @@ public class BookTest {
                                                       BigDecimal price, Bookstore bookstore, String image, String link) {
         //given
         Book book = new Book();
+        Date start = new Date();
+
 
         //when
         book.setBookstore(bookstore);
@@ -81,42 +83,8 @@ public class BookTest {
     }
 
     @Test (dataProvider = "booksValues")
-    public void shouldReturnTrueIfEquals(String title, String author, String category, String discount,
-                                         BigDecimal price, Bookstore bookstore, String image, String link) {
-
-        //given
-        Book book = new Book(title, author, category, discount, price, bookstore);
-        Book book1 = new Book(title, author, category, discount, price, bookstore);
-
-        //when
-        book.setImgUrl(image);
-        book.setUrl(link);
-
-        //then
-        assertTrue(book1.equals(book));
-        assertTrue(book.equals(book1));
-
-    }
-
-    @Test (dataProvider = "booksValues")
-    public void shouldReturnSameHashCodeIfEquals(String title, String author, String category, String discount,
-                                         BigDecimal price, Bookstore bookstore, String image, String link) {
-
-        //given
-        Book book = new Book(title, author, category, discount, price, bookstore);
-        Book book1 = new Book(title, author, category, discount, price, bookstore);
-
-        //when
-        book.setImgUrl(image);
-        book.setUrl(link);
-
-        //then
-        assertEquals(book.hashCode(), book1.hashCode());
-    }
-
-    @Test (dataProvider = "booksValues")
-    public void shouldRetrunAppropriateString(String title, String author, String category, String discount,
-                                              BigDecimal price, Bookstore bookstore, String image, String link) {
+    public void shouldRerunAppropriateString(String title, String author, String category, String discount,
+                                             BigDecimal price, Bookstore bookstore, String image, String link) {
 
         //given
         Book book = new Book(title, author, category, discount, price, bookstore);

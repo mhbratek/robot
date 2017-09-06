@@ -16,33 +16,33 @@ public class TaniaKsiazkaScrapper extends AbstrackBookScrapper {
     public TaniaKsiazkaScrapper(DocumentLoader loader) {
         this.loader = loader;
         this.hostUrl = "http://www.taniaksiazka.pl";
-        initializeDataToScrap("TaniaKsiazka", hostUrl, "author",
-                "discount", "ecommerce-datalayer ");
+        initializeDataToScrap("TaniaKsiazka", hostUrl, "product-authors",
+                "product-discount", "ecommerce-datalayer product-title ");
     }
 
     @Override
     public Elements getPageToCheck(int page) {
-        String url = "http://www.taniaksiazka.pl/promocje/id-142/page-" + (page + 1);
-        Document czytamBooks = provideShopConnection(url, loader);
+        String url = "http://www.taniaksiazka.pl/outlet/page-" + (page + 1) +"/?params[tg]=1&params[last]=tg";
+        Document tania = provideShopConnection(url, loader);
 
-        return czytamBooks.getElementsByClass("list-content");
+        return tania.getElementsByClass("product-container");
     }
 
     @Override
     public String getBookTitle(Element product) {
-        return product.getElementsByClass(titleClassName).text().replace("do koszyka", "");
+        return product.getElementsByClass(titleClassName).text().replaceAll("Outlet", "");
     }
 
     @Override
     public String getImageUrl(Element product) {
-        return product.getElementsByClass("photo")
+        return product.getElementsByClass("product-image")
                 .select("img").attr("src");
     }
 
     @Override
     public String getBookCategory(Element product) {
         Document details = provideShopConnection(getBookLink(product), loader);
-        return details.getElementsByClass("active").size() < 1 ? "nieznany"
+        return details.getElementsByClass("active").size() < 1 ? "-"
                 : details.getElementsByClass("active").get(FIRST_ELEMENT)
                 .getElementsByTag("a").attr("title");
     }
@@ -56,8 +56,8 @@ public class TaniaKsiazkaScrapper extends AbstrackBookScrapper {
 
     @Override
     public BigDecimal getBookPrice(Element product) {
-        return BigDecimal.valueOf(Double.parseDouble(product.getElementsByClass("ecommerce-datalayer ")
-                .attr("data-price")
+        return BigDecimal.valueOf(Double.parseDouble(product.getElementsByClass("product-price")
+                .text()
                 .replaceAll(",", ".")
                 .replaceAll("[A-ż]+", "")));
     }

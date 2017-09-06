@@ -10,14 +10,14 @@ import java.io.IOException;
 
 public abstract class AbstrackBookScrapper implements BookScrapper {
 
-    protected final int FIRST_ELEMENT = 0;
+    protected static final int FIRST_ELEMENT = 0;
 
     protected Bookstore bookstore;
     protected String authorClassName;
     protected String discountClassName;
     protected String titleClassName;
 
-    protected Bookstore initBookStore(String shopName, String url) {
+    private Bookstore initBookStore(String shopName, String url) {
         Bookstore bookstore = new Bookstore();
         bookstore.setName(shopName);
         bookstore.setUrl(url);
