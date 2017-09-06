@@ -26,6 +26,7 @@ public class BookMapper {
         for (Item book : googleBook.getItems()) {
             Book bookToAdd = new Book();
 
+            bookToAdd.setVersion(1L);
             bookToAdd.setTitle(book.getTitle());
 
             assignAuthors(book, bookToAdd);
