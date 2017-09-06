@@ -63,8 +63,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	private List<Book> getOnlyNewBooks() {
-
-		return null;
+		return bookDao.getBooksByVersion(1L);
 	}
 
 	@Override
