@@ -18,6 +18,10 @@ angular.module('searchingManager', ['angularUtils.directives.dirPagination'])
             window.alert($scope.myFilter);
         };
 
+        $scope.clickHandler = function(){
+            $scope.isHidden = !$scope.isHidden;
+        };
+
         $scope.lower = 0;
         $scope.higher = 200;
         $scope.myFilter = 'Set filter'

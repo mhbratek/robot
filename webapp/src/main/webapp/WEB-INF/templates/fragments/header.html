@@ -25,34 +25,9 @@
                     <li class="active"><a th:href="@{/robot/books}" th:text="#{nav.booksList}"></a></li>
                     <li><a th:href="@{/robot/booksTiles}" th:text="#{nav.booksTiles}"></a></li>
                 </ul>
-                <form class="navbar-form navbar-left">
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{myFilter}} <span class="caret"></span></button>
-                            <div class="dropdown-menu">
-                                <li><a href="#" ng-click="setFilter('title')" th:text="#{nav.filterButtonTitle}"></a></li>
-                                <li><a href="#" ng-click="setFilter('author')" th:text="#{nav.filterButtonAuthor}"></a></li>
-                                <li><a href="#" ng-click="setFilter('category')" th:text="#{nav.filterButtonCategory}"></a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#" ng-click="setFilter('bookstore')" th:text="#{nav.filterButtonBookstore}"></a></li>
-                            </div>
-                        </span>
-                        <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="set" th:placeholder="#{nav.inputData}">
-                    </div>
-                </form>
 
                 <form class="navbar-form navbar-left">
-                    <label for="price-min"><b th:text="#{nav.rangeLow}"/> {{lower}}</label>
-                    <input type="range" ng-model="lower" id="price-min" value="0" min="0" max="500">
-                </form>
-                <form class="navbar-form navbar-left">
-                    <label for="price-max"><b th:text="#{nav.rangeHigh}" /> {{higher}}</label>
-                    <input type="range" ng-model="higher" id="price-max" value="200" min="0" max="2500">
-                </form>
-                <form class="navbar-form navbar-left">
-                    <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, lower, higher)" th:text="#{nav.findButton}"></button>
-                    <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, 0, 0)" th:text="#{nav.freeButton}"></button>
-                    <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange('new', 0, 2500)" th:text="#{nav.newBooks}"></button>
+                    <button ng-click="clickHandler()" ng-class="btnClass">Zaawansowane wyszukiwanie</button>
                 </form>
 
                 <form class="navbar-form navbar-right">
@@ -68,16 +43,50 @@
                     </div>
                 </form>
 
-                <form class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <input type="text" class="form-control" aria-label="..." ng-model="search.$" th:placeholder="#{nav.filterInput}">
-                    </div>
-                </form>
+
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
 
 
+    <nav class="navbar navbar-default" th:fragment="searchMenu">
+
+        <form class="navbar-form navbar-left">
+            <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{myFilter}} <span class="caret"></span></button>
+                            <div class="dropdown-menu">
+                                <li><a href="#" ng-click="setFilter('title')" th:text="#{nav.filterButtonTitle}"></a></li>
+                                <li><a href="#" ng-click="setFilter('author')" th:text="#{nav.filterButtonAuthor}"></a></li>
+                                <li><a href="#" ng-click="setFilter('category')" th:text="#{nav.filterButtonCategory}"></a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#" ng-click="setFilter('bookstore')" th:text="#{nav.filterButtonBookstore}"></a></li>
+                            </div>
+                        </span>
+                <input type="text" class="form-control" aria-label="..." aria-describedby="sizing-addon2" ng-model="set" th:placeholder="#{nav.inputData}">
+            </div>
+        </form>
+
+        <form class="navbar-form navbar-left">
+            <label for="price-min"><b th:text="#{nav.rangeLow}"/> {{lower}}</label>
+            <input type="range" ng-model="lower" id="price-min" value="0" min="0" max="500">
+        </form>
+        <form class="navbar-form navbar-left">
+            <label for="price-max"><b th:text="#{nav.rangeHigh}" /> {{higher}}</label>
+            <input type="range" ng-model="higher" id="price-max" value="200" min="0" max="2500">
+        </form>
+        <form class="navbar-form navbar-left">
+            <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, lower, higher)" th:text="#{nav.findButton}"></button>
+            <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange(set, 0, 0)" th:text="#{nav.freeButton}"></button>
+            <button type="button" class="btn btn-default dropdown-toggle" ng-click="getBooksWithPriceRange('new', 0, 2500)" th:text="#{nav.newBooks}"></button>
+        </form>
+
+        <form class="navbar-form navbar-right">
+            <div class="form-group">
+                <input type="text" class="form-control" aria-label="..." ng-model="search.$" th:placeholder="#{nav.filterInput}">
+            </div>
+        </form>
+    </nav>
 
 
 <!-- NORMAL HEADER -->
