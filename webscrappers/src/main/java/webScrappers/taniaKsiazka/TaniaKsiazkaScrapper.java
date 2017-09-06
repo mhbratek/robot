@@ -42,7 +42,7 @@ public class TaniaKsiazkaScrapper extends AbstrackBookScrapper {
     @Override
     public String getBookCategory(Element product) {
         Document details = provideShopConnection(getBookLink(product), loader);
-        return details.getElementsByClass("active").size() < 1 ? "nieznany"
+        return details.getElementsByClass("active").size() < 1 ? "-"
                 : details.getElementsByClass("active").get(FIRST_ELEMENT)
                 .getElementsByTag("a").attr("title");
     }
