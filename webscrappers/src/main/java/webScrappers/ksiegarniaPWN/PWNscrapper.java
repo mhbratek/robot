@@ -45,13 +45,15 @@ public class PWNscrapper extends AbstrackBookScrapper {
 
     @Override
     public String getImageUrl(Element product) {
-        return product.getElementsByClass("emp-image")
+        String imgUrl = product.getElementsByClass("emp-image")
                 .select("img").attr("src");
+        return imgUrl.length() < hostUrl.length() ? defaultImg : imgUrl;
     }
 
     @Override
     public String getBookCategory(Element product) {
-        Document details = provideShopConnection(getBookLink(product), loader);
+        details = provideShopConnection(getBookLink(product), loader);
+
         return details.getElementsByClass("category wartosc") != null &&
                 details.getElementsByClass("category wartosc").size() > 0
                 ?
@@ -81,6 +83,7 @@ public class PWNscrapper extends AbstrackBookScrapper {
         Elements elements = product.getElementsByClass(discountClassName);
         return elements.size() > 0 ? elements.get(FIRST_ELEMENT).text() : "-";
     }
+
 
 }
 

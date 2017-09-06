@@ -1,7 +1,7 @@
 package webScrappers;
 
-import logger.RLog;
 import com.java.academy.model.Bookstore;
+import logger.RLog;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -11,11 +11,13 @@ import java.io.IOException;
 public abstract class AbstrackBookScrapper implements BookScrapper {
 
     protected static final int FIRST_ELEMENT = 0;
+    protected static final String defaultImg = "/resource/img/default-book-cover.png";
 
     protected Bookstore bookstore;
     protected String authorClassName;
     protected String discountClassName;
     protected String titleClassName;
+    protected Document details;
 
     private Bookstore initBookStore(String shopName, String url) {
         Bookstore bookstore = new Bookstore();
@@ -45,7 +47,7 @@ public abstract class AbstrackBookScrapper implements BookScrapper {
 
     @Override
     public String getBookTitle(Element product) {
-        return product.getElementsByClass(titleClassName).text();
+        return product.getElementsByClass(titleClassName).text().replaceAll("[...]", "");
     }
 
     @Override
@@ -61,6 +63,13 @@ public abstract class AbstrackBookScrapper implements BookScrapper {
     @Override
     public Bookstore getBookStore() {
         return bookstore;
+    }
+
+    @Override
+    public String getSubtitle(Element product) {
+        String subtitle = details.getElementsByClass("subtitle").text();
+
+        return subtitle.isEmpty() ? "-" : subtitle;
     }
 
 }

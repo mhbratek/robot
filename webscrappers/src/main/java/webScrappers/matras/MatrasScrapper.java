@@ -36,13 +36,14 @@ public class MatrasScrapper extends AbstrackBookScrapper{
 
     @Override
     public String getImageUrl(Element product) {
-        return product.getElementsByClass("image")
+        String imgUrl = product.getElementsByClass("image")
                 .select("img").attr("data-original");
+        return imgUrl.length() < hostUrl.length() ? defaultImg : imgUrl;
     }
 
     @Override
     public String getBookCategory(Element product) {
-        Document details = provideShopConnection(getBookLink(product), loader);
+        details = provideShopConnection(getBookLink(product), loader);
         return details.getElementsByClass("m-list") == null ? "nieznany" :
                 details.getElementsByClass("m-list").text();
             }
@@ -61,4 +62,6 @@ public class MatrasScrapper extends AbstrackBookScrapper{
                 .replaceAll(",", ".")
                 .replaceAll("[a-ż]+", "")));
     }
+
+
 }

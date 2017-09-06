@@ -1,8 +1,9 @@
 package com.java.academy.scheduler;
 
-import logger.RLog;
+import com.java.academy.model.Book;
 import com.java.academy.service.BookService;
 import googlebookstore.GoogleBookStore;
+import logger.RLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,6 @@ import webScrappers.mapper.BookMapperByStore;
 import webScrappers.matras.MatrasScrapper;
 import webScrappers.ravelo.RaveloScrapper;
 import webScrappers.taniaKsiazka.TaniaKsiazkaScrapper;
-import com.java.academy.model.Book;
 
 import java.util.Arrays;
 import java.util.Date;

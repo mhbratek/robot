@@ -40,9 +40,10 @@ public class RaveloScrapper extends AbstrackBookScrapper{
 
     @Override
     public String getImageUrl(Element product) {
-        return product.getElementsByClass("span2 imgContainer")
+        String imgUrl = product.getElementsByClass("span2 imgContainer")
                 .select("img")
                 .attr("data-src");
+        return imgUrl.length() < hostUrl.length() ? defaultImg : imgUrl;
     }
 
     @Override

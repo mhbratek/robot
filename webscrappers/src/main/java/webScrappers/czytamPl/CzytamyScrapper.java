@@ -30,12 +30,13 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
 
     @Override
     public String getImageUrl(Element product) {
-        return product.getElementsByClass("has-tip [tip-left] th [radius]").attr("src");
+        String imgUrl = product.getElementsByClass("has-tip [tip-left] th [radius]").attr("src");
+        return imgUrl.length() < hostUrl.length() ? defaultImg : imgUrl;
     }
 
     @Override
     public String getBookCategory(Element product) {
-        Document details = provideShopConnection(getBookLink(product), loader);
+        details = provideShopConnection(getBookLink(product), loader);
         return details.getElementsByClass("trail") == null ? "nieznany"
                 : details.getElementsByClass("trail").text();
     }
@@ -53,6 +54,12 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
                 .text()
                 .replaceAll(",", ".")
                 .replaceAll("[A-ż]+", "")));
+    }
+
+    @Override
+    public String getSubtitle(Element product) {
+        String subtitle = details.select(".show-for-medium-up").select("h1").first().text();
+        return subtitle.isEmpty() ? "-" :  subtitle.replaceAll(getBookTitle(product), "");
     }
 }
 

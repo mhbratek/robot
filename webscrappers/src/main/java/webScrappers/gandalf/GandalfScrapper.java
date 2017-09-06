@@ -36,13 +36,14 @@ public class GandalfScrapper extends AbstrackBookScrapper {
 
     @Override
     public String getImageUrl(Element product) {
-        return (hostUrl + product.getElementsByTag("img").attr("src"));
+        String imgUrl = hostUrl + product.getElementsByTag("img").attr("src");
+        return imgUrl.length() <= hostUrl.length() ? defaultImg : imgUrl;
     }
 
     @Override
     public String getBookCategory(Element product) {
-        Document productDetails = provideShopConnection(getBookLink(product), loader);
-        Elements genre = productDetails.getElementsByClass("product_categories");
+        details = provideShopConnection(getBookLink(product), loader);
+        Elements genre = details.getElementsByClass("product_categories");
         return genre == null? "nieznany" : genre.text().substring(genre.text().lastIndexOf(':') + 1).trim();
     }
 
@@ -62,6 +63,7 @@ public class GandalfScrapper extends AbstrackBookScrapper {
         return product.getElementsByClass(discountClassName).text()
                 .replaceAll("[a-z]+", "");
     }
+
 }
 
 
