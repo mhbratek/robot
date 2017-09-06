@@ -26,6 +26,7 @@ public class BookMapper {
         for (Item book : googleBook.getItems()) {
             Book bookToAdd = new Book();
 
+            bookToAdd.setVersion(1L);
             bookToAdd.setTitle(book.getTitle());
 
             assignAuthors(book, bookToAdd);
@@ -59,6 +60,8 @@ public class BookMapper {
     static void assignImageURL(Item book, Book bookToAdd) {
         if(ifBookHasImage(book)) {
             bookToAdd.setImgUrl(book.getImageLink());
+        } else {
+            bookToAdd.setImgUrl("/resource/img/default-book-cover.png");
         }
     }
 
