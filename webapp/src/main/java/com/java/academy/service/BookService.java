@@ -17,6 +17,4 @@ public interface BookService {
 	Set<Book> getBooksByParams(String filter, String value, Map<String, List<String>> filterParams);
 	
 	void addBook(Book book);
-
-	void addBooksFromLibrary(List<Book> books);
 }

@@ -16,14 +16,8 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
     public CzytamyScrapper(DocumentLoader loader) {
         this.loader = loader;
         this.hostUrl = "http://czytam.pl";
-        initializeCztamScrapper();
-    }
-
-    private void initializeCztamScrapper() {
-        bookstore = initBookStore("Czytam", hostUrl);
-        authorClassName = "product-author";
-        discountClassName = "icon_rabat";
-        titleClassName = "product-title";
+        initializeDataToScrap("Czytam", hostUrl, "product-author",
+                "icon_rabat", "product-title");
     }
 
     @Override

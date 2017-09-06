@@ -16,14 +16,8 @@ public class PWNscrapper extends AbstrackBookScrapper {
     public PWNscrapper(DocumentLoader loader) {
         this.loader = loader;
         this.hostUrl = "https://ksiegarnia.pwn.pl";
-        initializeCztamScrapper();
-    }
-
-    private void initializeCztamScrapper() {
-        bookstore = initBookStore("PWN", hostUrl);
-        authorClassName = "emp-info-author";
-        discountClassName = "emp-image-label";
-        titleClassName = "emp-info-title emp-two-lines";
+        initializeDataToScrap("PWN", hostUrl, "emp-info-author",
+                "emp-image-label", "emp-info-title emp-two-lines");
     }
 
     @Override

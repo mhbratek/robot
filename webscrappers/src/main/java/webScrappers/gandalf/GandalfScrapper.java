@@ -16,14 +16,8 @@ public class GandalfScrapper extends AbstrackBookScrapper {
     public GandalfScrapper(DocumentLoader loader) {
         this.loader = loader;
         this.hostUrl = "http://www.gandalf.com.pl";
-        initializeGandalfScrapper();
-    }
-
-    private void initializeGandalfScrapper() {
-        bookstore = initBookStore("Gandalf", hostUrl);
-        authorClassName = "h3";
-        discountClassName = "price_dis";
-        titleClassName = "h2";
+        initializeDataToScrap("Gandalf", hostUrl, "h3",
+                "price_dis", "h2");
     }
 
     @Override

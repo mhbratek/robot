@@ -1,10 +1,7 @@
 package com.java.academy.service.impl;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.java.academy.model.Bookstore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +14,20 @@ import com.java.academy.service.BookService;
 
 @Service
 public class BookServiceImpl implements BookService {
-	
-	@Autowired
+
 	private BookDao bookDao;
-	@Autowired
 	private BookstoreDao bookstoreDao;
+
+	@Autowired
+	public void setBookDao(BookDao bookDao) {
+		this.bookDao = bookDao;
+	}
+
+	@Autowired
+	public void setBookstoreDao(BookstoreDao bookstoreDao) {
+		this.bookstoreDao = bookstoreDao;
+	}
+
 
 	public List<Book> getAllBooks() {
 		return bookDao.findAll();
@@ -35,6 +41,13 @@ public class BookServiceImpl implements BookService {
 		if(value.equals("undefined")) {
 			return bookDao.findAll();
 		}
+		if(value.equals("new")) {
+			return getOnlyNewBooks();
+		}
+		return getBooksFromDaoByFilter(filter, value);
+	}
+
+	List<Book> getBooksFromDaoByFilter(String filter, String value) {
 		switch (filter) {
 			case "title":
 				return bookDao.getBooksByTitleContaining(value);
@@ -45,8 +58,12 @@ public class BookServiceImpl implements BookService {
 			case "bookstore":
 				return bookDao.getBooksByBookstoreNameContaining(value);
 			default:
-				return bookDao.getBooksByAuthorContaining(value);
+				return bookDao.getBooksByCategoryContaining(value);
 		}
+	}
+
+	private List<Book> getOnlyNewBooks() {
+		return bookDao.getBooksByVersion(1L);
 	}
 
 	@Override
@@ -56,6 +73,7 @@ public class BookServiceImpl implements BookService {
 		Set<Book> booksByLowPriceRange = new HashSet<>();
 		Set<Book> booksByHighPriceRange = new HashSet<>();
 		Set<Book> booksByPriceRange = new HashSet<>();
+
 		if(criterias.contains("low")) {
 			for(String price: filterParams.get("low")) {
 				for(Book book: listOfBooks) {
@@ -65,6 +83,7 @@ public class BookServiceImpl implements BookService {
 				}
 			}
 		}
+
 		if(criterias.contains("high")) {
 			for(String price: filterParams.get("high")) {
 				for(Book book: listOfBooks) {
@@ -87,22 +106,25 @@ public class BookServiceImpl implements BookService {
 
 	public void addBook(Book book) {
 		Bookstore bookstore = bookstoreDao.getBookstoreByName(book.getBookstore().getName());
-		if(bookstore == null) {
+		if(isItANewBookStore(bookstore)) {
 			bookstore = bookstoreDao.save(book.getBookstore());
 		}
 		book.setBookstore(bookstore);
-		bookDao.save(book);
+
+		Book bookFromBase = bookDao.getBookByTitleAndAuthorAndBookstore(book.getTitle(), book.getAuthor(), book.getBookstore());
+		if(bookFromBase != null) {
+			bookFromBase.incrementVersion();
+		}
+		if(bookFromBase == null) {
+			bookFromBase = book;
+		}
+		bookFromBase.setPrice(book.getPrice());
+
+		bookDao.save(bookFromBase);
 	}
 
-	public void addBooksFromLibrary(List<Book> books) {
-		Bookstore bookstore = bookstoreDao.getBookstoreByName(books.get(0).getBookstore().getName());
-		if(bookstore == null) {
-			bookstore = bookstoreDao.save(books.get(0).getBookstore());
-		}
-		Bookstore finalBookstore = bookstore;
-		books.forEach(book -> {
-			book.setBookstore(finalBookstore);
-		});
-		bookDao.save(books);
+	private boolean isItANewBookStore(Bookstore bookstore) {
+		return bookstore == null;
 	}
+
 }

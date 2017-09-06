@@ -5,6 +5,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "books")
@@ -26,13 +30,11 @@ public class Book extends BaseEntity implements Serializable {
 
 	private String promoDetails;
 
-//	@NotNull
 	private BigDecimal price;
 
 	@Size(max=555)
 	private String imgUrl;
 
-//	@NotNull
 	@Size(max=555)
 	private String url;
 
@@ -40,7 +42,10 @@ public class Book extends BaseEntity implements Serializable {
 	@JoinColumn(name = "bookstore_id", nullable = false)
 	private Bookstore bookstore;
 
-	public Book() {}
+	private Long version;
+
+	public Book() {
+	}
 	
 	public Book(String title, String author, String category, String promoDetails, BigDecimal price, Bookstore bookstore) {
 		this.title = title;
@@ -49,6 +54,7 @@ public class Book extends BaseEntity implements Serializable {
 		this.promoDetails = promoDetails;
 		this.price = price;
 		this.bookstore = bookstore;
+		version = 1l;
 	}
 
 	public String getTitle() {
@@ -123,6 +129,18 @@ public class Book extends BaseEntity implements Serializable {
 		this.bookstore = bookstore;
 	}
 
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public void incrementVersion() {
+		this.version += 1;
+	}
+
 	@Override
 	public String toString() {
 		return "Book{" +
@@ -131,10 +149,10 @@ public class Book extends BaseEntity implements Serializable {
 				", author='" + author + '\'' +
 				", category='" + category + '\'' +
 				", promoDetails='" + promoDetails + '\'' +
-				", price=" + price +
 				", imgUrl='" + imgUrl + '\'' +
 				", url='" + url + '\'' +
 				", bookstore=" + bookstore +
 				'}';
 	}
+
 }
