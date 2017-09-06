@@ -60,6 +60,8 @@ public class BookMapper {
     static void assignImageURL(Item book, Book bookToAdd) {
         if(ifBookHasImage(book)) {
             bookToAdd.setImgUrl(book.getImageLink());
+        } else {
+            bookToAdd.setImgUrl("/resource/img/default-book-cover.png");
         }
     }
 
