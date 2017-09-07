@@ -17,6 +17,12 @@
 </head>
 <body>
 <div th:replace="fragments/header :: headerSearch"></div>
+
+
+<div ng-hide="!isHidden">
+    <div th:replace="fragments/searchMenu :: menu"></div>
+</div>
+
 <div th:replace="fragments/pagination :: paginationUp"></div>
 <div class="container" ng-init="getBooksWithPriceRange(set, lower, higher)">
     <div class="table-responsive">
@@ -40,10 +46,28 @@
                 <td>{{book.author}}</td>
                 <td>{{book.category}}</td>
                 <td>{{book.price | currency:'PLN ' }}</td>
-                <td>{{book.promoDetails}}</td>
+                <td>
+                    <div ng-if=" book.price != '0'">
+                        {{book.promoDetails}}
+                    </div>
+                    <div ng-if=" book.price == '0'">
+                        <img src="/resource/img/free.jpg" height="80"/>
+                    </div>
+                </td>
+
                 <td>{{book.bookstore.name}}</td>
-                <td><a href="{{book.url}}" class="btn btn-warning btn-large">
-                <span class="glyphicon-shopping-cart glyphicon"></span><b> </b><b th:text="#{table.shop.button}"/></a></td>
+                <td>
+                    <div ng-if=" book.price != '0'">
+                        <a href="{{book.url}}" class="btn btn-warning btn-large">
+                            <span class="glyphicon-shopping-cart glyphicon"></span><b> </b><b th:text="#{table.shop.button}"/>
+                        </a>
+                    </div>
+                    <div ng-if=" book.price == '0'">
+                        <a href="{{book.url}}" class="btn btn-success btn-large">
+                            <span class="glyphicon-shopping-cart glyphicon"></span><b> </b><b th:text="#{table.shop.button}"/>
+                        </a>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>

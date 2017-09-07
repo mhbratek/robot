@@ -28,25 +28,24 @@ public class BookMapper {
 
             bookToAdd.setVersion(1L);
             bookToAdd.setTitle(book.getTitle());
-
             assignAuthors(book, bookToAdd);
-
             bookToAdd.setBookstore(bookstore);
-
             assignPrice(book, bookToAdd);
-
             bookToAdd.setUrl(book.getLink());
-
             assignPromoDetails(book, bookToAdd);
-
             assignImageURL(book, bookToAdd);
-
             assignCategory(book, bookToAdd);
+            assignSubtitle(book, bookToAdd);
+
 
             books.add(bookToAdd);
         }
 
         return books;
+    }
+
+    private static void assignSubtitle(Item book, Book bookToAdd) {
+        bookToAdd.setSubtitle(book.getVolumeInfo().getSubtitle());
     }
 
     static void assignCategory(Item book, Book bookToAdd) {
@@ -60,6 +59,8 @@ public class BookMapper {
     static void assignImageURL(Item book, Book bookToAdd) {
         if(ifBookHasImage(book)) {
             bookToAdd.setImgUrl(book.getImageLink());
+        } else {
+            bookToAdd.setImgUrl("/resource/img/default-book-cover.png");
         }
     }
 

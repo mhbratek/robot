@@ -15,6 +15,7 @@ public class VolumeInfo {
     private ImageLinks imageLinks;
     private String infoLink;
     private String mainCategory;
+    private String subtitle;
 
     public VolumeInfo() {
 
@@ -25,11 +26,19 @@ public class VolumeInfo {
         this.infoLink = infoLink;
     }
 
+
+
     public String getTitle() {
         return title;
     }
 
+    public String getSubtitle() {
+        return subtitle;
+    }
 
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
 
     public List<String> getAuthors() {
         return authors;

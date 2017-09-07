@@ -11,10 +11,10 @@ public interface BookService {
 	List<Book> getAllBooks();
 	
 	Book getBookById(String bookId);
-	
-	List<Book> getBooksByFilter(String filter, String value);
 
-	Set<Book> getBooksByParams(String filter, String value, Map<String, List<String>> filterParams);
+	List<Book> getBooksByParams(Map<String, List<String>> filterParams);
+
+	List<Book> getOnlyNewBooks();
 	
 	void addBook(Book book);
 }

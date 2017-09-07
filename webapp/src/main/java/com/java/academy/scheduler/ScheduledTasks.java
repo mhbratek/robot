@@ -52,6 +52,7 @@ public class ScheduledTasks {
         List<Book> books = bookStore.collectBooksFromGoogle();
 
         for (Book book : books) {
+            System.out.println(book);
             bookService.addBook(book);
         }
     }
@@ -67,4 +68,5 @@ public class ScheduledTasks {
         );
         return bookstores;
     }
+
 }

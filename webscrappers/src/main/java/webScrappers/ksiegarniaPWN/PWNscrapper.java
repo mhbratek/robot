@@ -17,7 +17,7 @@ public class PWNscrapper extends AbstrackBookScrapper {
         this.loader = loader;
         this.hostUrl = "https://ksiegarnia.pwn.pl";
         initializeDataToScrap("PWN", hostUrl, "emp-info-author",
-                "emp-image-label", "emp-info-title emp-two-lines");
+                "emp-image-label", "name");
     }
 
     @Override
@@ -45,13 +45,14 @@ public class PWNscrapper extends AbstrackBookScrapper {
 
     @Override
     public String getImageUrl(Element product) {
-        return product.getElementsByClass("emp-image")
+        String imgUrl = product.getElementsByClass("emp-image")
                 .select("img").attr("src");
+        return imgUrl.length() < hostUrl.length() ? defaultImg : imgUrl;
     }
 
     @Override
     public String getBookCategory(Element product) {
-        Document details = provideShopConnection(getBookLink(product), loader);
+
         return details.getElementsByClass("category wartosc") != null &&
                 details.getElementsByClass("category wartosc").size() > 0
                 ?
@@ -80,6 +81,12 @@ public class PWNscrapper extends AbstrackBookScrapper {
     public String getDiscount(Element product) {
         Elements elements = product.getElementsByClass(discountClassName);
         return elements.size() > 0 ? elements.get(FIRST_ELEMENT).text() : "-";
+    }
+
+    @Override
+    public String getBookTitle(Element product) {
+        details = provideShopConnection(getBookLink(product), loader);
+        return details.getElementsByClass(titleClassName).select("span").text();
     }
 
 }
