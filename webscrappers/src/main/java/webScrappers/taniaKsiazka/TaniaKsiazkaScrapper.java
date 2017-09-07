@@ -35,13 +35,14 @@ public class TaniaKsiazkaScrapper extends AbstrackBookScrapper {
 
     @Override
     public String getImageUrl(Element product) {
-        return product.getElementsByClass("product-image")
+        String imgUrl = product.getElementsByClass("product-image")
                 .select("img").attr("src");
+        return imgUrl.length() < hostUrl.length() ? defaultImg : imgUrl;
     }
 
     @Override
     public String getBookCategory(Element product) {
-        Document details = provideShopConnection(getBookLink(product), loader);
+        details = provideShopConnection(getBookLink(product), loader);
         return details.getElementsByClass("active").size() < 1 ? "-"
                 : details.getElementsByClass("active").get(FIRST_ELEMENT)
                 .getElementsByTag("a").attr("title");
