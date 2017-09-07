@@ -1,7 +1,7 @@
 package webScrappers.mapper;
 
-import logger.RLog;
 import com.java.academy.model.Book;
+import logger.RLog;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import webScrappers.BookScrapper;
@@ -16,7 +16,7 @@ public class BookMapperByStore implements BookMapper {
     private int totalPageToCheck;
 
     public BookMapperByStore() {
-        setTotalPageToCheck(2);
+        setTotalPageToCheck(100);
     }
 
     @Override
@@ -26,17 +26,17 @@ public class BookMapperByStore implements BookMapper {
         List<Book> books = new ArrayList<>();
 
         for (int page = FIRST; page < totalPageToCheck; page++) {
-
             Elements booksFromStore = bookScrapper.getPageToCheck(page);
+
             for (Element product : booksFromStore) {
                 try {
                     books.add(setupBook(product));
                 } catch (RuntimeException ex) {
                     RLog.error(RLog.getLogger(getClass()), ex.getMessage());
-                    continue;
                 }
             }
         }
+
         RLog.info(RLog.getLogger(getClass()), ("Collected: " + books.size()+ " books from "
                 + bookScrapper.getBookStore().getName()));
         return books;
@@ -51,6 +51,7 @@ public class BookMapperByStore implements BookMapper {
                 bookScrapper.getBookPrice(product),
                 bookScrapper.getBookStore());
 
+        singleBook.setSubtitle(bookScrapper.getSubtitle(product));
         singleBook.setUrl(bookScrapper.getBookLink(product));
         singleBook.setImgUrl(bookScrapper.getImageUrl(product));
 

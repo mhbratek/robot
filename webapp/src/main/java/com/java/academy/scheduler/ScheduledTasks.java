@@ -69,8 +69,4 @@ public class ScheduledTasks {
         return bookstores;
     }
 
-    public static void main(String[] args) {
-        ScheduledTasks scheduledTasks = new ScheduledTasks();
-        scheduledTasks.bookCollector();
-    }
 }
