@@ -44,9 +44,6 @@ public class BookServiceImpl implements BookService {
 	public List<Book> getBooksByParams(Map<String, List<String>> filterParams) {
 		List<Book> allBooks = getAllBooks(); //TODO reduce amount of books by searching with filter
 		for(Map.Entry<String, List<String>> filter: filterParams.entrySet()) {
-			System.out.println(filter.getKey());
-			System.out.println(filter.getValue());
-			System.out.println(allBooks.size());
 			if(filter.getKey().equals("price")) {
 				allBooks = filterByPrice(allBooks, filter.getValue());
 			} else if(filter.getValue().get(0).equals("undefined")) {
@@ -54,59 +51,37 @@ public class BookServiceImpl implements BookService {
 			} else {
 				allBooks = filterByParams(allBooks, filter.getKey(), filter.getValue().get(0));
 			}
-			System.out.println(allBooks.size());
 		}
 		return allBooks;
 	}
-//TODO REFACTOR 
-	private List<Book> filterByParams(List<Book> allBooks, String filter, String value) {
-		List<Book> booksToReturn = new ArrayList<>();
-		switch (filter) {
-			case "title":
-				for(Book book: allBooks) {
-					if(book.getTitle().toLowerCase().contains(value.toLowerCase())) {
-						booksToReturn.add(book);
-					}
-				}
-				break;
-			case "author":
-				for(Book book: allBooks) {
-					if(book.getAuthor().toLowerCase().contains(value.toLowerCase())) {
-						booksToReturn.add(book);
-					}
-				}
-				break;
-			case "category":
-				for(Book book: allBooks) {
-					if(book.getCategory().toLowerCase().contains(value.toLowerCase())) {
-						booksToReturn.add(book);
-					}
-				}
-				break;
-			case "bookstore":
-				for(Book book: allBooks) {
-					if(book.getBookstore().getName().toLowerCase().contains(value.toLowerCase())) {
-						booksToReturn.add(book);
-					}
-				}
-				break;
-			case "version":
-				//TODO checking version
-				booksToReturn.addAll(allBooks);
-				break;
-		}
-		return booksToReturn;
-	}
 
+	private List<Book> filterByParams(List<Book> allBooks, String filterName, String value) {
+		List<Book> filteredBooks = new ArrayList<>();
+		Filter filter = Filter.AUTHOR.getFilter(filterName);
+		for (Book book: allBooks) {
+			if(filter.bookFits(book, value)) {
+				filteredBooks.add(book);
+			}
+		}
+		return filteredBooks;
+	}
 
 	private List<Book> filterByPrice(List<Book> allBooks, List<String> value) {
 		List<Book> booksToReturn = new ArrayList<>();
 		for (Book book : allBooks) {
-			if ((new BigDecimal(value.get(0))).compareTo(book.getPrice()) <= 0 && (new BigDecimal(value.get(1))).compareTo(book.getPrice()) >= 0) {
+			if (isBiggerOrEqualsThan(value.get(0), book) && isLessOrEqualsThan(value.get(1), book)) {
 				booksToReturn.add(book);
 			}
 		}
 		return booksToReturn;
+	}
+
+	private boolean isBiggerOrEqualsThan(String downLimit, Book book) {
+		return (new BigDecimal(downLimit)).compareTo(book.getPrice()) <= 0;
+	}
+
+	private boolean isLessOrEqualsThan(String upLimit, Book book) {
+		return (new BigDecimal(upLimit)).compareTo(book.getPrice()) >= 0;
 	}
 
 	public void addBook(Book book) {

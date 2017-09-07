@@ -24,7 +24,7 @@
 </div>
 
 <div th:replace="fragments/pagination :: paginationUp"></div>
-<div class="container" ng-init="getBooksWithPriceRange(set, lower, higher)">
+<div class="container" ng-init="getBooksByFilters(mAuthor, mTitle, mCategory, mBookstore, lower, higher, 0)">
     <div class="table-responsive">
         <table id="tblSort" class="table table-bordered table-hover table-striped">
             <thead>
@@ -48,8 +48,18 @@
                 <td>{{book.price | currency:'PLN ' }}</td>
                 <td>{{book.promoDetails}}</td>
                 <td>{{book.bookstore.name}}</td>
-                <td><a href="{{book.url}}" class="btn btn-warning btn-large">
-                <span class="glyphicon-shopping-cart glyphicon"></span><b> </b><b th:text="#{table.shop.button}"/></a></td>
+                <td>
+                    <div ng-if="book.price != '0'">
+                        <a href="{{book.url}}" class="btn btn-warning btn-large">
+                            <span class="glyphicon-shopping-cart glyphicon"></span><b> </b><b th:text="#{table.shop.button}"/>
+                        </a>
+                    </div>
+                    <div ng-if="book.price == '0'">
+                        <a href="{{book.url}}" class="btn btn-success btn-large">
+                            <span class="glyphicon-shopping-cart glyphicon"></span><b> </b><b th:text="#{table.shop.button}"/>
+                        </a>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>
