@@ -27,7 +27,8 @@ public class RaveloScrapper extends AbstrackBookScrapper{
                     "=0&filterIsOutlet=1&sortPublicationDate=desc&cat_id=12881" + "&p=" + (page+1);
 
         Document ravelo = provideShopConnection(url, loader);
-
+//        pagesToCheck = Integer.valueOf(ravelo.getElementsByClass("pagination")
+//                .select("div").select("input").attr("value"));
         return ravelo.getElementsByClass("row productBox ");
     }
 

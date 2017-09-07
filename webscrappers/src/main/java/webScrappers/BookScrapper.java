@@ -16,6 +16,8 @@ public interface BookScrapper {
     String getBookLink(Element product);
     String getSubtitle(Element product);
     BigDecimal getBookPrice(Element product);
+    int getTotalPages();
+
     String getDiscount(Element product);
 
     Bookstore getBookStore();

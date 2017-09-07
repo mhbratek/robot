@@ -25,14 +25,14 @@ import java.util.List;
 @Component
 public class ScheduledTasks {
 
-    //@Autowired
-    //private BookService bookService;
+    @Autowired
+    private BookService bookService;
 
     final BookMapper mapper = new BookMapperByStore();
 
 
-//    @Scheduled(cron = "0 0 8 * * *")
-    //@Scheduled(fixedRate = 3200000)
+    @Scheduled(cron = "0 57 10 * * *")
+//    @Scheduled(fixedRate = 3200000)
     public void bookCollector() {
 
         RLog.info(RLog.getLogger(getClass()), ("Collecting data: " + new Date().toString()));
@@ -44,7 +44,7 @@ public class ScheduledTasks {
 
             for (Book book : books) {
                 System.out.println(book);
-                //bookService.addBook(book);
+                bookService.addBook(book);
             }
         }
 
@@ -53,24 +53,20 @@ public class ScheduledTasks {
 
         for (Book book : books) {
             System.out.println(book);
-            //bookService.addBook(book);
+            bookService.addBook(book);
         }
     }
 
      List<BookScrapper> initBookStores() {
         List<BookScrapper> bookstores = Arrays.asList(
+                new RaveloScrapper(new JSOUPLoader()),
                 new GandalfScrapper(new JSOUPLoader()),
                 new MatrasScrapper(new JSOUPLoader()),
                 new CzytamyScrapper(new JSOUPLoader()),
-                new RaveloScrapper(new JSOUPLoader()),
                 new PWNscrapper(new JSOUPLoader()),
                 new TaniaKsiazkaScrapper(new JSOUPLoader())
         );
         return bookstores;
     }
 
-    public static void main(String[] args) {
-        ScheduledTasks scheduledTasks = new ScheduledTasks();
-        scheduledTasks.bookCollector();
-    }
 }

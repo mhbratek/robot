@@ -18,11 +18,13 @@ public abstract class AbstrackBookScrapper implements BookScrapper {
     protected String discountClassName;
     protected String titleClassName;
     protected Document details;
+    protected int pagesToCheck;
 
     private Bookstore initBookStore(String shopName, String url) {
         Bookstore bookstore = new Bookstore();
         bookstore.setName(shopName);
         bookstore.setUrl(url);
+        pagesToCheck = 25;
         return bookstore;
     }
 
@@ -67,9 +69,12 @@ public abstract class AbstrackBookScrapper implements BookScrapper {
 
     @Override
     public String getSubtitle(Element product) {
-        String subtitle = details.getElementsByClass("subtitle").text();
+        return ".";
+    }
 
-        return subtitle.isEmpty() ? "-" : subtitle;
+    @Override
+    public int getTotalPages() {
+        return pagesToCheck;
     }
 
 }

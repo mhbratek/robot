@@ -24,7 +24,7 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
     public Elements getPageToCheck(int page) {
         String url = "http://czytam.pl/ksiazki-promocje," + (page + 1) + ".html";
         Document czytamBooks = provideShopConnection(url, loader);
-
+//        pagesToCheck = Integer.valueOf(czytamBooks.getElementsByClass("show-for-medium-up").last().text());
         return czytamBooks.getElementsByClass("product");
     }
 
@@ -59,6 +59,7 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
     @Override
     public String getSubtitle(Element product) {
         String subtitle = details.getElementsByClass("tabs-content tabs-default").text();
+        String title = getBookTitle(product);
         String pattern = "Podtytuł:";
         String endPattern1 = "Autor:";
         String endPattern2 = "Wydawnictwo:";
@@ -66,8 +67,10 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
             subtitle = subtitle.contains(endPattern1) ?
                     subtitle.substring(subtitle.indexOf(pattern) + pattern.length(), subtitle.indexOf(endPattern1)) :
                     subtitle.substring(subtitle.indexOf(pattern) + pattern.length(), subtitle.indexOf(endPattern2));
-            return subtitle;
+
+            return title.contains(subtitle) ? "" : subtitle;
         }
+
         return "";
     }
 }
