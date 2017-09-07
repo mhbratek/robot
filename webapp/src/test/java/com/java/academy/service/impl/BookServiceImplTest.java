@@ -4,10 +4,13 @@ import com.java.academy.dao.BookDao;
 import com.java.academy.dao.BookstoreDao;
 import com.java.academy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import com.java.academy.model.Book;
 import com.java.academy.model.Bookstore;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -36,59 +39,39 @@ public class BookServiceImplTest {
     }
 
 
-    @Test
-    public void shouldFilterByTitle() {
+
+    @DataProvider
+    public static Object[][] shouldReturnParams() {
+        return new Object[][] {
+                {"title", "Title"},
+                {"author", "Author"},
+                {"category", "Category"},
+                {"bookstore", "book"},
+                {"version", "1"}
+        };
+    }
+    @Test(dataProvider = "shouldReturnParams")
+    public void shouldFilterByGivenParams(String filterName, String value) {
+        Book book = new Book();
+        book.setTitle("Title");
+        book.setAuthor("Author");
+        book.setCategory("Category");
+        book.setBookstore(new Bookstore("book", "book"));
+        book.setVersion(1L);
         BookServiceImpl bookService = new BookServiceImpl();
-        BookDao bookDaoMock = mock(BookDao.class);
-        bookService.setBookDao(bookDaoMock);
 
-       // bookService.getBooksByFilter("title", "dummy");
+        assertEquals(bookService.filterByParams(Collections.singletonList(book), filterName, value).size(),1);
 
-        verify(bookDaoMock, times(1)).getBooksByTitleContaining("dummy");
     }
 
     @Test
-    public void shouldFilterByAuthor() {
+    public void shouldFilterGivenBookByRange() {
         BookServiceImpl bookService = new BookServiceImpl();
-        BookDao bookDaoMock = mock(BookDao.class);
-        bookService.setBookDao(bookDaoMock);
 
-       // bookService.getBooksByFilter("author", "dummy");
+        Book book = new Book();
+        book.setPrice(new BigDecimal(20L));
 
-        verify(bookDaoMock, times(1)).getBooksByAuthorContaining("dummy");
-    }
-
-    @Test
-    public void shouldFilterByCategory() {
-        BookServiceImpl bookService = new BookServiceImpl();
-        BookDao bookDaoMock = mock(BookDao.class);
-        bookService.setBookDao(bookDaoMock);
-
-       // bookService.getBooksByFilter("category", "dummy");
-
-        verify(bookDaoMock, times(1)).getBooksByCategoryContaining("dummy");
-    }
-
-    @Test
-    public void shouldFilterByBookStoreName() {
-        BookServiceImpl bookService = new BookServiceImpl();
-        BookDao bookDaoMock = mock(BookDao.class);
-        bookService.setBookDao(bookDaoMock);
-
-       // bookService.getBooksByFilter("bookstore", "dummy");
-
-        verify(bookDaoMock, times(1)).getBooksByBookstoreNameContaining("dummy");
-    }
-
-    @Test
-    public void shouldUseDefaultFilter() {
-        BookServiceImpl bookService = new BookServiceImpl();
-        BookDao bookDaoMock = mock(BookDao.class);
-        bookService.setBookDao(bookDaoMock);
-
-      //  bookService.getBooksByFilter("dummy", "dummy");
-
-        verify(bookDaoMock, times(1)).getBooksByCategoryContaining("dummy");
+        assertEquals(bookService.filterByPrice(Collections.singletonList(book), Arrays.asList("10", "20")).size(), 1);
     }
 
     @Test
