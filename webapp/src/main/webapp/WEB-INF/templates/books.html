@@ -24,7 +24,7 @@
 </div>
 
 <div th:replace="fragments/pagination :: paginationUp"></div>
-<div class="container" ng-init="getBooksWithPriceRange(set, lower, higher)">
+<div class="container" ng-init="getBooksByFilters(mAuthor, mTitle, mCategory, mBookstore, lower, higher, 0)">
     <div class="table-responsive">
         <table id="tblSort" class="table table-bordered table-hover table-striped">
             <thead>
