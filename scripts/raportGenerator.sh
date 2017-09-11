@@ -12,4 +12,6 @@ mvn site
 mvn site:stage
 cd target
 cd staging
+
+echo "Update Hibernate Properties."
 xdg-open index.html &

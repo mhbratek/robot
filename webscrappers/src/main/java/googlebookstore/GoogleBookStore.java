@@ -39,7 +39,7 @@ public class GoogleBookStore {
         return books;
     }
 
-    private List<Book> collect440Books(RestTemplate restTemplate, HttpHeaders headers, List<Book> books) {
+    List<Book> collect440Books(RestTemplate restTemplate, HttpHeaders headers, List<Book> books) {
         Bookstore bookstore = new Bookstore(BOOKSTORE_NAME, BOOKSTORE_URL);
 
         for(int i = 0; i <= 400; i = i + 40) {

@@ -17,7 +17,7 @@ public class GandalfScrapper extends AbstrackBookScrapper {
         this.loader = loader;
         this.hostUrl = "http://www.gandalf.com.pl";
         initializeDataToScrap("Gandalf", hostUrl, "h3",
-                "price_dis", "h2");
+                "price_dis", "pdata1");
     }
 
     @Override
@@ -30,19 +30,20 @@ public class GandalfScrapper extends AbstrackBookScrapper {
         }
 
         Document gandalfBooks = provideShopConnection(url, loader);
+//        pagesToCheck = Integer.valueOf(gandalfBooks.getElementsByClass("paging_number_link").last().text());
 
         return gandalfBooks.getElementsByClass("prod");
     }
 
     @Override
     public String getImageUrl(Element product) {
-        return (hostUrl + product.getElementsByTag("img").attr("src"));
+        String imgUrl = hostUrl + product.getElementsByTag("img").attr("src");
+        return imgUrl.length() <= hostUrl.length() ? defaultImg : imgUrl;
     }
 
     @Override
     public String getBookCategory(Element product) {
-        Document productDetails = provideShopConnection(getBookLink(product), loader);
-        Elements genre = productDetails.getElementsByClass("product_categories");
+        Elements genre = details.getElementsByClass("product_categories");
         return genre == null? "nieznany" : genre.text().substring(genre.text().lastIndexOf(':') + 1).trim();
     }
 
@@ -61,6 +62,12 @@ public class GandalfScrapper extends AbstrackBookScrapper {
     public String getDiscount(Element product) {
         return product.getElementsByClass(discountClassName).text()
                 .replaceAll("[a-z]+", "");
+    }
+
+    @Override
+    public String getBookTitle(Element product) {
+        details = provideShopConnection(getBookLink(product), loader);
+        return details.getElementsByClass(titleClassName).select("h1").text();
     }
 }
 

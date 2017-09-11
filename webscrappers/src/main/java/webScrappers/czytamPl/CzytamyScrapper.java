@@ -24,18 +24,19 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
     public Elements getPageToCheck(int page) {
         String url = "http://czytam.pl/ksiazki-promocje," + (page + 1) + ".html";
         Document czytamBooks = provideShopConnection(url, loader);
-
+//        pagesToCheck = Integer.valueOf(czytamBooks.getElementsByClass("show-for-medium-up").last().text());
         return czytamBooks.getElementsByClass("product");
     }
 
     @Override
     public String getImageUrl(Element product) {
-        return product.getElementsByClass("has-tip [tip-left] th [radius]").attr("src");
+        String imgUrl = product.getElementsByClass("has-tip [tip-left] th [radius]").attr("src");
+        return imgUrl.length() < hostUrl.length() ? defaultImg : imgUrl;
     }
 
     @Override
     public String getBookCategory(Element product) {
-        Document details = provideShopConnection(getBookLink(product), loader);
+        details = provideShopConnection(getBookLink(product), loader);
         return details.getElementsByClass("trail") == null ? "nieznany"
                 : details.getElementsByClass("trail").text();
     }
@@ -54,6 +55,23 @@ public class CzytamyScrapper extends AbstrackBookScrapper {
                 .replaceAll(",", ".")
                 .replaceAll("[A-ż]+", "")));
     }
-}
 
+    @Override
+    public String getSubtitle(Element product) {
+        String subtitle = details.getElementsByClass("tabs-content tabs-default").text();
+        String title = getBookTitle(product);
+        String pattern = "Podtytuł:";
+        String endPattern1 = "Autor:";
+        String endPattern2 = "Wydawnictwo:";
+        if (subtitle.contains(pattern)) {
+            subtitle = subtitle.contains(endPattern1) ?
+                    subtitle.substring(subtitle.indexOf(pattern) + pattern.length(), subtitle.indexOf(endPattern1)) :
+                    subtitle.substring(subtitle.indexOf(pattern) + pattern.length(), subtitle.indexOf(endPattern2));
+
+            return title.contains(subtitle) ? "" : subtitle;
+        }
+
+        return "";
+    }
+}
 

@@ -55,7 +55,7 @@ public class BookServiceImpl implements BookService {
 		return allBooks;
 	}
 
-	private List<Book> filterByParams(List<Book> allBooks, String filterName, String value) {
+	List<Book> filterByParams(List<Book> allBooks, String filterName, String value) {
 		List<Book> filteredBooks = new ArrayList<>();
 		Filter filter = Filter.AUTHOR.getFilter(filterName);
 		for (Book book: allBooks) {
@@ -66,7 +66,7 @@ public class BookServiceImpl implements BookService {
 		return filteredBooks;
 	}
 
-	private List<Book> filterByPrice(List<Book> allBooks, List<String> value) {
+	List<Book> filterByPrice(List<Book> allBooks, List<String> value) {
 		List<Book> booksToReturn = new ArrayList<>();
 		for (Book book : allBooks) {
 			if (isBiggerOrEqualsThan(value.get(0), book) && isLessOrEqualsThan(value.get(1), book)) {
