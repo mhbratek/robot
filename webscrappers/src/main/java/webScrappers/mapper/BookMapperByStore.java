@@ -25,9 +25,10 @@ public class BookMapperByStore implements BookMapper {
         this.bookScrapper = bookScrapper;
         List<Book> books = new ArrayList<>();
 
+        RLog.info(RLog.getLogger(getClass()), ("Start collection from " + bookScrapper.getBookStore().getName()));
+
         for (int page = FIRST; page < totalPageToCheck; page++) {
             Elements booksFromStore = bookScrapper.getPageToCheck(page);
-
             for (Element product : booksFromStore) {
                 try {
                     books.add(setupBook(product));
@@ -35,6 +36,7 @@ public class BookMapperByStore implements BookMapper {
                     RLog.error(RLog.getLogger(getClass()), ex.getMessage());
                 }
             }
+            RLog.info(RLog.getLogger(getClass()), (bookScrapper.getBookStore().getName()+ " page: " + page + " collected"));
         }
 
         RLog.info(RLog.getLogger(getClass()), ("Collected: " + books.size()+ " books from "
