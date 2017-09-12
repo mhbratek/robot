@@ -25,14 +25,16 @@
 	<div class="row">
 		<div dir-paginate="book in books | filter:search | itemsPerPage: pageSize" current-page="currentPage">
 			<div class="col-sm-6 col-md-4 panel">
-				<div class="thumbnail">
+				<div class="thumbnail" style="height: 525px">
 					<div class="caption">
-						<img src="{{book.imgUrl}}" height="220" width="160"/>
+						<img src="{{book.imgUrl}}" th:height="220" th:width="160"/>
 						<h3>{{book.title}}  {{book.subtitle}}</h3>
-						{{book.author}}
-						{{book.category}}
-						<p>{{book.price | currency:'PLN ' }}</p>
-						<p>{{book.promoDetails}}</p>
+						<p>{{book.author}}</p>
+						<p>{{book.category}}</p>
+						<p>{{book.price | currency:'PLN ' }}
+							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+							<span class="glyphicon glyphicon-scissors" aria-hidden="true"></span>{{book.promoDetails}}
+						</p>
 						<p>{{book.bookstore.name}}</p>
 						<p><a href="{{book.url}}" class="btn btn-warning btn-large">
 							<span class="glyphicon-shopping-cart glyphicon"></span> Zamów teraz </a></p>
