@@ -31,8 +31,8 @@ public class ScheduledTasks {
     final BookMapper mapper = new BookMapperByStore();
 
 
-//    @Scheduled(cron = "0 0 8 * * *")
-    @Scheduled(fixedRate = 3200000)
+    @Scheduled(cron = "0 54 17 * * *")
+//    @Scheduled(fixedRate = 3200000)
     public void bookCollector() {
 
         RLog.info(RLog.getLogger(getClass()), ("Collecting data: " + new Date().toString()));
@@ -43,7 +43,6 @@ public class ScheduledTasks {
             List<Book> books = mapper.collectBooksFromBookStore(bookScrapper);
 
             for (Book book : books) {
-                System.out.println(book);
                 bookService.addBook(book);
             }
         }
@@ -51,8 +50,9 @@ public class ScheduledTasks {
         GoogleBookStore bookStore = new GoogleBookStore();
         List<Book> books = bookStore.collectBooksFromGoogle();
 
+        RLog.info(RLog.getLogger(getClass()), ("Collected: " + books.size() + " from GoogleBooks"));
+
         for (Book book : books) {
-            System.out.println(book);
             bookService.addBook(book);
         }
     }
